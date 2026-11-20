@@ -1,0 +1,60 @@
+{
+  "name": "62_no_flames_on_dawn_tick",
+  "requirement": "T3 order: falling to the last flame on the dawn tick (61) -> lost no_flames even with 3/5 lit",
+  "night": 1,
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "time_left_s": 1.0166666666666666,
+    "player": {
+      "pos": [
+        0,
+        0,
+        39.95
+      ],
+      "carried": 0,
+      "flames": 1
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true
+      },
+      {
+        "id": "L2",
+        "lit": true
+      },
+      {
+        "id": "L3",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "game_over",
+      "tick": 61,
+      "data": {
+        "result": "lost",
+        "reason": "no_flames"
+      }
+    }
+  ]
+}

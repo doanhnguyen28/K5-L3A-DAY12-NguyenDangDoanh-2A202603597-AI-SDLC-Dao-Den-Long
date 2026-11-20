@@ -1,6 +1,6 @@
 {
   "name": "40a_map_night1",
-  "requirement": "T2 map night 1: standard lanterns, 20 random motes, night_start event",
+  "requirement": "T2/T3 map night 1: standard lanterns, 20 random motes, night_start, 240 s [P3: 300 -> 240 s], lantern fuel fields, capacity 10",
   "night": 1,
   "seed": 1,
   "ticks": 1,
@@ -37,7 +37,27 @@
     {
       "at": 0,
       "path": "time_left_s",
-      "equals": 300
+      "equals": 240
+    },
+    {
+      "at": 0,
+      "path": "lanterns.0.fuel",
+      "equals": 0
+    },
+    {
+      "at": 0,
+      "path": "lanterns.0.ever_lit",
+      "equals": false
+    },
+    {
+      "at": 0,
+      "path": "lanterns.0.relit_count",
+      "equals": 0
+    },
+    {
+      "at": 0,
+      "path": "player.capacity",
+      "equals": 10
     }
   ]
 }

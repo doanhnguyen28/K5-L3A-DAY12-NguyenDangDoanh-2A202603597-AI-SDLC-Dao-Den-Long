@@ -1,6 +1,6 @@
 {
   "name": "09_partial_deposit",
-  "requirement": "T2 deposit: partial 3 -> +30, lantern remembers progress",
+  "requirement": "T2/T3 deposit: partial 3 -> +15, lantern remembers progress. [P3: score per mote 10 -> 5]",
   "night": 1,
   "seed": 1,
   "ticks": 10,
@@ -45,7 +45,7 @@
     {
       "at": 10,
       "path": "score",
-      "equals": 30
+      "equals": 15
     },
     {
       "at": 10,

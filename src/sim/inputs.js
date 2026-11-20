@@ -33,7 +33,7 @@ export function validateScenario(doc) {
     if (p.pos !== undefined && !vec3(p.pos)) throw new InputError('scenario: invalid player.pos');
     if (p.carried !== undefined && !(Number.isInteger(p.carried) && p.carried >= 0)) throw new InputError('scenario: invalid player.carried');
     if (p.flames !== undefined && !(Number.isInteger(p.flames) && p.flames >= 0)) throw new InputError('scenario: invalid player.flames');
-    for (const k of ['invuln_ticks', 'dash_cd_ticks', 'pulse_cd_ticks', 'charm_ticks']) {
+    for (const k of ['invuln_ticks', 'dash_cd_ticks', 'pulse_cd_ticks', 'charm_ticks', 'successful_lights']) {
       if (p[k] !== undefined && !(Number.isInteger(p[k]) && p[k] >= 0)) throw new InputError(`scenario: invalid player.${k}`);
     }
   }
@@ -45,7 +45,7 @@ export function validateScenario(doc) {
     if (!Array.isArray(doc.shades)) throw new InputError('scenario: invalid shades');
     for (const s of doc.shades) {
       if (!s || typeof s !== 'object' || !vec3(s.pos)) throw new InputError('scenario: invalid shade');
-      if (s.state !== undefined && !['spawning', 'wander', 'chase', 'recoil', 'stunned'].includes(s.state)) throw new InputError('scenario: invalid shade state');
+      if (s.state !== undefined && !['spawning', 'wander', 'chase', 'recoil', 'stunned', 'drain'].includes(s.state)) throw new InputError('scenario: invalid shade state');
       if (s.state_ticks_left !== undefined && !(Number.isInteger(s.state_ticks_left) && s.state_ticks_left >= 0)) throw new InputError('scenario: invalid shade state_ticks_left');
     }
   }
@@ -71,6 +71,8 @@ export function validateScenario(doc) {
       if (l.pos !== undefined && !vec3(l.pos)) throw new InputError('scenario: invalid lantern pos');
       if (l.lit !== undefined && typeof l.lit !== 'boolean') throw new InputError('scenario: invalid lantern lit');
       if (l.deposited !== undefined && !(Number.isInteger(l.deposited) && l.deposited >= 0)) throw new InputError('scenario: invalid lantern deposited');
+      if (l.fuel !== undefined && !(isNum(l.fuel) && l.fuel >= 0 && l.fuel <= 100)) throw new InputError('scenario: invalid lantern fuel');
+      if (l.ever_lit !== undefined && typeof l.ever_lit !== 'boolean') throw new InputError('scenario: invalid lantern ever_lit');
     }
   }
   if (doc.time_left_s !== undefined && !(isNum(doc.time_left_s) && doc.time_left_s > 0)) throw new InputError('scenario: invalid time_left_s');

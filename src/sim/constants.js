@@ -33,6 +33,8 @@ export const SHADE_MIN_SPAWN_DIST = 15;
 export const SHADE_SPAWNING_TICKS = 60;
 export const SHADE_WANDER_SPEED = 2;
 export const SHADE_WANDER_RETARGET = 180;
+export const DRAIN_DIST = 2;
+export const DRAIN_BREAK_DIST = 6;
 
 export const DRIFTER_SPEED = 7;
 export const DRIFTER_IDLE_SPEED = 2;

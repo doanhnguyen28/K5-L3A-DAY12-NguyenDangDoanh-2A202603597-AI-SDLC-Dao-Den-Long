@@ -1,6 +1,6 @@
 {
   "name": "40c_map_night3",
-  "requirement": "T2 map night 3: 7 lanterns, L1 on tier 2, 360 s, start (0,0,-30) (assumption P2-A1)",
+  "requirement": "T2/T3 map night 3: 7 lanterns, L1 on tier 2, 300 s [P3: 360 -> 300], start (0,0,-30) (assumption P2-A1)",
   "night": 3,
   "seed": 1,
   "ticks": 1,
@@ -25,7 +25,7 @@
     {
       "at": 0,
       "path": "time_left_s",
-      "equals": 360
+      "equals": 300
     },
     {
       "at": 0,

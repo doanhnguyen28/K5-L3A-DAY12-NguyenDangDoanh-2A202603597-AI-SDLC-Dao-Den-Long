@@ -1,0 +1,39 @@
+{
+  "name": "50_fuel_decay",
+  "requirement": "T3 fuel: lit lantern loses 1 fuel/s: 100 -> 99.0 at tick 60, 90.0 at tick 600",
+  "night": 1,
+  "seed": 1,
+  "ticks": 600,
+  "snapshot_every": 60,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 0,
+      "path": "lanterns.0.fuel",
+      "equals": 100
+    },
+    {
+      "at": 60,
+      "path": "lanterns.0.fuel",
+      "equals": 99
+    },
+    {
+      "at": 600,
+      "path": "lanterns.0.fuel",
+      "equals": 90
+    }
+  ]
+}

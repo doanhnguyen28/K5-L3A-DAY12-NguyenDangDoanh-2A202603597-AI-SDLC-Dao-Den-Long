@@ -1,0 +1,33 @@
+{
+  "name": "54b_capacity_cap",
+  "requirement": "T3 capacity capped at 20 (successful_lights 7 -> 20, not 24)",
+  "night": 1,
+  "seed": 1,
+  "ticks": 1,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 0,
+      "flames": 3,
+      "successful_lights": 7
+    }
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 0,
+      "path": "player.capacity",
+      "equals": 20
+    }
+  ]
+}

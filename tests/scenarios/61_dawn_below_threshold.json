@@ -1,0 +1,44 @@
+{
+  "name": "61_dawn_below_threshold",
+  "requirement": "T3 lose: dawn with 2/5 lit (< ceil(0.6*5)=3) -> lost/dawn, no dawn bonus",
+  "night": 1,
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "time_left_s": 1,
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true
+      },
+      {
+        "id": "L2",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "game_over",
+      "tick": 60,
+      "data": {
+        "result": "lost",
+        "reason": "dawn"
+      }
+    },
+    {
+      "end": {
+        "ticks": 60,
+        "state": "lost",
+        "score": 0
+      }
+    }
+  ]
+}

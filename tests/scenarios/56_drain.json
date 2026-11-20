@@ -1,0 +1,83 @@
+{
+  "name": "56_drain",
+  "requirement": "T3 drain: wander shade 1.5 m from weak L1 (fuel 20) -> drain at tick 1; from tick 2 fuel -6/60 per tick; fuel_drain at tick 61 (fuel 14.0); out at tick 201",
+  "night": 1,
+  "seed": 1,
+  "ticks": 210,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [
+      {
+        "id": "S1",
+        "pos": [
+          0,
+          1,
+          23.5
+        ]
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        -20
+      ],
+      "carried": 0,
+      "flames": 3
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true,
+        "fuel": 20
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 1,
+      "path": "shades.0.state",
+      "equals": "drain"
+    },
+    {
+      "at": 100,
+      "path": "shades.0.pos",
+      "equals": [
+        0,
+        1,
+        23.5
+      ]
+    },
+    {
+      "event": "fuel_drain",
+      "tick": 61,
+      "data": {
+        "lantern_id": "L1",
+        "shade_id": "S1",
+        "fuel": 14
+      }
+    },
+    {
+      "event": "lantern_out",
+      "tick": 201,
+      "data": {
+        "lantern_id": "L1"
+      }
+    },
+    {
+      "at": 200,
+      "path": "lanterns.0.lit",
+      "equals": true
+    },
+    {
+      "at": 201,
+      "path": "shades.0.state",
+      "equals": "wander"
+    }
+  ]
+}

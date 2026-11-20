@@ -1,0 +1,60 @@
+{
+  "name": "52b_refuel_partial",
+  "requirement": "T3 refuel: carrying 2 at fuel 55 -> used 2, fuel 54.983 + 20 = 74.983 -> 75.0, +10",
+  "night": 1,
+  "seed": 1,
+  "ticks": 5,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        23
+      ],
+      "carried": 2,
+      "flames": 3
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true,
+        "fuel": 55
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "interact": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "refuel",
+      "tick": 1,
+      "data": {
+        "lantern_id": "L1",
+        "amount": 2,
+        "fuel": 75
+      }
+    },
+    {
+      "at": 1,
+      "path": "player.carried",
+      "equals": 0
+    },
+    {
+      "at": 1,
+      "path": "score",
+      "equals": 10
+    }
+  ]
+}

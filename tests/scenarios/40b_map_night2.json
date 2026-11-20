@@ -1,6 +1,6 @@
 {
   "name": "40b_map_night2",
-  "requirement": "T2 map night 2: 6 lanterns, 330 s, charm C1",
+  "requirement": "T2/T3 map night 2: 6 lanterns, 270 s [P3: 330 -> 270], charm C1",
   "night": 2,
   "seed": 1,
   "ticks": 1,
@@ -32,7 +32,7 @@
     {
       "at": 0,
       "path": "time_left_s",
-      "equals": 330
+      "equals": 270
     },
     {
       "at": 0,

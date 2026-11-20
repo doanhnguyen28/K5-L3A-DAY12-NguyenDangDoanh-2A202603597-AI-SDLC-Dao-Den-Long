@@ -1,0 +1,57 @@
+{
+  "name": "51_lantern_out",
+  "requirement": "T3 fuel 1 -> 0 at tick 60: lantern_out, lit false, deposited 0, fuel 0, ever_lit stays true",
+  "night": 1,
+  "seed": 1,
+  "ticks": 70,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true,
+        "fuel": 1
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "lantern_out",
+      "tick": 60,
+      "data": {
+        "lantern_id": "L1"
+      }
+    },
+    {
+      "at": 59,
+      "path": "lanterns.0.lit",
+      "equals": true
+    },
+    {
+      "at": 60,
+      "path": "lanterns.0.lit",
+      "equals": false
+    },
+    {
+      "at": 60,
+      "path": "lanterns.0.deposited",
+      "equals": 0
+    },
+    {
+      "at": 60,
+      "path": "lanterns.0.fuel",
+      "equals": 0
+    },
+    {
+      "at": 60,
+      "path": "lanterns.0.ever_lit",
+      "equals": true
+    }
+  ]
+}

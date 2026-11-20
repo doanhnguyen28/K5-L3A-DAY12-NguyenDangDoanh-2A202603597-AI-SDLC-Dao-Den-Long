@@ -1,6 +1,6 @@
 {
-  "name": "11_win_all_lit",
-  "requirement": "T2 win: score = 10 + 100 + 2*floor(299.98) + 50*3 = 858",
+  "name": "11_no_early_win",
+  "requirement": "T3 no early win: lighting the last lantern does not end the night (score 5 + 100 = 105). [P3 replaces Phase 2 '11_win_all_lit': all_lit no longer used]",
   "night": 1,
   "seed": 1,
   "ticks": 100,
@@ -53,18 +53,21 @@
   },
   "expect": [
     {
-      "event": "game_over",
+      "event": "lantern_lit",
       "tick": 1,
       "data": {
-        "result": "won",
-        "reason": "all_lit"
+        "lantern_id": "L1",
+        "relight": false
       }
     },
     {
+      "no_event": "game_over"
+    },
+    {
       "end": {
-        "ticks": 1,
-        "state": "won",
-        "score": 858
+        "ticks": 100,
+        "state": "playing",
+        "score": 105
       }
     }
   ]

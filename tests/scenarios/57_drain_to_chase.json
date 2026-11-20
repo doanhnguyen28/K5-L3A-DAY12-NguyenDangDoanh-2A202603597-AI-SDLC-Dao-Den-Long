@@ -1,0 +1,68 @@
+{
+  "name": "57_drain_to_chase",
+  "requirement": "T3 drain -> chase when Mây comes within 6 m (player walks in from 13.5 m; at 6.0 m at tick ~75)",
+  "night": 1,
+  "seed": 1,
+  "ticks": 90,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [
+      {
+        "id": "S1",
+        "pos": [
+          0,
+          1,
+          23.5
+        ]
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        37
+      ],
+      "carried": 0,
+      "flames": 3
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true,
+        "fuel": 20
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          -1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 1,
+      "path": "shades.0.state",
+      "equals": "drain"
+    },
+    {
+      "at": 70,
+      "path": "shades.0.state",
+      "equals": "drain"
+    },
+    {
+      "at": 80,
+      "path": "shades.0.state",
+      "equals": "chase"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "name": "58_pulse_drainer_bonus",
+  "requirement": "T3 score: pulse on a draining shade = +15 total",
+  "night": 1,
+  "seed": 1,
+  "ticks": 5,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [
+      {
+        "id": "S1",
+        "pos": [
+          0,
+          1,
+          23.5
+        ],
+        "state": "drain",
+        "target_lantern_id": "L1"
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        27
+      ],
+      "carried": 3,
+      "flames": 3
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true,
+        "fuel": 20
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "pulse": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "pulse",
+      "tick": 1,
+      "data": {
+        "stunned_ids": [
+          "S1"
+        ]
+      }
+    },
+    {
+      "at": 1,
+      "path": "score",
+      "equals": 15
+    },
+    {
+      "at": 1,
+      "path": "shades.0.state",
+      "equals": "stunned"
+    }
+  ]
+}

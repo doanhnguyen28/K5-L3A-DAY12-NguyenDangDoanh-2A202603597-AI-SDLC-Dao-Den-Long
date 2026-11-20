@@ -1,0 +1,63 @@
+{
+  "name": "52_refuel_full",
+  "requirement": "T3 refuel: fuel 55 -> 54.983 after decay; used = min(10, ceil(45.02/10)=5) = 5 -> fuel 100, +25",
+  "night": 1,
+  "seed": 1,
+  "ticks": 5,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        23
+      ],
+      "carried": 10,
+      "flames": 3
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true,
+        "fuel": 55
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "interact": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "refuel",
+      "tick": 1,
+      "data": {
+        "lantern_id": "L1",
+        "amount": 5,
+        "fuel": 100
+      }
+    },
+    {
+      "at": 1,
+      "path": "player.carried",
+      "equals": 5
+    },
+    {
+      "at": 1,
+      "path": "score",
+      "equals": 25
+    },
+    {
+      "no_event": "lantern_lit"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "60_dawn_survived",
+  "requirement": "T3 win: alive at dawn with 3/5 lit -> dawn_survived; score 3*(50 + floor(99.0)) + 3*50 = 597",
+  "night": 1,
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "time_left_s": 1,
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true
+      },
+      {
+        "id": "L2",
+        "lit": true
+      },
+      {
+        "id": "L3",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "game_over",
+      "tick": 60,
+      "data": {
+        "result": "won",
+        "reason": "dawn_survived"
+      }
+    },
+    {
+      "end": {
+        "ticks": 60,
+        "state": "won",
+        "score": 597
+      }
+    }
+  ]
+}

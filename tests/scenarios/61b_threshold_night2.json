@@ -1,0 +1,45 @@
+{
+  "name": "61b_threshold_night2",
+  "requirement": "T3 win threshold night 2 = 4/6: 4 lit at dawn -> won",
+  "night": 2,
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "time_left_s": 1,
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true
+      },
+      {
+        "id": "L2",
+        "lit": true
+      },
+      {
+        "id": "L3",
+        "lit": true
+      },
+      {
+        "id": "L4",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "game_over",
+      "tick": 60,
+      "data": {
+        "result": "won",
+        "reason": "dawn_survived"
+      }
+    }
+  ]
+}

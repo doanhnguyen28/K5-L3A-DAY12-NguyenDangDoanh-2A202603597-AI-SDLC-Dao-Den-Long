@@ -33,20 +33,20 @@ add("06b_pickup_height", "T2 pickup height: |foot - mote ground| <= 1.5 picked, 
     [{"event_count": "mote_picked", "equals": 1}, {"at": 10, "path": "motes.0.pos", "equals": [0.5, 1.6, 0]}])
 add("07_carry_capacity", "R2 capacity 10: carrying 9 picks only one", 10, sc(player=P([0, 0, 0], carried=9), motes=[[0, 0, 0.5], [0, 0, 1]]), None,
     [{"at": 10, "path": "player.carried", "equals": 10}, {"at": 10, "path": "motes_active", "equals": 1}, {"event_count": "mote_picked", "equals": 1}])
-add("08_deposit_and_light", "T2 deposit: 2 m radius, cost 10 -> lit; score 10*10 + 100 = 200", 10, sc(player=P([0, 0, 23], carried=12)),
+add("08_deposit_and_light", "T2/T3 deposit: 2 m radius, cost 10 -> lit (relight false); score 5*10 + 100 = 150. [P3: score per mote 10 -> 5]", 10, sc(player=P([0, 0, 23], carried=12)),
     F({"tick": 0, "interact": True}, {"tick": 1, "interact": False}),
     [{"event": "deposit", "tick": 1, "data": {"lantern_id": "L1", "amount": 10, "deposited": 10}},
-     {"event": "lantern_lit", "tick": 1, "data": {"lantern_id": "L1"}},
-     {"at": 10, "path": "player.carried", "equals": 2}, {"at": 10, "path": "score", "equals": 200}])
-add("09_partial_deposit", "T2 deposit: partial 3 -> +30, lantern remembers progress", 10, sc(player=P([0, 0, 23], carried=3)), F({"tick": 0, "interact": True}),
+     {"event": "lantern_lit", "tick": 1, "data": {"lantern_id": "L1", "relight": False}},
+     {"at": 10, "path": "player.carried", "equals": 2}, {"at": 10, "path": "score", "equals": 150}, {"at": 1, "path": "lanterns.0.fuel", "equals": 100}])
+add("09_partial_deposit", "T2/T3 deposit: partial 3 -> +15, lantern remembers progress. [P3: score per mote 10 -> 5]", 10, sc(player=P([0, 0, 23], carried=3)), F({"tick": 0, "interact": True}),
     [{"event": "deposit", "tick": 1, "data": {"lantern_id": "L1", "amount": 3, "deposited": 3}}, {"no_event": "lantern_lit"},
-     {"at": 10, "path": "score", "equals": 30}, {"at": 10, "path": "lanterns.0.deposited", "equals": 3}])
+     {"at": 10, "path": "score", "equals": 15}, {"at": 10, "path": "lanterns.0.deposited", "equals": 3}])
 add("10_interact_out_of_range", "T2 interact: 2.1 m is out of 2.0 m radius", 10, sc(player=P([0, 0, 22.9], carried=5)), F({"tick": 0, "interact": True}),
     [{"no_event": "deposit"}])
-add("11_win_all_lit", "T2 win: score = 10 + 100 + 2*floor(299.98) + 50*3 = 858", 100,
+add("11_no_early_win", "T3 no early win: lighting the last lantern does not end the night (score 5 + 100 = 105). [P3 replaces Phase 2 '11_win_all_lit': all_lit no longer used]", 100,
     sc(player=P([0, 0, 23], carried=1), lanterns=[{"id": "L1", "deposited": 9}] + [{"id": f"L{i}", "lit": True} for i in range(2, 6)]),
     F({"tick": 0, "interact": True}),
-    [{"event": "game_over", "tick": 1, "data": {"result": "won", "reason": "all_lit"}}, {"end": {"ticks": 1, "state": "won", "score": 858}}])
+    [{"event": "lantern_lit", "tick": 1, "data": {"lantern_id": "L1", "relight": False}}, {"no_event": "game_over"}, {"end": {"ticks": 100, "state": "playing", "score": 105}}])
 add("12_lose_dawn", "R6 lose: time_left_s=1 -> lost/dawn at tick 60", 100, sc(time_left_s=1), None,
     [{"event": "game_over", "tick": 60, "data": {"result": "lost", "reason": "dawn"}}, {"end": {"ticks": 60, "state": "lost", "score": 0}}])
 add("13_shade_hit_recoil_invuln", "T2 shade hit: -1 flame, drop floor(4/2)=2 dropped motes (ttl 8 s), recoil, invuln 90 -> hits at 1, 91, 181 -> lost/no_flames", 400,
@@ -166,17 +166,18 @@ add("38b_wind_disabled", "Contract v1.1: wind_enabled=false disables gusts on ni
 add("39_pause", "T3 pause: paused at tick 11, resumed at 71; tick advances while sim_tick, time and movement freeze", 100, sc(),
     F({"tick": 0, "move": [0, 1]}, {"tick": 10, "pause": True}, {"tick": 11, "pause": False}, {"tick": 70, "pause": True}),
     [{"event": "paused", "tick": 11}, {"event": "resumed", "tick": 71}, {"at": 60, "path": "state", "equals": "paused"},
-     {"at": 60, "path": "sim_tick", "equals": 10}, {"at": 60, "path": "time_left_s", "equals": 299.833}, {"at": 60, "path": "player.pos", "equals": [0, 0, 1]},
+     {"at": 60, "path": "sim_tick", "equals": 10}, {"at": 60, "path": "time_left_s", "equals": 239.833}, {"at": 60, "path": "player.pos", "equals": [0, 0, 1]},
      {"at": 100, "path": "sim_tick", "equals": 40}, {"at": 100, "path": "player.pos", "equals": [0, 0, 4]}, {"end": {"ticks": 100, "state": "playing"}}], every=10)
-add("40a_map_night1", "T2 map night 1: standard lanterns, 20 random motes, night_start event", 1, {}, None,
+add("40a_map_night1", "T2/T3 map night 1: standard lanterns, 20 random motes, night_start, 240 s [P3: 300 -> 240 s], lantern fuel fields, capacity 10", 1, {}, None,
     [{"event": "night_start", "tick": 0, "data": {"night": 1}}, {"at": 0, "path": "lanterns.1.pos", "equals": [23.8, 0, 7.7]},
-     {"at": 0, "path": "motes_active", "equals": 20}, {"at": 0, "path": "night", "equals": 1}, {"at": 0, "path": "time_left_s", "equals": 300}])
-add("40b_map_night2", "T2 map night 2: 6 lanterns, 330 s, charm C1", 1, {}, None,
+     {"at": 0, "path": "motes_active", "equals": 20}, {"at": 0, "path": "night", "equals": 1}, {"at": 0, "path": "time_left_s", "equals": 240},
+     {"at": 0, "path": "lanterns.0.fuel", "equals": 0}, {"at": 0, "path": "lanterns.0.ever_lit", "equals": False}, {"at": 0, "path": "lanterns.0.relit_count", "equals": 0}, {"at": 0, "path": "player.capacity", "equals": 10}])
+add("40b_map_night2", "T2/T3 map night 2: 6 lanterns, 270 s [P3: 330 -> 270], charm C1", 1, {}, None,
     [{"event": "night_start", "tick": 0, "data": {"night": 2}}, {"at": 0, "path": "lanterns.length", "equals": 6},
-     {"at": 0, "path": "lanterns.3.pos", "equals": [70, 0, 20]}, {"at": 0, "path": "time_left_s", "equals": 330}, {"at": 0, "path": "charms.0.id", "equals": "C1"}], night=2)
-add("40c_map_night3", "T2 map night 3: 7 lanterns, L1 on tier 2, 360 s, start (0,0,-30) (assumption P2-A1)", 1, {}, None,
+     {"at": 0, "path": "lanterns.3.pos", "equals": [70, 0, 20]}, {"at": 0, "path": "time_left_s", "equals": 270}, {"at": 0, "path": "charms.0.id", "equals": "C1"}], night=2)
+add("40c_map_night3", "T2/T3 map night 3: 7 lanterns, L1 on tier 2, 300 s [P3: 360 -> 300], start (0,0,-30) (assumption P2-A1)", 1, {}, None,
     [{"at": 0, "path": "lanterns.length", "equals": 7}, {"at": 0, "path": "lanterns.0.pos", "equals": [0, 6, 6]},
-     {"at": 0, "path": "time_left_s", "equals": 360}, {"at": 0, "path": "player.pos", "equals": [0, 0, -30]}, {"at": 0, "path": "charms.length", "equals": 2}], night=3)
+     {"at": 0, "path": "time_left_s", "equals": 300}, {"at": 0, "path": "player.pos", "equals": [0, 0, -30]}, {"at": 0, "path": "charms.length", "equals": 2}], night=3)
 add("41_mote_spawn_schedule", "T2 motes: 20 at start, +1 at ticks 240 and 480 (cap 30, empty points only)", 480, {"random_shades": False, "random_drifters": False}, None,
     [{"at": 239, "path": "motes_active", "equals": 20}, {"at": 240, "path": "motes_active", "equals": 21},
      {"at": 479, "path": "motes_active", "equals": 21}, {"at": 480, "path": "motes_active", "equals": 22}])
@@ -186,10 +187,10 @@ add("42_safe_zone_evict", "T2 safe zone: shade inside 6 m when the lantern light
 add("42b_safe_zone_evict_speed", "T2 safe zone: eviction 0.2 m/tick, shade at 2 m reaches 6 m at tick 20", 30,
     sc(player=P([0, 0, 23], carried=10), shades=[{"pos": [2, 1, 25], "state": "stunned", "state_ticks_left": 200}]), F({"tick": 0, "interact": True}),
     [{"at": 10, "path": "shades.0.pos", "equals": [4, 1, 25]}, {"at": 20, "path": "shades.0.pos", "equals": [6, 1, 25]}, {"at": 30, "path": "shades.0.pos", "equals": [6, 1, 25]}])
-add("43_win_on_last_tick", "T2 win/lose order: lighting the last lantern on the tick time reaches 0 -> won (score 10+100+0+150=260)", 10,
-    sc(time_left_s=0.016666666666666666, player=P([0, 0, 23], carried=1), lanterns=[{"id": "L1", "deposited": 9}] + [{"id": f"L{i}", "lit": True} for i in range(2, 6)]),
+add("43_light_on_dawn_tick_counts", "T3 lantern lit on the dawn tick counts: 2 lit + L3 lit at tick 1 = 3/5 -> won dawn_survived. Score 5+100 + L1,L2 (50+99) + L3 (50+100) + 150 = 703. [P3 replaces Phase 2 '43_win_on_last_tick']", 10,
+    sc(time_left_s=0.016666666666666666, player=P([14.7, 0, -18.2], carried=1), lanterns=[{"id": "L1", "lit": True, "fuel": 99.5}, {"id": "L2", "lit": True, "fuel": 99.5}, {"id": "L3", "deposited": 9}]),
     F({"tick": 0, "interact": True}),
-    [{"end": {"ticks": 1, "state": "won", "score": 260}}])
+    [{"event": "game_over", "tick": 1, "data": {"result": "won", "reason": "dawn_survived"}}, {"end": {"ticks": 1, "state": "won", "score": 703}}])
 add("44_no_flames_beats_win", "T2 win/lose order: no flames -> lost even if all lanterns are lit", 10,
     sc(player=P([0, 0, 0], flames=0), lanterns=[{"id": f"L{i}", "lit": True} for i in range(1, 6)]), None,
     [{"event": "game_over", "tick": 1, "data": {"result": "lost", "reason": "no_flames"}}])
@@ -197,6 +198,69 @@ add("45_fall_last_flame", "T2 fall with the last flame -> lost immediately, no r
     [{"event": "player_hit", "tick": 61, "data": {"by": "fall", "flames": 0}}, {"end": {"ticks": 61, "state": "lost"}}])
 add("46_fall_ignores_invuln", "T2 fall ignores invulnerability", 100, sc(player=P([0, 0, 39.95], invuln_ticks=1000)), F({"tick": 0, "move": [0, 1]}),
     [{"event": "player_hit", "tick": 61, "data": {"by": "fall", "flames": 2}}])
+
+add("50_fuel_decay", "T3 fuel: lit lantern loses 1 fuel/s: 100 -> 99.0 at tick 60, 90.0 at tick 600", 600, sc(lanterns=[{"id": "L1", "lit": True}]), None,
+    [{"at": 0, "path": "lanterns.0.fuel", "equals": 100}, {"at": 60, "path": "lanterns.0.fuel", "equals": 99}, {"at": 600, "path": "lanterns.0.fuel", "equals": 90}], every=60)
+add("51_lantern_out", "T3 fuel 1 -> 0 at tick 60: lantern_out, lit false, deposited 0, fuel 0, ever_lit stays true", 70, sc(lanterns=[{"id": "L1", "lit": True, "fuel": 1}]), None,
+    [{"event": "lantern_out", "tick": 60, "data": {"lantern_id": "L1"}}, {"at": 59, "path": "lanterns.0.lit", "equals": True}, {"at": 60, "path": "lanterns.0.lit", "equals": False},
+     {"at": 60, "path": "lanterns.0.deposited", "equals": 0}, {"at": 60, "path": "lanterns.0.fuel", "equals": 0}, {"at": 60, "path": "lanterns.0.ever_lit", "equals": True}])
+add("52_refuel_full", "T3 refuel: fuel 55 -> 54.983 after decay; used = min(10, ceil(45.02/10)=5) = 5 -> fuel 100, +25", 5,
+    sc(player=P([0, 0, 23], carried=10), lanterns=[{"id": "L1", "lit": True, "fuel": 55}]), F({"tick": 0, "interact": True}),
+    [{"event": "refuel", "tick": 1, "data": {"lantern_id": "L1", "amount": 5, "fuel": 100}}, {"at": 1, "path": "player.carried", "equals": 5}, {"at": 1, "path": "score", "equals": 25}, {"no_event": "lantern_lit"}])
+add("52b_refuel_partial", "T3 refuel: carrying 2 at fuel 55 -> used 2, fuel 54.983 + 20 = 74.983 -> 75.0, +10", 5,
+    sc(player=P([0, 0, 23], carried=2), lanterns=[{"id": "L1", "lit": True, "fuel": 55}]), F({"tick": 0, "interact": True}),
+    [{"event": "refuel", "tick": 1, "data": {"lantern_id": "L1", "amount": 2, "fuel": 75}}, {"at": 1, "path": "player.carried", "equals": 0}, {"at": 1, "path": "score", "equals": 10}])
+add("53_relight_cost_5", "T3 relight: ever_lit lantern needs 5; relight true, +5*5 + 40 = 65, relit_count 1, fuel 100, capacity 12", 5,
+    sc(player=P([0, 0, 23], carried=7), lanterns=[{"id": "L1", "ever_lit": True}]), F({"tick": 0, "interact": True}),
+    [{"event": "deposit", "tick": 1, "data": {"lantern_id": "L1", "amount": 5, "deposited": 5}}, {"event": "lantern_lit", "tick": 1, "data": {"lantern_id": "L1", "relight": True}},
+     {"at": 1, "path": "score", "equals": 65}, {"at": 1, "path": "lanterns.0.relit_count", "equals": 1}, {"at": 1, "path": "lanterns.0.fuel", "equals": 100},
+     {"at": 1, "path": "player.carried", "equals": 2}, {"at": 1, "path": "player.capacity", "equals": 12}])
+add("54_capacity_growth", "T3 capacity = min(20, 10 + 2*successful_lights): 5 lights -> 20; carrying 19 picks one of two motes", 5,
+    sc(player=P([0, 0, 0], carried=19, successful_lights=5), motes=[[0, 0, 0.5], [0, 0, 0.8]]), None,
+    [{"at": 0, "path": "player.capacity", "equals": 20}, {"at": 5, "path": "player.carried", "equals": 20}, {"at": 5, "path": "motes_active", "equals": 1}])
+add("54b_capacity_cap", "T3 capacity capped at 20 (successful_lights 7 -> 20, not 24)", 1, sc(player=P([0, 0, 0], successful_lights=7)), None,
+    [{"at": 0, "path": "player.capacity", "equals": 20}])
+add("55_safe_zone_until_30", "T3 safe zone kept while fuel >= 30 (fuel 40 reaches 30.0 at tick 600: shade still blocked at z=19), lost below 30 -> shade reaches player", 800,
+    sc(player=P([0, 0, 24]), lanterns=[{"id": "L1", "lit": True, "fuel": 40}], shades=[{"id": "S1", "pos": [0, 1, 15], "state": "chase"}]), None,
+    [{"at": 600, "path": "lanterns.0.fuel", "equals": 30}, {"at": 600, "path": "shades.0.pos", "equals": [0, 1, 19]}, {"at": 600, "path": "player.flames", "equals": 3},
+     {"at": 800, "path": "player.flames", "lt": 3}], every=100)
+add("56_drain", "T3 drain: wander shade 1.5 m from weak L1 (fuel 20) -> drain at tick 1; from tick 2 fuel -6/60 per tick; fuel_drain at tick 61 (fuel 14.0); out at tick 201", 210,
+    sc(player=P([0, 0, -20]), lanterns=[{"id": "L1", "lit": True, "fuel": 20}], shades=[{"id": "S1", "pos": [0, 1, 23.5]}]), None,
+    [{"at": 1, "path": "shades.0.state", "equals": "drain"}, {"at": 100, "path": "shades.0.pos", "equals": [0, 1, 23.5]},
+     {"event": "fuel_drain", "tick": 61, "data": {"lantern_id": "L1", "shade_id": "S1", "fuel": 14}},
+     {"event": "lantern_out", "tick": 201, "data": {"lantern_id": "L1"}}, {"at": 200, "path": "lanterns.0.lit", "equals": True}, {"at": 201, "path": "shades.0.state", "equals": "wander"}])
+add("56b_drain_stacks", "T3 drain stacks: two shades -> fuel -11/60 per tick from tick 2 -> out at tick 110", 120,
+    sc(player=P([0, 0, -20]), lanterns=[{"id": "L1", "lit": True, "fuel": 20}], shades=[{"id": "S1", "pos": [0, 1, 23.5]}, {"id": "S2", "pos": [0.5, 1, 23.6]}]), None,
+    [{"event": "lantern_out", "tick": 110, "data": {"lantern_id": "L1"}}, {"at": 109, "path": "lanterns.0.lit", "equals": True}])
+add("57_drain_to_chase", "T3 drain -> chase when Mây comes within 6 m (player walks in from 13.5 m; at 6.0 m at tick ~75)", 90,
+    sc(player=P([0, 0, 37]), lanterns=[{"id": "L1", "lit": True, "fuel": 20}], shades=[{"id": "S1", "pos": [0, 1, 23.5]}]), F({"tick": 0, "move": [0, -1]}),
+    [{"at": 1, "path": "shades.0.state", "equals": "drain"}, {"at": 70, "path": "shades.0.state", "equals": "drain"}, {"at": 80, "path": "shades.0.state", "equals": "chase"}])
+add("58_pulse_drainer_bonus", "T3 score: pulse on a draining shade = +15 total", 5,
+    sc(player=P([0, 0, 27], carried=3), lanterns=[{"id": "L1", "lit": True, "fuel": 20}], shades=[{"id": "S1", "pos": [0, 1, 23.5], "state": "drain", "target_lantern_id": "L1"}]),
+    F({"tick": 0, "pulse": True}),
+    [{"event": "pulse", "tick": 1, "data": {"stunned_ids": ["S1"]}}, {"at": 1, "path": "score", "equals": 15}, {"at": 1, "path": "shades.0.state", "equals": "stunned"}])
+add("59_refuel_evicts_drainer", "T3 refuel to >= 30 (20 -> 49.9) pushes the drainer out to the 6 m edge within 30 ticks, harmless meanwhile", 60,
+    sc(player=P([0, 0, 26.5], carried=3), lanterns=[{"id": "L1", "lit": True, "fuel": 20}], shades=[{"id": "S1", "pos": [0, 1, 23.5], "state": "drain", "target_lantern_id": "L1"}]),
+    F({"tick": 0, "interact": True}),
+    [{"event": "refuel", "tick": 1, "data": {"lantern_id": "L1", "amount": 3, "fuel": 49.9}}, {"no_event": "player_hit"}, {"at": 30, "path": "shades.0.pos", "equals": [0, 1, 19]}, {"at": 60, "path": "shades.0.pos", "equals": [0, 1, 19]}])
+add("60_dawn_survived", "T3 win: alive at dawn with 3/5 lit -> dawn_survived; score 3*(50 + floor(99.0)) + 3*50 = 597", 100,
+    sc(time_left_s=1, lanterns=[{"id": f"L{i}", "lit": True} for i in range(1, 4)]), None,
+    [{"event": "game_over", "tick": 60, "data": {"result": "won", "reason": "dawn_survived"}}, {"end": {"ticks": 60, "state": "won", "score": 597}}])
+add("61_dawn_below_threshold", "T3 lose: dawn with 2/5 lit (< ceil(0.6*5)=3) -> lost/dawn, no dawn bonus", 100,
+    sc(time_left_s=1, lanterns=[{"id": f"L{i}", "lit": True} for i in range(1, 3)]), None,
+    [{"event": "game_over", "tick": 60, "data": {"result": "lost", "reason": "dawn"}}, {"end": {"ticks": 60, "state": "lost", "score": 0}}])
+add("61b_threshold_night2", "T3 win threshold night 2 = 4/6: 4 lit at dawn -> won", 100,
+    sc(time_left_s=1, lanterns=[{"id": f"L{i}", "lit": True} for i in range(1, 5)]), None,
+    [{"event": "game_over", "tick": 60, "data": {"result": "won", "reason": "dawn_survived"}}], night=2)
+add("61c_threshold_night3", "T3 win threshold night 3 = 5/7: 4 lit at dawn -> lost", 100,
+    sc(time_left_s=1, player=P([0, 0, -30]), wind_enabled=False, lanterns=[{"id": f"L{i}", "lit": True} for i in range(1, 5)]), None,
+    [{"event": "game_over", "tick": 60, "data": {"result": "lost", "reason": "dawn"}}], night=3)
+add("62_no_flames_on_dawn_tick", "T3 order: falling to the last flame on the dawn tick (61) -> lost no_flames even with 3/5 lit", 100,
+    sc(time_left_s=1.0166666666666666, player=P([0, 0, 39.95], flames=1), lanterns=[{"id": f"L{i}", "lit": True} for i in range(1, 4)]), F({"tick": 0, "move": [0, 1]}),
+    [{"event": "game_over", "tick": 61, "data": {"result": "lost", "reason": "no_flames"}}])
+add("63_wander_targets_weak", "T3 wander shade goes to the nearest weak lantern (fuel < 30), not to a healthy one", 300,
+    sc(player=P([0, 0, -30]), lanterns=[{"id": "L1", "lit": True, "fuel": 25}, {"id": "L2", "lit": True}], shades=[{"id": "S1", "pos": [12, 1, 17]}]), None,
+    [{"at": 300, "path": "shades.0.state", "equals": "drain"}, {"at": 300, "path": "lanterns.1.fuel", "equals": 95}, {"event": "fuel_drain", "data": {"lantern_id": "L1", "shade_id": "S1"}}], every=50)
 
 for name, req, ticks, scen, inp, exp, night, every in S:
     d = {"name": name, "requirement": req, "night": night, "seed": 1, "ticks": ticks, "snapshot_every": every, "scenario": scen, "inputs": inp, "expect": exp}

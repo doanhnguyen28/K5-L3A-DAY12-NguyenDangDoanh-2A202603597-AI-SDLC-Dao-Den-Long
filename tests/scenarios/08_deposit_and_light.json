@@ -1,6 +1,6 @@
 {
   "name": "08_deposit_and_light",
-  "requirement": "T2 deposit: 2 m radius, cost 10 -> lit; score 10*10 + 100 = 200",
+  "requirement": "T2/T3 deposit: 2 m radius, cost 10 -> lit (relight false); score 5*10 + 100 = 150. [P3: score per mote 10 -> 5]",
   "night": 1,
   "seed": 1,
   "ticks": 10,
@@ -47,7 +47,8 @@
       "event": "lantern_lit",
       "tick": 1,
       "data": {
-        "lantern_id": "L1"
+        "lantern_id": "L1",
+        "relight": false
       }
     },
     {
@@ -58,7 +59,12 @@
     {
       "at": 10,
       "path": "score",
-      "equals": 200
+      "equals": 150
+    },
+    {
+      "at": 1,
+      "path": "lanterns.0.fuel",
+      "equals": 100
     }
   ]
 }

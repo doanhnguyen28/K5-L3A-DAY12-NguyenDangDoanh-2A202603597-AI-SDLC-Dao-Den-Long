@@ -89,12 +89,13 @@ export function createBot() {
     ].filter((x) => x.d < 4.2 && Math.hypot(x.d, x.dy) < 4.9);
     if (danger.length && p.carried >= T.pulse_cost && p.pulseCd === 0) input.pulse = toggle;
 
-    const unlit = g.lanterns.filter((l) => !l.lit);
-    const need = unlit.reduce((s, l) => s + (T.lantern_cost - l.deposited), 0);
-    const lantern = unlit.map((l) => ({ l, c: cost(l.pos) })).sort((a, b) => a.c - b.c)[0];
+    const want = (l) => (l.lit ? (l.fu < 3000 ? Math.ceil((6000 - l.fu) / 600) : 0) : (l.everLit ? T.relight_cost : T.lantern_cost) - l.deposited);
+    const unlit = g.lanterns.filter((l) => want(l) > 0);
+    const need = unlit.reduce((s, l) => s + want(l), 0);
+    const lantern = unlit.map((l) => ({ l, c: cost(l.pos) - (l.lit && l.fu < 1800 ? 30 : 0) })).sort((a, b) => a.c - b.c)[0];
     const motes = g.motes.map((m) => ({ m, c: cost(m.pos) })).sort((a, b) => a.c - b.c);
-    const reserve = Math.min(6, need);
-    const goLantern = lantern && p.carried > 0 && (p.carried >= reserve || motes.length === 0 || p.carried >= T.lantern_cost - lantern.l.deposited);
+    const reserve = Math.min(6, need, g.capacity ? g.capacity() : 10);
+    const goLantern = lantern && p.carried > 0 && (p.carried >= reserve || motes.length === 0 || p.carried >= want(lantern.l));
 
     let target = null;
     if (goLantern) {

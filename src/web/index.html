@@ -15,6 +15,9 @@
     #flames .on { color: #FFB347; } #flames .off { color: #5B5F6E; }
     #timer { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 24px; font-variant-numeric: tabular-nums; }
     #timer.danger { color: var(--danger); animation: blink 0.8s steps(2) infinite; }
+    body.cb { --danger: #FFFFFF; }
+    #need { font-size: 12px; opacity: 0.85; }
+    #carrytext { position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     @keyframes blink { 50% { opacity: 0.25; } }
     #topright { position: absolute; top: 12px; right: 12px; text-align: right; display: grid; gap: 6px; }
     #score { color: var(--gold); font-size: 22px; }
@@ -53,10 +56,11 @@
     <div id="timer" class="pill">5:00</div>
     <div id="windhud" class="pill">Gió sắp nổi…</div>
     <div id="topright">
-      <div class="pill">Đèn <b id="lit">0/5</b></div>
+      <div class="pill">Đèn <b id="lit">0/5</b><div id="need"></div></div>
       <div id="score" class="pill">0</div>
     </div>
-    <div id="prompt" class="pill">E — Nạp ánh sáng (<b id="promptval">0/10</b>)</div>
+    <div id="prompt" class="pill"><span id="prompttext">E — Nạp ánh sáng</span> (<b id="promptval">0/10</b>)</div>
+    <div id="carrytext"></div>
     <div id="motebar"></div>
     <div id="cds">
       <div id="cddash" class="cd" style="--p:1"><span>Lướt<br>Shift</span></div>
@@ -84,6 +88,7 @@
       <h1 id="introName">Đảo Bến</h1>
       <p class="quote" id="introQuote"></p>
       <p>— Ông Đăng, người giữ đèn già</p>
+      <p id="introGoal"></p>
       <div class="btns"><button id="btnPlay">Vào đêm</button></div>
     </div>
   </div>
@@ -113,6 +118,7 @@
       <h1>Cài đặt</h1>
       <label>Âm lượng <input id="setVolume" type="range" min="0" max="1" step="0.05"></label>
       <label>Độ nhạy chuột <input id="setSens" type="range" min="0.05" max="1" step="0.05"></label>
+      <label style="display:flex;gap:8px;align-items:center"><input id="setCb" type="checkbox"> Bảng màu dễ phân biệt</label>
       <div class="btns"><button id="btnSettingsBack">Xong</button></div>
     </div>
   </div>

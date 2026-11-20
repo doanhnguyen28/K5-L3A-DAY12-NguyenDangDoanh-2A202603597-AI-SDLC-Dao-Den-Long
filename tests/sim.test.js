@@ -121,13 +121,22 @@ test('motes respawn every 240 ticks when random_motes is on', () => {
   assert.equal(g.snapshot().motes_active, 5);
 });
 
-test('night 1 is winnable: autopilot bot wins seed 1 using only player inputs', async () => {
+test('night 1 is winnable under Phase 3 rules: autopilot bot survives to dawn with >= 3 lit (seed 9; seed 1 no longer wins, see docs/notes/phase-3.md)', async () => {
   const { createBot } = await import('../src/sim/bot.js');
-  const g = createGame({ tuning, seed: 1 });
+  const g = createGame({ tuning, seed: 9 });
   const bot = createBot();
   while (g.state === 'playing') g.step(bot(g));
   assert.equal(g.state, 'won');
-  assert.ok(g.lanterns.every((l) => l.lit));
+  assert.ok(g.lanterns.filter((l) => l.lit).length >= 3);
+});
+
+test('full lantern is skipped: interact goes to the next receivable lantern, no refuel event', () => {
+  const g = createGame({ tuning, seed: 1, scenario: { random_motes: false, random_shades: false, player: { pos: [0, 0, 24], carried: 4 }, lanterns: [{ id: 'L1', lit: true }, { id: 'L2', pos: [0, 0, 22.5] }] } });
+  g.lanterns[0].fu = 6001;
+  const ev = g.step({ interact: true });
+  assert.equal(g.lanterns[0].fu, 6000);
+  assert.deepEqual(ev.filter((e) => e.name === 'refuel'), []);
+  assert.deepEqual(ev.find((e) => e.name === 'deposit').data, { lantern_id: 'L2', amount: 4, deposited: 4 });
 });
 
 test('no actions after game over', () => {

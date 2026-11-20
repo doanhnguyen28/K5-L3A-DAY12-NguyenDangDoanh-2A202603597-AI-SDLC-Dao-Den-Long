@@ -1,9 +1,9 @@
 {
-  "name": "43_win_on_last_tick",
-  "requirement": "T2 win/lose order: lighting the last lantern on the tick time reaches 0 -> won (score 10+100+0+150=260)",
-  "night": 1,
+  "name": "61c_threshold_night3",
+  "requirement": "T3 win threshold night 3 = 5/7: 4 lit at dawn -> lost",
+  "night": 3,
   "seed": 1,
-  "ticks": 10,
+  "ticks": 100,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
@@ -11,20 +11,21 @@
     "random_drifters": false,
     "motes": [],
     "shades": [],
-    "time_left_s": 0.016666666666666666,
+    "time_left_s": 1,
     "player": {
       "pos": [
         0,
         0,
-        23
+        -30
       ],
-      "carried": 1,
+      "carried": 0,
       "flames": 3
     },
+    "wind_enabled": false,
     "lanterns": [
       {
         "id": "L1",
-        "deposited": 9
+        "lit": true
       },
       {
         "id": "L2",
@@ -37,27 +38,17 @@
       {
         "id": "L4",
         "lit": true
-      },
-      {
-        "id": "L5",
-        "lit": true
       }
     ]
   },
-  "inputs": {
-    "frames": [
-      {
-        "tick": 0,
-        "interact": true
-      }
-    ]
-  },
+  "inputs": null,
   "expect": [
     {
-      "end": {
-        "ticks": 1,
-        "state": "won",
-        "score": 260
+      "event": "game_over",
+      "tick": 60,
+      "data": {
+        "result": "lost",
+        "reason": "dawn"
       }
     }
   ]

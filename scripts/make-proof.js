@@ -145,6 +145,11 @@ if (skipShots || !findBrowser()) {
   const shots = phase === 'phase-1' ? [
     ['01-start.png', 'seed=1', 'Start screen'],
     ['02-playing.png', 'autostart=1&seed=1&warp=900&bot=1', 'Night 1 gameplay with HUD'],
+  ] : phase === 'phase-3' ? [
+    ['01-intro-goal.png', 'autostart=1&night=1&screen=intro', 'Night intro now states the new goal: keep >= 3/5 lanterns lit until dawn (240 s)'],
+    ['02-hud-capacity.png', 'autostart=1&night=1&seed=9&warp=4000&bot=1', 'HUD: carried / capacity (3/12 after one successful light), lanterns k/n with "cần 3 lúc bình minh"'],
+    ['03-colorblind.png', 'autostart=1&night=1&seed=9&warp=4000&bot=1&cb=1', 'Colorblind palette: shade outline and eyes #00B3FF'],
+    ['04-result-dawn.png', 'autostart=1&night=1&seed=9&warp=20000', 'Result after dawn_survived (bot, seed 9)'],
   ] : [
     ['01-menu.png', 'seed=1', 'Main menu (T3 chuỗi 3 Đêm)'],
     ['02-intro-night2.png', 'autostart=1&night=2&screen=intro', 'Night intro: island name + Ông Đăng line'],

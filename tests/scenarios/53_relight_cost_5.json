@@ -1,0 +1,82 @@
+{
+  "name": "53_relight_cost_5",
+  "requirement": "T3 relight: ever_lit lantern needs 5; relight true, +5*5 + 40 = 65, relit_count 1, fuel 100, capacity 12",
+  "night": 1,
+  "seed": 1,
+  "ticks": 5,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        23
+      ],
+      "carried": 7,
+      "flames": 3
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "ever_lit": true
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "interact": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "deposit",
+      "tick": 1,
+      "data": {
+        "lantern_id": "L1",
+        "amount": 5,
+        "deposited": 5
+      }
+    },
+    {
+      "event": "lantern_lit",
+      "tick": 1,
+      "data": {
+        "lantern_id": "L1",
+        "relight": true
+      }
+    },
+    {
+      "at": 1,
+      "path": "score",
+      "equals": 65
+    },
+    {
+      "at": 1,
+      "path": "lanterns.0.relit_count",
+      "equals": 1
+    },
+    {
+      "at": 1,
+      "path": "lanterns.0.fuel",
+      "equals": 100
+    },
+    {
+      "at": 1,
+      "path": "player.carried",
+      "equals": 2
+    },
+    {
+      "at": 1,
+      "path": "player.capacity",
+      "equals": 12
+    }
+  ]
+}

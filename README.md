@@ -1,6 +1,6 @@
 # Đảo Đèn Lồng
 
-> **Video demo:** _(sẽ thêm ở Release `v1.0.0`)_ · **Bằng chứng:** [Phase 1](docs/proof/phase-1/README.md) · [Phase 2](docs/proof/phase-2/README.md) · **Đề bài:** [lab](docs/lab/README.md), [Ticket-02](docs/lab/ticket-02.md)
+> **Video demo:** _(sẽ thêm ở Release `v1.0.0`)_ · **Bằng chứng:** [Phase 1](docs/proof/phase-1/README.md) · [Phase 2](docs/proof/phase-2/README.md) · [Phase 3](docs/proof/phase-3/README.md) · **Đề bài:** [lab](docs/lab/README.md), [Ticket-02](docs/lab/ticket-02.md), [Ticket-03](docs/lab/ticket-03.md)
 
 Game 3D góc nhìn thứ ba qua **3 Đêm**: Mây, người giữ đèn nhỏ tuổi đội nón lá, gom đom đóm để thắp lại các Đèn Lồng Lớn trên Đảo Bến, Đảo Cau và Đảo Chuông trước bình minh, né Bóng Mực và Gió Lạc trong sương đen.
 
@@ -28,27 +28,26 @@ npm start          # rồi mở http://localhost:8080
 | `F3` | Bật/tắt bộ đếm FPS |
 | `B` | Bật/tắt tự lái (bot demo) |
 
-## Luật chơi và điểm (số chuẩn của Ticket-02)
+## Luật chơi và điểm (Ticket-02 + Ticket-03 "Đèn cạn dầu")
 
-- **3 Đêm:** Đêm 1 Đảo Bến (5 đèn, 300 s) → Đêm 2 Đảo Cau (2 đảo nối bằng cầu tre và bục nhảy, 6 đèn, 330 s) → Đêm 3 Đảo Chuông (3 tầng, dốc, bục, gió mạnh, 7 đèn, 360 s). Thắng thì sang đêm sau. Thua thì chơi lại đêm đó. Thắng Đêm 3 thì thấy Bình Minh và tổng điểm.
-- **Mây:** chạy 6 m/s, nhảy 7 m/s, 3 Ngọn Lửa (hồi đầy mỗi đêm), mang tối đa 10 đom đóm. Tự nhặt trong 1 m.
-- **Đèn:** cần 10 đom đóm, nạp nhiều lần được. Đèn sáng tạo vùng an toàn 6 m mà Bóng Mực không vào được.
-- **Bóng Mực:** sinh từ giây thứ 5, đuổi khi cách ≤ 12 m (bỏ khi > 18 m), 4 m/s (Đêm 3: 4,5 m/s). Bị chạm: −1 Ngọn Lửa, rơi một nửa số đom đóm ra quanh Mây (nhặt lại được trong 8 s), bất tử 1,5 s.
-- **Gió Lạc** (Đêm 2–3): dải lụa xám xanh, lao tới khi Mây mang ≥ 5 đom đóm, cướp 3 rồi bỏ chạy. Tỏa Sáng lúc nó đang bỏ chạy thì nó thả lại đom đóm.
-- **Bùa Gió** (Đêm 2–3): chạy 7,2 m/s và lướt không hồi chiêu trong 10 s.
-- **Rơi khỏi đảo:** −1 Ngọn Lửa, mất hết đom đóm, hồi sinh sau 1 s ở điểm xuất phát.
+- **3 Đêm:** Đêm 1 Đảo Bến (5 đèn, 240 s) → Đêm 2 Đảo Cau (2 đảo nối bằng cầu tre và bục nhảy, 6 đèn, 270 s) → Đêm 3 Đảo Chuông (3 tầng, dốc, bục, gió mạnh, 7 đèn, 300 s).
+- **Mục tiêu: giữ đảo sáng tới bình minh.** Thắng nếu còn sống khi hết giờ và có ít nhất 3/5 (Đêm 1), 4/6 (Đêm 2), 5/7 (Đêm 3) đèn đang sáng. Thắp đủ đèn không kết thúc đêm sớm. Thua nếu hết Ngọn Lửa hoặc trời sáng mà không đủ đèn.
+- **Đèn cạn dầu:** đèn vừa thắp có 100 dầu, hao 1/giây. Bấm `E` ở đèn đang sáng để châm (mỗi đom đóm +10 dầu). Hết dầu thì đèn tắt; thắp lại chỉ cần 5 đom đóm (lần đầu cần 10). Đèn dưới 30 dầu nhấp nháy và **mất vùng an toàn**.
+- **Bóng Mực hút dầu:** Bóng đang lang thang tìm tới đèn yếu (< 30 dầu), đứng cạnh và hút 5 dầu/giây. Lại gần (≤ 6 m) thì nó quay sang đuổi Mây; Tỏa Sáng làm nó choáng; châm dầu lên ≥ 30 thì nó bị đẩy ra.
+- **Mây:** chạy 6 m/s, nhảy 7 m/s, lướt 14 m/s, 3 Ngọn Lửa. Sức chứa đom đóm bắt đầu 10, +2 mỗi lần thắp thành công trong đêm (tối đa 20).
+- **Bóng Mực, Gió Lạc, Bùa Gió, rơi khỏi đảo:** như Ticket-02 (xem [ticket-02](docs/lab/ticket-02.md)).
 
 | Sự kiện | Điểm |
 |---|---|
-| Mỗi đom đóm nạp vào đèn | +10 |
-| Thắp 1 đèn | +100 |
-| Mỗi Bóng Mực trúng Tỏa Sáng (mỗi lần) | +5 |
-| Khi thắng một đêm: mỗi giây còn lại (làm tròn xuống) | +2 |
-| Khi thắng một đêm: mỗi Ngọn Lửa còn lại | +50 |
+| Mỗi đom đóm nạp vào đèn (thắp, thắp lại, châm dầu) | +5 |
+| Thắp lần đầu / thắp lại | +100 / +40 |
+| Bóng Mực trúng Tỏa Sáng | +5 (+15 nếu nó đang hút dầu) |
+| Bình minh (chỉ khi thắng): mỗi đèn đang sáng | +50 + số dầu còn lại (làm tròn xuống) |
+| Bình minh (chỉ khi thắng): mỗi Ngọn Lửa còn lại | +50 |
 
 Tổng điểm = tổng điểm các đêm đã thắng. Tuning đọc trực tiếp từ `game.contract.json`.
 
-## Test Contract v1.1 / chế độ headless
+## Test Contract v1.2 / chế độ headless
 
 ```bash
 node src/headless.js --seed 1 --night 1 --ticks 600 --out out.jsonl \
@@ -56,26 +55,27 @@ node src/headless.js --seed 1 --night 1 --ticks 600 --out out.jsonl \
 ```
 
 - `--night` nhận 1, 2, 3. Headless không cần `npm install`. Một đêm đầy đủ (21.600 tick) chạy khoảng 0,1–0,3 s.
-- Khai báo: [`game.contract.json`](game.contract.json). Các giả định cho chỗ ticket chưa nói rõ: [docs/notes/phase-2.md](docs/notes/phase-2.md#giả-định-chỗ-ticket-chưa-nói-rõ). Đáng chú ý: Đêm 3 xuất phát ở (0, 0, −30) vì tâm đảo là tháp chuông.
+- Khai báo: [`game.contract.json`](game.contract.json). Giả định cho chỗ ticket chưa nói rõ: [Phase 2](docs/notes/phase-2.md), [Phase 3](docs/notes/phase-3.md). Quyết định thiết kế: [ADR 0001](docs/adr/0001-lantern-fuel-and-dawn-win.md). Thay đổi phá vỡ tương thích: [CHANGELOG](CHANGELOG.md). Đáng chú ý: Đêm 3 xuất phát ở (0, 0, −30) vì tâm đảo là tháp chuông.
 - Mã thoát: `0` thành công · `2` file inputs/scenario không đọc được hoặc sai định dạng · `1` lỗi tham số dòng lệnh.
 
 ## Test và bằng chứng
 
 ```bash
-npm test                     # 78 test: unit, contract, 56 scenario headless (chạy qua CLI thật)
-npm run proof -- phase-2     # tạo lại docs/proof/phase-2/
+npm test                     # 98 test: unit, contract, 75 scenario headless (chạy qua CLI thật)
+npm run proof -- phase-3     # tạo lại docs/proof/phase-3/
 ```
 
 CI (GitHub Actions, Ubuntu + macOS) chạy `npm test` và bộ proof ở mỗi lần push.
 
 ## Sáng tạo của tôi
 
-Mọi phần thêm chỉ nằm ở lớp hiển thị (`src/web/`), không đụng `src/sim/`, nên đầu ra headless không đổi. Bằng chứng: 56 scenario và hash tất định trong [docs/proof/phase-2](docs/proof/phase-2/README.md) chạy trên `src/sim`, không có code nào của `src/web`.
+Mọi phần thêm chỉ nằm ở lớp hiển thị (`src/web/`), không đụng `src/sim/`, nên đầu ra headless không đổi. Bằng chứng: 75 scenario và hash tất định trong [docs/proof/phase-3](docs/proof/phase-3/README.md) chạy trên `src/sim`, không có code nào của `src/web`.
 
 - **Đom đóm dẫn đường:** khi Mây đang mang đom đóm, một đốm sáng nhỏ bay lên phía trước, chỉ hướng tới đèn chưa sáng gần nhất.
 - **Lời Ông Đăng:** mỗi đêm mở đầu bằng một lời dặn riêng của người giữ đèn già.
 - **Âm thanh tự tổng hợp** bằng WebAudio (không dùng file ngoài): nhạc nền ngũ cung, hiệu ứng cho từng sự kiện, tiếng gió báo trước cơn gió.
 - **Đảo sáng dần, bình minh khi thắng Đêm 3.** Đèn đã sáng có vòng sáng cho biết vùng an toàn 6 m. Bóng Mực mờ dần lúc xuất hiện.
+- **Bảng màu dễ phân biệt** (Ticket-03, trong Cài đặt) đi kèm vết rách trên giấy đèn tắt, để phân biệt đèn tắt/sáng không cần màu.
 - **Bot tự lái** (`B`, `?bot=1`): dùng đúng các input người chơi có. Dùng để chụp ảnh bằng chứng tự động và làm số liệu độ khó.
 
 ## Cấu trúc
@@ -95,6 +95,6 @@ AGENTS.md, CLAUDE.md, .claude/   harness AI (hướng dẫn, hooks, skill verify
 
 ## Ghi chép
 
-- Phase 1: [docs/notes/phase-1.md](docs/notes/phase-1.md) · Phase 2: [docs/notes/phase-2.md](docs/notes/phase-2.md)
+- Phase 1: [docs/notes/phase-1.md](docs/notes/phase-1.md) · Phase 2: [docs/notes/phase-2.md](docs/notes/phase-2.md) · Phase 3: [docs/notes/phase-3.md](docs/notes/phase-3.md) · ADR: [docs/adr/](docs/adr/)
 - Nhật ký dùng AI và token: [docs/notes/ai-log.md](docs/notes/ai-log.md) · Retro: [docs/notes/retro.md](docs/notes/retro.md)
 - Nguồn tài nguyên và giấy phép: [CREDITS.md](CREDITS.md), [LICENSE](LICENSE)

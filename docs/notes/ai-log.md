@@ -62,3 +62,26 @@ Công cụ: **Claude Code** (VS Code extension), model Claude Opus 5.5. Harness:
 **Token / chi phí (ước tính):** Phase 2 tốn nhiều hơn Phase 1 vì ticket lớn và client viết lại: ước khoảng 150–200 nghìn token đầu ra trong phiên Claude Code. _Chủ repo thay bằng số thật từ `/cost`._
 
 **Cách tiết kiệm token:** sinh scenario bằng script, chỉ đọc dòng tóm tắt test, dừng tối ưu bot sau 3 vòng (bot chỉ là công cụ bằng chứng), không dùng subagent.
+
+## Phase 3
+
+**Lời nhắc chính:** "xong phase 2 rồi, làm phase 3 đi" kèm nội dung Ticket-03 dán từ lab board. Phase chỉ có 30 phút nên ưu tiên luật và test, tối ưu bot để sau.
+
+**Trình tự agent đã làm:**
+1. Lưu ticket nguyên văn; lập bảng "luật bị thay → code/test/tài liệu bị ảnh hưởng" trước khi sửa.
+2. Đổi mô hình đèn sang dầu nguyên đơn vị 1/60 (theo khuyến nghị của ticket), vùng an toàn và sức chứa thành giá trị suy ra. Ghi lại trong ADR 0001.
+3. Chạy test sau khi sửa sim: **đúng 11 test đỏ, đều là test của luật bị thay**, không test nào khác đỏ. Sửa hoặc thay từng test kèm lý do; thêm 18 scenario mới. 75/75 đạt.
+4. Thử đột biến 4 số mới: cả 4 đều bị bắt.
+
+**Những lần AI sai và cách phát hiện:**
+
+| Lỗi | Phát hiện bằng | Sửa |
+|---|---|---|
+| Scenario 63 ban đầu chạy 200 tick, chưa đủ để Bóng đi 12 m rồi hút đủ 60 tick | Tính tay trước khi chạy | Tăng lên 300 tick, kiểm thêm dầu của đèn khỏe |
+| Bản vá client dùng biến `g` (không tồn tại trong main.js) thay vì `game` | Đọc lại bản vá trước khi áp | Sửa trước khi chạy |
+| Bot thắng Đêm 1 seed 1 không còn đúng với luật mới (1/10 seed) | Test đỏ | Đổi sang seed 9 và điều kiện "≥ 3 đèn sáng lúc bình minh", ghi lý do; không chỉnh bot thêm vì thiếu thời gian |
+| Ticket nói "đèn đầy dầu không được chọn" nhưng sau khi hao 1/60 thì đèn hầu như không bao giờ đúng 100 | Tính tay công thức | Giữ đúng công thức của ticket (ceil làm châm 1 đom đóm ngay cả khi thiếu 0.02 dầu); kiểm trường hợp đầy bằng unit test |
+
+**Token / chi phí (ước tính):** khoảng 60–90 nghìn token đầu ra. _Chủ repo thay bằng số thật từ `/cost`._
+
+**Cách tiết kiệm:** sửa bằng script patch có kiểm tra (mỗi đoạn thay thế phải khớp đúng 1 lần), chạy test để thấy đúng danh sách test bị ảnh hưởng thay vì đọc lại toàn bộ code, ít ảnh chụp (2 ảnh kiểm tra).
