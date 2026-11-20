@@ -1,0 +1,40 @@
+{
+  "name": "21_setup_no_score",
+  "requirement": "Contract D: scenario lit:true gives no score and no event",
+  "seed": 1,
+  "ticks": 10,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [],
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 0,
+      "path": "score",
+      "equals": 0
+    },
+    {
+      "at": 0,
+      "path": "lanterns.0.lit",
+      "equals": true
+    },
+    {
+      "at": 0,
+      "path": "lanterns.0.deposited",
+      "equals": 5
+    },
+    {
+      "no_event": "lantern_lit"
+    }
+  ]
+}

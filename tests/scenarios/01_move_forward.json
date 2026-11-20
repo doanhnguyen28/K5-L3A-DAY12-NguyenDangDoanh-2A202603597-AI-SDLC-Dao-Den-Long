@@ -1,0 +1,35 @@
+{
+  "name": "01_move_forward",
+  "requirement": "R1 move: player_speed 6 m/s, move [0,1] cam 0 -> +Z",
+  "seed": 1,
+  "ticks": 60,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 60,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        6
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "23_shade_spawn",
+  "requirement": "R4 spawn: with random_shades a new shade spawns every 30 s (event shade_spawned)",
+  "seed": 1,
+  "ticks": 1800,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": true,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "shade_spawned",
+      "tick": 1800,
+      "data": {
+        "id": "S1"
+      }
+    },
+    {
+      "end": {
+        "ticks": 1800,
+        "state": "playing"
+      }
+    }
+  ]
+}

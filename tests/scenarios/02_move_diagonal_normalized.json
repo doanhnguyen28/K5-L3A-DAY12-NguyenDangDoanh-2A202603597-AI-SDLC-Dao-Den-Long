@@ -1,0 +1,35 @@
+{
+  "name": "02_move_diagonal_normalized",
+  "requirement": "R1 move: vector longer than 1 is normalized",
+  "seed": 1,
+  "ticks": 60,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 60,
+      "path": "player.pos",
+      "equals": [
+        4.243,
+        0,
+        4.243
+      ]
+    }
+  ]
+}

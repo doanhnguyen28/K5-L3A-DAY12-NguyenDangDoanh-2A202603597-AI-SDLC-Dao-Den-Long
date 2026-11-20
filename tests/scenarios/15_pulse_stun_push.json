@@ -1,0 +1,96 @@
+{
+  "name": "15_pulse_stun_push",
+  "requirement": "R5 pulse: costs 1 mote, stuns shade within 6 m for 3 s (180 ticks), pushes 4 m, +20",
+  "seed": 1,
+  "ticks": 200,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [
+      {
+        "pos": [
+          5,
+          1,
+          0
+        ]
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 2,
+      "flames": 3
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "pulse": true
+      },
+      {
+        "tick": 1,
+        "pulse": false
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "pulse",
+      "tick": 1,
+      "data": {
+        "stunned_ids": [
+          "S1"
+        ]
+      }
+    },
+    {
+      "at": 1,
+      "path": "shades.0.pos",
+      "equals": [
+        9,
+        1,
+        0
+      ]
+    },
+    {
+      "at": 1,
+      "path": "player.carried",
+      "equals": 1
+    },
+    {
+      "at": 1,
+      "path": "score",
+      "equals": 20
+    },
+    {
+      "at": 180,
+      "path": "shades.0.state",
+      "equals": "stunned"
+    },
+    {
+      "at": 180,
+      "path": "shades.0.pos",
+      "equals": [
+        9,
+        1,
+        0
+      ]
+    },
+    {
+      "at": 181,
+      "path": "shades.0.state",
+      "equals": "chase"
+    },
+    {
+      "at": 181,
+      "path": "shades.0.pos.0",
+      "lt": 9
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "20_unlit_lantern_not_safe",
+  "requirement": "R4 safe_radius: unlit lantern gives no protection (control for 19)",
+  "seed": 1,
+  "ticks": 600,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [
+      {
+        "pos": [
+          0,
+          1,
+          15
+        ]
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        24
+      ],
+      "carried": 0,
+      "flames": 3
+    }
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "player_hit"
+    }
+  ]
+}

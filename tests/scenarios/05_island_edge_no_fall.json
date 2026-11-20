@@ -1,0 +1,38 @@
+{
+  "name": "05_island_edge_no_fall",
+  "requirement": "R1 fall_enabled=false: player clamped at island radius 40, no fall hit",
+  "seed": 1,
+  "ticks": 600,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 600,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        40
+      ]
+    },
+    {
+      "no_event": "player_hit"
+    }
+  ]
+}

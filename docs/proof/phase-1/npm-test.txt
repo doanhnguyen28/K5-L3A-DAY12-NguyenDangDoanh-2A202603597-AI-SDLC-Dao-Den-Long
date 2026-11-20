@@ -1,0 +1,47 @@
+✔ game.contract.json has every v1.0 field (0.8748ms)
+✔ default run: snapshot at tick 0 then every N, end line last (56.7854ms)
+✔ determinism: same seed/scenario/inputs give byte-identical output (185.6751ms)
+✔ coordinates are rounded to 3 decimals (52.3934ms)
+✔ bad inputs or scenario file exits with code 2 (366.8981ms)
+✔ bad command line exits non-zero with stderr message (142.4679ms)
+✔ full default night with no input ends lost (shades catch idle player) and stops early (56.743ms)
+✔ scenario 01_move_forward: R1 move: player_speed 6 m/s, move [0,1] cam 0 -> +Z (60.1149ms)
+✔ scenario 02_move_diagonal_normalized: R1 move: vector longer than 1 is normalized (50.2677ms)
+✔ scenario 03_move_cam_yaw_90: R1 move: cam_yaw_deg 90 rotates move [0,1] to +X (53.5661ms)
+✔ scenario 04_jump: R1 jump: jump lifts player off ground and lands again (51.7992ms)
+✔ scenario 05_island_edge_no_fall: R1 fall_enabled=false: player clamped at island radius 40, no fall hit (58.0244ms)
+✔ scenario 06_pickup_radius: R2 pickup: mote at 1.5 m picked (<= r), mote at 1.6 m not (52.4609ms)
+✔ scenario 07_carry_capacity: R2 carry_capacity 10: only one mote picked when carrying 9 (53.8877ms)
+✔ scenario 08_deposit_and_light: R3 deposit: interact within 3 m deposits lantern_cost 5 and lights L1 (+100) (56.6439ms)
+✔ scenario 09_partial_deposit: R3 deposit: partial deposit keeps lantern unlit (51.8384ms)
+✔ scenario 10_interact_out_of_range: R3 deposit: 3.1 m from lantern is out of interact_radius 3 (49.5967ms)
+✔ scenario 11_win_all_lit: R6 win: lighting last lantern wins; score = 100 + 5*299 + 50*3 = 1745 (52.4534ms)
+✔ scenario 12_lose_dawn: R6 lose: time runs out -> lost/dawn at tick 60 when time_left_s=1 (48.4705ms)
+✔ scenario 13_shade_hits_invuln_no_flames: R4 shade: hit drops 50% motes, invuln 1.5 s (90 ticks), 3 hits -> lost/no_flames (54.2713ms)
+✔ scenario 14_shade_chases: R4 shade: shade moves toward player at 3.5 m/s (51.3288ms)
+✔ scenario 15_pulse_stun_push: R5 pulse: costs 1 mote, stuns shade within 6 m for 3 s (180 ticks), pushes 4 m, +20 (54.2121ms)
+✔ scenario 16_pulse_needs_light: R5 pulse: no carried light -> no pulse (51.2543ms)
+✔ scenario 17_pulse_out_of_radius: R5 pulse: shade at 6.5 m is outside pulse_radius 6 (51.4241ms)
+✔ scenario 18_pulse_cooldown: R5 pulse: cooldown 1 s; press at tick 30 ignored, press at tick 60 fires at tick 61 (58.5445ms)
+✔ scenario 19_safe_radius_lit_lantern: R4 safe_radius: shade cannot enter 5 m around a lit lantern; player beside it is safe (73.8336ms)
+✔ scenario 20_unlit_lantern_not_safe: R4 safe_radius: unlit lantern gives no protection (control for 19) (53.9285ms)
+✔ scenario 21_setup_no_score: Contract D: scenario lit:true gives no score and no event (47.6056ms)
+✔ scenario 22_shade_ids: Contract D: unnamed shades get ids that avoid given ids (50.5917ms)
+✔ scenario 23_shade_spawn: R4 spawn: with random_shades a new shade spawns every 30 s (event shade_spawned) (69.5677ms)
+✔ moveToWorld follows the contract rotation formula (1.097ms)
+✔ default lanterns: 5 on a ring of radius 25, L1 at (0,0,25) (0.7653ms)
+✔ round3 rounds and never emits -0 (0.1639ms)
+✔ input timeline: fields persist until changed, defaults before first frame (0.2452ms)
+✔ action triggers only on false->true edge (holding interact deposits once) (1.1989ms)
+✔ random default night: 30 motes, 2 shades, ids deterministic per seed (1.5093ms)
+✔ motes respawn over time when random_motes is on (1.8533ms)
+✔ night 1 is winnable: autopilot bot wins seed 1 using only player inputs (24.3944ms)
+✔ no actions after game over (0.3266ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1361.681

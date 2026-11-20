@@ -1,0 +1,65 @@
+{
+  "name": "18_pulse_cooldown",
+  "requirement": "R5 pulse: cooldown 1 s; press at tick 30 ignored, press at tick 60 fires at tick 61",
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 3,
+      "flames": 3
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "pulse": true
+      },
+      {
+        "tick": 1,
+        "pulse": false
+      },
+      {
+        "tick": 30,
+        "pulse": true
+      },
+      {
+        "tick": 31,
+        "pulse": false
+      },
+      {
+        "tick": 60,
+        "pulse": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event_count": "pulse",
+      "equals": 2
+    },
+    {
+      "event": "pulse",
+      "tick": 1
+    },
+    {
+      "event": "pulse",
+      "tick": 61
+    },
+    {
+      "at": 100,
+      "path": "player.carried",
+      "equals": 1
+    }
+  ]
+}

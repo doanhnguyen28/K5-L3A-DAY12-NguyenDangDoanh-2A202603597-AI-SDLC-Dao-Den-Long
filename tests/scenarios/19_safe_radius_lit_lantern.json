@@ -1,0 +1,51 @@
+{
+  "name": "19_safe_radius_lit_lantern",
+  "requirement": "R4 safe_radius: shade cannot enter 5 m around a lit lantern; player beside it is safe",
+  "seed": 1,
+  "ticks": 600,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [
+      {
+        "pos": [
+          0,
+          1,
+          15
+        ]
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        24
+      ],
+      "carried": 0,
+      "flames": 3
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "no_event": "player_hit"
+    },
+    {
+      "at": 600,
+      "path": "shades.0.pos",
+      "equals": [
+        0,
+        1,
+        20
+      ]
+    }
+  ]
+}

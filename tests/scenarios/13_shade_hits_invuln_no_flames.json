@@ -1,0 +1,74 @@
+{
+  "name": "13_shade_hits_invuln_no_flames",
+  "requirement": "R4 shade: hit drops 50% motes, invuln 1.5 s (90 ticks), 3 hits -> lost/no_flames",
+  "seed": 1,
+  "ticks": 400,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [
+      {
+        "pos": [
+          1,
+          0,
+          0
+        ]
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 4,
+      "flames": 3
+    }
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "player_hit",
+      "tick": 1,
+      "data": {
+        "by": "shade",
+        "flames": 2,
+        "dropped": 2
+      }
+    },
+    {
+      "event": "player_hit",
+      "tick": 91,
+      "data": {
+        "by": "shade",
+        "flames": 1,
+        "dropped": 1
+      }
+    },
+    {
+      "event": "player_hit",
+      "tick": 181,
+      "data": {
+        "by": "shade",
+        "flames": 0,
+        "dropped": 0
+      }
+    },
+    {
+      "event": "game_over",
+      "tick": 181,
+      "data": {
+        "result": "lost",
+        "reason": "no_flames"
+      }
+    },
+    {
+      "end": {
+        "ticks": 181,
+        "state": "lost"
+      }
+    }
+  ]
+}

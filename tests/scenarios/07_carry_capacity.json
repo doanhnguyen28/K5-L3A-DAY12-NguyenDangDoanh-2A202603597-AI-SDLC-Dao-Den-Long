@@ -1,0 +1,50 @@
+{
+  "name": "07_carry_capacity",
+  "requirement": "R2 carry_capacity 10: only one mote picked when carrying 9",
+  "seed": 1,
+  "ticks": 10,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [
+      [
+        0,
+        0,
+        0.5
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 9,
+      "flames": 3
+    }
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 10,
+      "path": "player.carried",
+      "equals": 10
+    },
+    {
+      "at": 10,
+      "path": "motes_active",
+      "equals": 1
+    },
+    {
+      "event_count": "mote_picked",
+      "equals": 1
+    }
+  ]
+}

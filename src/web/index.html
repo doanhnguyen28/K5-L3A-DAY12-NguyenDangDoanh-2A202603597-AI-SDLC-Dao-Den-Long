@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đảo Đèn Lồng</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #120a1f; font-family: system-ui, sans-serif; color: #ffe8c2; }
+    canvas { display: block; }
+    #hud { position: fixed; top: 12px; left: 12px; display: grid; gap: 6px; font-size: 15px; pointer-events: none; }
+    .pill { background: rgba(20, 10, 35, 0.72); border: 1px solid rgba(255, 190, 110, 0.35); border-radius: 10px; padding: 6px 12px; }
+    #hud b { color: #ffc46b; }
+    #score { position: fixed; top: 12px; right: 12px; font-size: 22px; pointer-events: none; }
+    #hint { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); font-size: 13px; opacity: 0.8; pointer-events: none; text-align: center; }
+    #overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(10, 5, 20, 0.6); }
+    #overlay.hidden { display: none; }
+    #panel { max-width: 460px; text-align: center; padding: 28px 32px; border-radius: 16px; background: rgba(28, 14, 45, 0.92); border: 1px solid rgba(255, 190, 110, 0.4); }
+    #panel h1 { margin: 0 0 8px; color: #ffc46b; font-weight: 600; }
+    #panel p { line-height: 1.5; margin: 8px 0; }
+    #panel kbd { background: #3a2556; border-radius: 4px; padding: 1px 6px; font-size: 13px; }
+    button { margin-top: 12px; font-size: 16px; padding: 8px 22px; border-radius: 10px; border: 0; background: #ffb347; color: #2a1340; cursor: pointer; font-weight: 600; }
+    .bar { width: 120px; height: 6px; background: #3a2556; border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 6px; }
+    .bar > i { display: block; height: 100%; background: #ffc46b; }
+  </style>
+  <script type="importmap">{ "imports": { "three": "/node_modules/three/build/three.module.js" } }</script>
+</head>
+<body>
+  <div id="hud">
+    <div class="pill">Lửa: <b id="flames">3</b></div>
+    <div class="pill">Đom đóm mang theo: <b id="carried">0</b></div>
+    <div class="pill">Đèn đã thắp: <b id="lit">0</b> / 5</div>
+    <div class="pill">Bình minh sau: <b id="time">5:00</b></div>
+    <div class="pill">Tỏa sáng <span class="bar"><i id="pulsebar" style="width:100%"></i></span></div>
+  </div>
+  <div id="score" class="pill">Điểm: <b id="scoreval">0</b></div>
+  <div id="hint">WASD di chuyển · Space nhảy · E nạp đèn · F / chuột trái tỏa sáng · kéo chuột hoặc ← → xoay camera · M tắt/bật âm · R chơi lại</div>
+  <div id="overlay">
+    <div id="panel">
+      <h1 id="title">Đảo Đèn Lồng</h1>
+      <p id="msg">Sương đen đã nuốt ánh sáng của Đảo Bến. Hãy giúp Mây gom đom đóm và thắp lại 5 Đèn Lồng Lớn trước bình minh. Coi chừng Bóng Mực!</p>
+      <p><kbd>WASD</kbd> đi · <kbd>Space</kbd> nhảy · <kbd>E</kbd> nạp đèn · <kbd>F</kbd> tỏa sáng · <kbd>R</kbd> chơi lại</p>
+      <button id="start">Bắt đầu</button>
+    </div>
+  </div>
+  <script type="module" src="/src/web/main.js"></script>
+</body>
+</html>

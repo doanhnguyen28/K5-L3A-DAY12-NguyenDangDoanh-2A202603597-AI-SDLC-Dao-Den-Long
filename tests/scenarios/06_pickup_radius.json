@@ -1,0 +1,48 @@
+{
+  "name": "06_pickup_radius",
+  "requirement": "R2 pickup: mote at 1.5 m picked (<= r), mote at 1.6 m not",
+  "seed": 1,
+  "ticks": 10,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [
+      [
+        0,
+        0,
+        1.5
+      ],
+      [
+        0,
+        0,
+        1.6
+      ]
+    ],
+    "shades": []
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "mote_picked",
+      "tick": 1,
+      "data": {
+        "carried": 1
+      }
+    },
+    {
+      "event_count": "mote_picked",
+      "equals": 1
+    },
+    {
+      "at": 10,
+      "path": "motes_active",
+      "equals": 1
+    },
+    {
+      "at": 10,
+      "path": "score",
+      "equals": 10
+    }
+  ]
+}

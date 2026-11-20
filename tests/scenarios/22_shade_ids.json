@@ -1,0 +1,54 @@
+{
+  "name": "22_shade_ids",
+  "requirement": "Contract D: unnamed shades get ids that avoid given ids",
+  "seed": 1,
+  "ticks": 1,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [
+      {
+        "pos": [
+          30,
+          1,
+          0
+        ]
+      },
+      {
+        "id": "S1",
+        "pos": [
+          -30,
+          1,
+          0
+        ]
+      },
+      {
+        "pos": [
+          0,
+          1,
+          30
+        ]
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 0,
+      "path": "shades.0.id",
+      "equals": "S2"
+    },
+    {
+      "at": 0,
+      "path": "shades.1.id",
+      "equals": "S1"
+    },
+    {
+      "at": 0,
+      "path": "shades.2.id",
+      "equals": "S3"
+    }
+  ]
+}

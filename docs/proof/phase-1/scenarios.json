@@ -1,0 +1,1246 @@
+[
+  {
+    "name": "01_move_forward",
+    "ok": true,
+    "sha": "6365f430babe4d24",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            6
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          6
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "02_move_diagonal_normalized",
+    "ok": true,
+    "sha": "4171d1b13c544ab8",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            4.243,
+            0,
+            4.243
+          ]
+        },
+        "actual": [
+          4.243,
+          0,
+          4.243
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "03_move_cam_yaw_90",
+    "ok": true,
+    "sha": "6c78126524b6c6b4",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            6,
+            0,
+            0
+          ]
+        },
+        "actual": [
+          6,
+          0,
+          0
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "04_jump",
+    "ok": true,
+    "sha": "33d99022206eebcc",
+    "checks": [
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.pos.1",
+          "gt": 0
+        },
+        "actual": 0.861,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos.1",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "05_island_edge_no_fall",
+    "ok": true,
+    "sha": "0ea5c5eec98b3619",
+    "checks": [
+      {
+        "expect": {
+          "at": 600,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            40
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          40
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "player_hit"
+        },
+        "actual": [],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 600,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "06_pickup_radius",
+    "ok": true,
+    "sha": "8ec07673f46711f0",
+    "checks": [
+      {
+        "expect": {
+          "event": "mote_picked",
+          "tick": 1,
+          "data": {
+            "carried": 1
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "mote_picked",
+            "data": {
+              "carried": 1
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "mote_picked",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "motes_active",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "score",
+          "equals": 10
+        },
+        "actual": 10,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 10
+    }
+  },
+  {
+    "name": "07_carry_capacity",
+    "ok": true,
+    "sha": "dc6b9f8e1e738831",
+    "checks": [
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.carried",
+          "equals": 10
+        },
+        "actual": 10,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "motes_active",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "mote_picked",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 10
+    }
+  },
+  {
+    "name": "08_deposit_and_light",
+    "ok": true,
+    "sha": "0ef7709c6861fd6a",
+    "checks": [
+      {
+        "expect": {
+          "event": "deposit",
+          "tick": 1,
+          "data": {
+            "lantern_id": "L1",
+            "amount": 5,
+            "deposited": 5
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "deposit",
+            "data": {
+              "lantern_id": "L1",
+              "amount": 5,
+              "deposited": 5
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "lantern_lit",
+          "tick": 1,
+          "data": {
+            "lantern_id": "L1"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "lantern_lit",
+            "data": {
+              "lantern_id": "L1"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.carried",
+          "equals": 2
+        },
+        "actual": 2,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "score",
+          "equals": 100
+        },
+        "actual": 100,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "lanterns.0.lit",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 100
+    }
+  },
+  {
+    "name": "09_partial_deposit",
+    "ok": true,
+    "sha": "5d9e69d6d229943a",
+    "checks": [
+      {
+        "expect": {
+          "event": "deposit",
+          "tick": 1,
+          "data": {
+            "lantern_id": "L1",
+            "amount": 3,
+            "deposited": 3
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "deposit",
+            "data": {
+              "lantern_id": "L1",
+              "amount": 3,
+              "deposited": 3
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "lantern_lit"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "lanterns.0.lit",
+          "equals": false
+        },
+        "actual": false,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "10_interact_out_of_range",
+    "ok": true,
+    "sha": "e3f2a7516773ddb7",
+    "checks": [
+      {
+        "expect": {
+          "no_event": "deposit"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.carried",
+          "equals": 5
+        },
+        "actual": 5,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "11_win_all_lit",
+    "ok": true,
+    "sha": "9b1ecad2cb6d5a35",
+    "checks": [
+      {
+        "expect": {
+          "event": "game_over",
+          "tick": 1,
+          "data": {
+            "result": "won",
+            "reason": "all_lit"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "game_over",
+            "data": {
+              "result": "won",
+              "reason": "all_lit"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 1,
+            "state": "won",
+            "score": 1745
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 1,
+          "state": "won",
+          "score": 1745
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "won",
+      "score": 1745
+    }
+  },
+  {
+    "name": "12_lose_dawn",
+    "ok": true,
+    "sha": "2562e1cf567b6e0c",
+    "checks": [
+      {
+        "expect": {
+          "event": "game_over",
+          "tick": 60,
+          "data": {
+            "result": "lost",
+            "reason": "dawn"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 60,
+            "name": "game_over",
+            "data": {
+              "result": "lost",
+              "reason": "dawn"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 60,
+            "state": "lost",
+            "score": 0
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 60,
+          "state": "lost",
+          "score": 0
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "lost",
+      "score": 0
+    }
+  },
+  {
+    "name": "13_shade_hits_invuln_no_flames",
+    "ok": true,
+    "sha": "7e0f041f64fe23b7",
+    "checks": [
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 1,
+          "data": {
+            "by": "shade",
+            "flames": 2,
+            "dropped": 2
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 2,
+              "dropped": 2
+            }
+          },
+          {
+            "type": "event",
+            "tick": 91,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 1,
+              "dropped": 1
+            }
+          },
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 0,
+              "dropped": 0
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 91,
+          "data": {
+            "by": "shade",
+            "flames": 1,
+            "dropped": 1
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 2,
+              "dropped": 2
+            }
+          },
+          {
+            "type": "event",
+            "tick": 91,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 1,
+              "dropped": 1
+            }
+          },
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 0,
+              "dropped": 0
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 181,
+          "data": {
+            "by": "shade",
+            "flames": 0,
+            "dropped": 0
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 2,
+              "dropped": 2
+            }
+          },
+          {
+            "type": "event",
+            "tick": 91,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 1,
+              "dropped": 1
+            }
+          },
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 0,
+              "dropped": 0
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "game_over",
+          "tick": 181,
+          "data": {
+            "result": "lost",
+            "reason": "no_flames"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "game_over",
+            "data": {
+              "result": "lost",
+              "reason": "no_flames"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 181,
+            "state": "lost"
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 181,
+          "state": "lost",
+          "score": 0
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 181,
+      "state": "lost",
+      "score": 0
+    }
+  },
+  {
+    "name": "14_shade_chases",
+    "ok": true,
+    "sha": "e140a35827cb1bc6",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "shades.0.pos",
+          "equals": [
+            16.5,
+            1,
+            0
+          ]
+        },
+        "actual": [
+          16.5,
+          1,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "shades.0.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "15_pulse_stun_push",
+    "ok": true,
+    "sha": "6fca9b4f21a9f015",
+    "checks": [
+      {
+        "expect": {
+          "event": "pulse",
+          "tick": 1,
+          "data": {
+            "stunned_ids": [
+              "S1"
+            ]
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": [
+                "S1"
+              ]
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "shades.0.pos",
+          "equals": [
+            9,
+            1,
+            0
+          ]
+        },
+        "actual": [
+          9,
+          1,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "player.carried",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "score",
+          "equals": 20
+        },
+        "actual": 20,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 180,
+          "path": "shades.0.state",
+          "equals": "stunned"
+        },
+        "actual": "stunned",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 180,
+          "path": "shades.0.pos",
+          "equals": [
+            9,
+            1,
+            0
+          ]
+        },
+        "actual": [
+          9,
+          1,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 181,
+          "path": "shades.0.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 181,
+          "path": "shades.0.pos.0",
+          "lt": 9
+        },
+        "actual": 8.942,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 200,
+      "state": "playing",
+      "score": 20
+    }
+  },
+  {
+    "name": "16_pulse_needs_light",
+    "ok": true,
+    "sha": "396d1a0158e44f35",
+    "checks": [
+      {
+        "expect": {
+          "no_event": "pulse"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "shades.0.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "17_pulse_out_of_radius",
+    "ok": true,
+    "sha": "e73771aa72cd4217",
+    "checks": [
+      {
+        "expect": {
+          "event": "pulse",
+          "tick": 1,
+          "data": {
+            "stunned_ids": []
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "shades.0.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "score",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "18_pulse_cooldown",
+    "ok": true,
+    "sha": "2090eb79b3f65c7e",
+    "checks": [
+      {
+        "expect": {
+          "event_count": "pulse",
+          "equals": 2
+        },
+        "actual": 2,
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "pulse",
+          "tick": 1
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          },
+          {
+            "type": "event",
+            "tick": 61,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "pulse",
+          "tick": 61
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          },
+          {
+            "type": "event",
+            "tick": 61,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 100,
+          "path": "player.carried",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 100,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "19_safe_radius_lit_lantern",
+    "ok": true,
+    "sha": "b98e53583c34abb1",
+    "checks": [
+      {
+        "expect": {
+          "no_event": "player_hit"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 600,
+          "path": "shades.0.pos",
+          "equals": [
+            0,
+            1,
+            20
+          ]
+        },
+        "actual": [
+          0,
+          1,
+          20
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 600,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "20_unlit_lantern_not_safe",
+    "ok": true,
+    "sha": "da8493d2a62e3627",
+    "checks": [
+      {
+        "expect": {
+          "event": "player_hit"
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 138,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 2,
+              "dropped": 0
+            }
+          },
+          {
+            "type": "event",
+            "tick": 228,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 1,
+              "dropped": 0
+            }
+          },
+          {
+            "type": "event",
+            "tick": 318,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 0,
+              "dropped": 0
+            }
+          }
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 318,
+      "state": "lost",
+      "score": 0
+    }
+  },
+  {
+    "name": "21_setup_no_score",
+    "ok": true,
+    "sha": "9d51a208ea157e53",
+    "checks": [
+      {
+        "expect": {
+          "at": 0,
+          "path": "score",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "lanterns.0.lit",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "lanterns.0.deposited",
+          "equals": 5
+        },
+        "actual": 5,
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "lantern_lit"
+        },
+        "actual": [],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "22_shade_ids",
+    "ok": true,
+    "sha": "90ae6402417f1e54",
+    "checks": [
+      {
+        "expect": {
+          "at": 0,
+          "path": "shades.0.id",
+          "equals": "S2"
+        },
+        "actual": "S2",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "shades.1.id",
+          "equals": "S1"
+        },
+        "actual": "S1",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "shades.2.id",
+          "equals": "S3"
+        },
+        "actual": "S3",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "23_shade_spawn",
+    "ok": true,
+    "sha": "68683fb529bc2685",
+    "checks": [
+      {
+        "expect": {
+          "event": "shade_spawned",
+          "tick": 1800,
+          "data": {
+            "id": "S1"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1800,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S1"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 1800,
+            "state": "playing"
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 1800,
+          "state": "playing",
+          "score": 0
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1800,
+      "state": "playing",
+      "score": 0
+    }
+  }
+]

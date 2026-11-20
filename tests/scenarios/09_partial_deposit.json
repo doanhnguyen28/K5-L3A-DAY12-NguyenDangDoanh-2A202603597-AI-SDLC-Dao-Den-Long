@@ -1,0 +1,49 @@
+{
+  "name": "09_partial_deposit",
+  "requirement": "R3 deposit: partial deposit keeps lantern unlit",
+  "seed": 1,
+  "ticks": 10,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        22
+      ],
+      "carried": 3,
+      "flames": 3
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "interact": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "deposit",
+      "tick": 1,
+      "data": {
+        "lantern_id": "L1",
+        "amount": 3,
+        "deposited": 3
+      }
+    },
+    {
+      "no_event": "lantern_lit"
+    },
+    {
+      "at": 10,
+      "path": "lanterns.0.lit",
+      "equals": false
+    }
+  ]
+}

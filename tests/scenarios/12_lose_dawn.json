@@ -1,0 +1,32 @@
+{
+  "name": "12_lose_dawn",
+  "requirement": "R6 lose: time runs out -> lost/dawn at tick 60 when time_left_s=1",
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "motes": [],
+    "shades": [],
+    "time_left_s": 1
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "game_over",
+      "tick": 60,
+      "data": {
+        "result": "lost",
+        "reason": "dawn"
+      }
+    },
+    {
+      "end": {
+        "ticks": 60,
+        "state": "lost",
+        "score": 0
+      }
+    }
+  ]
+}
