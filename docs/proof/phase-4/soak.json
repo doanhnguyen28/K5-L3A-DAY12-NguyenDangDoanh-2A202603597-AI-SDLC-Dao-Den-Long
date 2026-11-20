@@ -13,9 +13,9 @@
     "lost",
     "lost"
   ],
-  "mem_start_mb": 41.5,
-  "mem_end_mb": 45.1,
-  "mem_ratio": 1.087,
+  "mem_start_mb": 42.7,
+  "mem_end_mb": 46.3,
+  "mem_ratio": 1.084,
   "heap_used_start_mb": 4.3,
   "heap_used_end_mb": 4.4,
   "jitless": true,

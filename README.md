@@ -1,6 +1,6 @@
 # Đảo Đèn Lồng
 
-> **Video demo:** _(đính kèm Release [v1.0.0](../../releases/tag/v1.0.0))_ · **Bản chạy được:** [Release v1.0.0](../../releases/tag/v1.0.0) · **Bằng chứng:** [Phase 1](docs/proof/phase-1/README.md) · [Phase 2](docs/proof/phase-2/README.md) · [Phase 3](docs/proof/phase-3/README.md) · [Phase 4](docs/proof/phase-4/README.md) · **Retro:** [docs/notes/retro.md](docs/notes/retro.md)
+> **Video demo:** [xem trên Google Drive](https://drive.google.com/file/d/1rx-NXIfNwiAryQOlCsoDCl0bkQFERvow/view?usp=sharing) · **Bản chạy được:** [Release v1.0.0](../../releases/tag/v1.0.0) · **Bằng chứng:** [Phase 1](docs/proof/phase-1/README.md) · [Phase 2](docs/proof/phase-2/README.md) · [Phase 3](docs/proof/phase-3/README.md) · [Phase 4](docs/proof/phase-4/README.md) · **Retro:** [docs/notes/retro.md](docs/notes/retro.md)
 
 Game 3D góc nhìn thứ ba qua **3 Đêm**. Mây, người giữ đèn nhỏ tuổi đội nón lá, gom đom đóm để thắp và giữ các Đèn Lồng Lớn cháy sáng tới bình minh trên Đảo Bến, Đảo Cau và Đảo Chuông. Đèn cạn dầu theo thời gian, Bóng Mực hút dầu đèn yếu, Gió Lạc cướp đom đóm.
 

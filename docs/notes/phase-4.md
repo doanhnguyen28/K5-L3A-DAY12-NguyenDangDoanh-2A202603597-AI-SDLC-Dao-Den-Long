@@ -53,7 +53,7 @@ Nguồn yêu cầu: [docs/lab/ticket-04.md](../lab/ticket-04.md) (bản sao nguy
 | 4. Cỡ chữ | ≥ 18 px ở 1280×720; tùy chọn ×1,25 | CSS gốc `font-size: 18px`, mọi chữ UI ≥ 1rem; `.big` = 22,5 px; ảnh 01–03 |
 | 5. Đóng gói | 3 lệnh từ clone sạch; README đủ mục; CHANGELOG 4 phase; CREDITS; LICENSE; Release có bản chạy được | thử clone sạch (mục Đánh giá); `npm run release` |
 | 6. Contract v1.3 | `contract_version` 1.3, `bench_cmd`, `soak_cmd`; v1.0–v1.2 giữ nguyên | contract test; 75 scenario cũ vẫn đạt |
-| 7. Retro + video | retro 1–2 trang; video < 5 phút | [retro.md](retro.md); video: người làm bài quay |
+| 7. Retro + video | retro 1–2 trang; video < 5 phút | [retro.md](retro.md); [video demo](https://drive.google.com/file/d/1rx-NXIfNwiAryQOlCsoDCl0bkQFERvow/view?usp=sharing) |
 
 ## Đánh giá Phase 4
 
@@ -69,7 +69,7 @@ Nguồn yêu cầu: [docs/lab/ticket-04.md](../lab/ticket-04.md) (bản sao nguy
   | Chữ lớn ×1,25 trong menu, cài đặt và HUD lúc chơi | Đạt |
   | Nhập tên sau khi thua / sau Bình Minh, xem Bảng xếp hạng từ menu, còn sau khi tắt mở lại server; lệnh `--export-leaderboard` | Đạt |
   | Phụ đề: Bóng Mực xuất hiện + mũi tên mép màn hình, gió sắp thổi, 10 s cuối, đèn sắp hết dầu | Đạt |
-- **Video demo:** chưa có. Người làm bài cần quay (gợi ý kịch bản bên dưới).
+- **Video demo:** người làm bài tự quay theo kịch bản bên dưới. Link: [Google Drive](https://drive.google.com/file/d/1rx-NXIfNwiAryQOlCsoDCl0bkQFERvow/view?usp=sharing).
 
 ## Kịch bản video demo (< 5 phút)
 
