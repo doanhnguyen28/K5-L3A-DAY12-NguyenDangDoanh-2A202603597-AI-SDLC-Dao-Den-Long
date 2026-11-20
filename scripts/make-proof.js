@@ -1,6 +1,6 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { cpus, platform, release, tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { checkExpectations, listScenarios, ROOT, runCli, runScenarioCli } from '../tests/lib/scenario.js';
@@ -137,6 +137,28 @@ line();
 line('Scenario used for timing keeps the player alive (flames 999) so the run lasts the whole night.');
 line();
 
+if (phase === 'phase-4') {
+  line('## 4c. Soak test and benchmark (Ticket-04)');
+  line();
+  const contract = JSON.parse(readFileSync(join(ROOT, 'game.contract.json'), 'utf8'));
+  const soakOut = join(OUT, 'soak.json');
+  const [sc, ...sbase] = contract.soak_cmd.split(' ');
+  const sr = spawnSync(sc, [...sbase, '--seed', '7', '--nights', '10', '--out', soakOut], { cwd: ROOT, encoding: 'utf8' });
+  const soak = JSON.parse(readFileSync(soakOut, 'utf8'));
+  const soakOk = sr.status === 0 && soak.crashes === 0 && soak.mem_end_mb <= 1.2 * soak.mem_start_mb;
+  allOk &&= soakOk;
+  line(`- Soak (\`${contract.soak_cmd} --seed 7 --nights 10\`): crashes ${soak.crashes}, results ${soak.results.join(', ')}, RSS ${soak.mem_start_mb} → ${soak.mem_end_mb} MB (×${soak.mem_ratio}, limit ×1.2), JS heap ${soak.heap_used_start_mb} → ${soak.heap_used_end_mb} MB, ${soak.duration_s} s → **${soakOk ? 'PASS' : 'FAIL'}**. File: [soak.json](soak.json)`);
+  const benchFile = join(OUT, 'bench.json');
+  if (existsSync(benchFile)) {
+    const b = JSON.parse(readFileSync(benchFile, 'utf8'));
+    const ok = b.avg_fps >= 60 && b.p1_low_fps >= 30 && b.load_ms <= 10000;
+    line(`- Bench (\`${contract.bench_cmd} --seed 42 --duration 30\`, run separately with a real window: \`npm run bench\`): avg_fps ${b.avg_fps}, p1_low_fps ${b.p1_low_fps}, frame_ms_p95 ${b.frame_ms_p95}, frames ${b.frames}, load_ms ${b.load_ms} → **${ok ? 'PASS (on this machine)' : 'FAIL'}**. Renderer: ${b.renderer}. OS: ${b.os}. File: [bench.json](bench.json)`);
+  } else {
+    line('- Bench: bench.json not found in this folder. Run `node scripts/bench.js --seed 42 --duration 30 --out docs/proof/phase-4/bench.json` (needs a display + Chrome/Edge).');
+  }
+  line();
+}
+
 line('## 5. Screenshots (real browser, headless, WebGL via SwiftShader)');
 line();
 if (skipShots || !findBrowser()) {
@@ -145,6 +167,13 @@ if (skipShots || !findBrowser()) {
   const shots = phase === 'phase-1' ? [
     ['01-start.png', 'seed=1', 'Start screen'],
     ['02-playing.png', 'autostart=1&seed=1&warp=900&bot=1', 'Night 1 gameplay with HUD'],
+  ] : phase === 'phase-4' ? [
+    ['01-menu.png', 'seed=1', 'Main menu with Bảng xếp hạng; key hints follow the current key bindings; UI text >= 18 px'],
+    ['02-settings.png', 'autostart=1&screen=settings', 'Settings: colorblind, reduced motion, large text (x1.25), remappable keys with "Khôi phục mặc định"'],
+    ['03-big-text-settings.png', 'autostart=1&screen=settings&big=1', 'Large text option (x1.25)'],
+    ['04-captions-shade.png', 'autostart=1&night=1&seed=3&warp=299&bot=1', 'Caption "Bóng Mực xuất hiện" + edge arrow toward the new shade (shades spawn at tick 300)'],
+    ['05-bench-scene.png', 'bench=1&seed=42&duration=2', 'Bench scene: night 1, 200 wander shades, 100 motes, L1-L3 lit, camera orbit r=30 y=15'],
+    ['06-leaderboard.png', 'autostart=1&screen=board', 'Leaderboard screen (from the local leaderboard file)'],
   ] : phase === 'phase-3' ? [
     ['01-intro-goal.png', 'autostart=1&night=1&screen=intro', 'Night intro now states the new goal: keep >= 3/5 lanterns lit until dawn (240 s)'],
     ['02-hud-capacity.png', 'autostart=1&night=1&seed=9&warp=4000&bot=1', 'HUD: carried / capacity (3/12 after one successful light), lanterns k/n with "cần 3 lúc bình minh"'],

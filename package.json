@@ -1,6 +1,6 @@
 {
   "name": "dao-den-long",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Đảo Đèn Lồng — 3D third-person lantern game (Day 12 AI SDLC lab)",
   "type": "module",
   "private": true,
@@ -12,7 +12,10 @@
     "start": "node scripts/serve.js",
     "headless": "node src/headless.js",
     "test": "node --test",
-    "proof": "node scripts/make-proof.js"
+    "proof": "node scripts/make-proof.js",
+    "bench": "node scripts/bench.js --seed 42 --duration 30 --out bench.json",
+    "soak": "node --expose-gc --jitless scripts/soak.js --seed 7 --nights 10 --out soak.json",
+    "release": "node scripts/build-release.js"
   },
   "dependencies": {
     "three": "0.160.0"

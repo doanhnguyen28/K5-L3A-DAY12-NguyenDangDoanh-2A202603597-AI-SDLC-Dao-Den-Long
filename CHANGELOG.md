@@ -1,5 +1,14 @@
 # Changelog
 
+## phase-4 — v1.0.0
+- Test Contract v1.3: thêm `bench_cmd` (`node scripts/bench.js`) và `soak_cmd` (`node --expose-gc --jitless scripts/soak.js`). `run_cmd` đổi từ `npm start` sang `node scripts/serve.js` để nhận `--export-leaderboard`. Mọi yêu cầu v1.0–v1.2 giữ nguyên.
+- Benchmark: cảnh chuẩn (200 Bóng Mực, 100 đom đóm, L1–L3 sáng), camera bay vòng, đo trong cửa sổ Chrome/Edge 1280×720 đã tắt vsync, xuất bench.json.
+- Soak test 10 đêm trong một tiến trình, xuất soak.json (kèm số heap JS).
+- Bảng xếp hạng cục bộ (top 10, lưu `data/leaderboard.json`, màn hình từ menu, lệnh xuất).
+- Accessibility: đổi phím (báo trùng, khôi phục mặc định), phụ đề + mũi tên Bóng Mực, giảm chuyển động, chữ ≥ 18 px và chữ lớn ×1,25.
+- Hiệu năng: Bóng Mực, đom đóm, cây vẽ bằng InstancedMesh.
+- Đóng gói: `npm run release` (zip/tar.gz chạy không cần npm install), Dockerfile; README đầy đủ; retro.
+
 ## phase-3
 
 ### Breaking changes (Test Contract v1.1 → v1.2)

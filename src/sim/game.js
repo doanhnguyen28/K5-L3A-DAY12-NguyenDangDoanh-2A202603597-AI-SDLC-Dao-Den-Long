@@ -37,11 +37,11 @@ export function moveToWorld(move, camYawDeg) {
   return [x * c + z * s, -x * s + z * c];
 }
 
-export function createGame({ tuning, seed = 0, scenario = null, night = 1 }) {
+export function createGame({ tuning, seed = 0, scenario = null, night = 1, bench = false }) {
   const T = tuning;
   const M = MAPS[night];
   if (!M) throw new Error(`unknown night ${night}`);
-  const sc = scenario || {};
+  const sc = bench ? { random_motes: false, random_shades: false, random_drifters: false, wind_enabled: false, motes: [], shades: [] } : scenario || {};
   const rng = createRng(seed);
   const groundAt = (x, z) => M.ground(x, z);
   const FUEL_MAX = Math.round(T.fuel_max * C.TICK_RATE);
@@ -94,6 +94,7 @@ export function createGame({ tuning, seed = 0, scenario = null, night = 1 }) {
     nextShade: 1,
     nextDrifter: 1,
     startEvents: [{ name: 'night_start', data: { night } }],
+    bench,
   };
   const p = g.player;
 
@@ -210,6 +211,21 @@ export function createGame({ tuning, seed = 0, scenario = null, night = 1 }) {
     });
   }
 
+  if (bench) {
+    const islandPoint = (y) => {
+      const r = C.BENCH_RADIUS * Math.sqrt(rng());
+      const a = rng() * Math.PI * 2;
+      return [round3(r * Math.cos(a)), y, round3(r * Math.sin(a))];
+    };
+    for (let i = 0; i < C.BENCH_MOTES; i++) addMote(islandPoint(0), 'random');
+    for (let i = 0; i < C.BENCH_SHADES; i++) g.shades.push(makeShade(newShadeId(), islandPoint(C.SHADE_HOVER), 'wander'));
+    for (const l of g.lanterns.slice(0, 3)) {
+      l.lit = true;
+      l.everLit = true;
+      l.deposited = T.lantern_cost;
+      l.fu = FUEL_MAX;
+    }
+  }
   g.timeLeft = () => g.duration - g.simTick / C.TICK_RATE;
   g.needLit = Math.ceil(T.win_ratio * g.lanterns.length - 1e-9);
   g.groundAt = groundAt;
@@ -321,7 +337,7 @@ export function createGame({ tuning, seed = 0, scenario = null, night = 1 }) {
     for (const l of g.lanterns) {
       if (!l.lit) continue;
       const drainers = g.shades.filter((s) => s.state === 'drain' && s.target === l.id).sort(byId);
-      l.fu -= FUEL_DECAY + FUEL_DRAIN * drainers.length;
+      if (!g.bench) l.fu -= FUEL_DECAY + FUEL_DRAIN * drainers.length;
       for (const s of drainers) {
         s.drainTicks += 1;
         if (s.drainTicks % C.TICK_RATE === 0) emit('fuel_drain', { lantern_id: l.id, shade_id: s.id, fuel: fuelOut(l.fu) });
@@ -495,7 +511,7 @@ export function createGame({ tuning, seed = 0, scenario = null, night = 1 }) {
     tickCounters(emit);
     movePlayer(input, pressedNow, emit);
 
-    if (active()) {
+    if (active() && !g.bench) {
       if (p.carried < g.capacity()) {
         const near = g.motes
           .map((m) => ({ m, id: m.id, d: hdist(p.pos, m.pos) }))
@@ -643,7 +659,7 @@ export function createGame({ tuning, seed = 0, scenario = null, night = 1 }) {
         else continue;
       }
       if (!active()) s.state = 'wander';
-      else if (s.state === 'wander' && d <= C.SHADE_DETECT + EPS) s.state = 'chase';
+      else if (!g.bench && s.state === 'wander' && d <= C.SHADE_DETECT + EPS) s.state = 'chase';
       else if (s.state === 'chase' && d > C.SHADE_GIVEUP + EPS) s.state = 'wander';
       if (s.state === 'chase') {
         moveToward(s, p.pos, shadeSpeed);
@@ -687,7 +703,7 @@ export function createGame({ tuning, seed = 0, scenario = null, night = 1 }) {
       hover(d, C.DRIFTER_HOVER);
     }
 
-    if (active()) {
+    if (active() && !g.bench) {
       for (const d of [...g.drifters].sort(byId)) {
         if (d.state !== 'chase' || p.carried <= 0) continue;
         if (hdist(d.pos, p.pos) <= C.DRIFTER_TOUCH + EPS) {
@@ -746,7 +762,9 @@ export function createGame({ tuning, seed = 0, scenario = null, night = 1 }) {
 
     g.tick += 1;
 
-    if (p.flames <= 0) {
+    if (g.bench) {
+      g.duration += C.DT;
+    } else if (p.flames <= 0) {
       g.state = 'lost';
       emit('game_over', { result: 'lost', reason: 'no_flames' });
     } else if (g.timeLeft() <= EPS) {

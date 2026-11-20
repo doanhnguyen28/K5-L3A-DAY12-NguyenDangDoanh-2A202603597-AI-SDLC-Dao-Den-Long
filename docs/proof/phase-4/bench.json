@@ -1,0 +1,27 @@
+{
+  "contract_version": "1.3",
+  "frames": 53117,
+  "avg_fps": 1770.5,
+  "p1_low_fps": 483.3,
+  "frame_ms_p95": 1,
+  "load_ms": 1162,
+  "peak_mem_mb": null,
+  "peak_mem_note": "Web build: the browser does not expose process RSS to the page. js_heap_peak_mb is the page JS heap (Chromium performance.memory), not RSS.",
+  "js_heap_peak_mb": 16,
+  "vsync_off": true,
+  "vsync_note": "Chromium flags --disable-gpu-vsync --disable-frame-rate-limit",
+  "renderer": "three.js r160 WebGL2 | ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Ti Laptop GPU (0x000025A0) Direct3D11 vs_5_0 ps_5_0, D3D11) | Chrome/157.0.0.0",
+  "os": "Windows_NT 10.0.19045 (win32), AMD Ryzen 5 5600H with Radeon Graphics x12, 15 GB RAM",
+  "canvas": [
+    1280,
+    720
+  ],
+  "scene": {
+    "shades": 200,
+    "motes": 100,
+    "seed": 42,
+    "warmup_s": 3,
+    "duration_s": 30
+  },
+  "browser": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+}

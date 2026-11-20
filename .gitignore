@@ -3,5 +3,9 @@ node_modules/
 .env.*
 *.jsonl
 docs/proof/ci-check/
+data/leaderboard.json
+dist/
+/bench.json
+/soak.json
 .claude/settings.local.json
 .DS_Store

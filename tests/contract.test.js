@@ -14,9 +14,10 @@ const run = (args) => {
 };
 const readLines = (p) => readFileSync(p, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
 
-test('game.contract.json has every v1.2 field with the standard numbers', () => {
-  for (const k of ['contract_version', 'team', 'build_cmd', 'run_cmd', 'headless_cmd', 'tuning']) assert.ok(k in contract, k);
-  assert.equal(contract.contract_version, '1.2');
+test('game.contract.json has every v1.3 field with the standard numbers', () => {
+  for (const k of ['contract_version', 'team', 'build_cmd', 'run_cmd', 'headless_cmd', 'bench_cmd', 'soak_cmd', 'tuning']) assert.ok(k in contract, k);
+  assert.equal(contract.contract_version, '1.3');
+  for (const k of ['bench_cmd', 'soak_cmd']) assert.equal(typeof contract[k], 'string', k);
   const keys = ['player_speed', 'carry_capacity', 'lantern_cost', 'lantern_count_night1', 'pickup_radius', 'interact_radius', 'pulse_cost', 'pulse_radius', 'night1_duration_s', 'flames', 'invuln_s', 'hit_drop_ratio', 'pulse_stun_s', 'pulse_push_m', 'pulse_cooldown_s', 'safe_radius', 'shade_speed', 'shade_hit_radius', 'fall_enabled', 'score', 'dash_speed', 'dash_duration_s', 'dash_cooldown_s', 'night2_duration_s', 'night3_duration_s', 'fuel_max', 'fuel_decay_per_s', 'fuel_per_mote', 'relight_cost', 'win_ratio', 'drain_per_s', 'low_fuel_threshold', 'capacity_max'];
   for (const k of keys) assert.ok(k in contract.tuning, k);
   for (const k of ['per_mote', 'per_lantern', 'per_stun', 'per_second_left', 'per_flame_left']) assert.ok(k in contract.tuning.score, k);

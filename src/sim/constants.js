@@ -34,6 +34,9 @@ export const SHADE_SPAWNING_TICKS = 60;
 export const SHADE_WANDER_SPEED = 2;
 export const SHADE_WANDER_RETARGET = 180;
 export const DRAIN_DIST = 2;
+export const BENCH_SHADES = 200;
+export const BENCH_MOTES = 100;
+export const BENCH_RADIUS = 38;
 export const DRAIN_BREAK_DIST = 6;
 
 export const DRIFTER_SPEED = 7;

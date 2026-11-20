@@ -5,78 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Đảo Đèn Lồng</title>
   <style>
-    :root { --ui: #F5F1E6; --gold: #F2C14E; --danger: #FF5A5F; --panel: rgba(14, 20, 48, 0.82); --edge: rgba(242, 193, 78, 0.45); }
+    :root { --ui: #F5F1E6; --gold: #F2C14E; --danger: #FF5A5F; --panel: rgba(14, 20, 48, 0.85); --edge: rgba(242, 193, 78, 0.45); font-size: 18px; }
+    :root.big { font-size: 22.5px; }
     html, body { margin: 0; height: 100%; overflow: hidden; background: #0E1430; font-family: system-ui, sans-serif; color: var(--ui); }
+    body.cb { --danger: #FFFFFF; }
     canvas { display: block; }
-    .pill { background: var(--panel); border: 1px solid var(--edge); border-radius: 10px; padding: 6px 12px; }
+    .pill { background: var(--panel); border: 1px solid var(--edge); border-radius: 0.55rem; padding: 0.3rem 0.7rem; font-size: 1rem; }
     #hud { position: fixed; inset: 0; pointer-events: none; }
     #hud.hidden { display: none; }
-    #flames { position: absolute; top: 12px; left: 12px; font-size: 22px; letter-spacing: 4px; }
-    #flames .on { color: #FFB347; } #flames .off { color: #5B5F6E; }
-    #timer { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 24px; font-variant-numeric: tabular-nums; }
+    #flames { position: absolute; top: 0.7rem; left: 0.7rem; font-size: 1.25rem; letter-spacing: 0.2rem; }
+    #flames .on { color: #FFB347; } #flames .off { color: #5B5F6E; filter: grayscale(1); }
+    #timer { position: absolute; top: 0.7rem; left: 50%; transform: translateX(-50%); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
     #timer.danger { color: var(--danger); animation: blink 0.8s steps(2) infinite; }
-    body.cb { --danger: #FFFFFF; }
-    #need { font-size: 12px; opacity: 0.85; }
-    #carrytext { position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%); font-size: 13px; }
+    :root.calm #timer.danger { animation: none; }
     @keyframes blink { 50% { opacity: 0.25; } }
-    #topright { position: absolute; top: 12px; right: 12px; text-align: right; display: grid; gap: 6px; }
-    #score { color: var(--gold); font-size: 22px; }
-    #motebar { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
-    #motebar i { width: 22px; height: 14px; border-radius: 4px; background: #1B2350; border: 1px solid #3a4580; }
+    #topright { position: absolute; top: 0.7rem; right: 0.7rem; text-align: right; display: grid; gap: 0.35rem; }
+    #need { font-size: 1rem; opacity: 0.85; }
+    #score { color: var(--gold); font-size: 1.25rem; }
+    #carrytext { position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%); }
+    #motebar { position: absolute; bottom: 0.8rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.2rem; }
+    #motebar i { width: 1.1rem; height: 0.75rem; border-radius: 0.2rem; background: #1B2350; border: 1px solid #3a4580; }
     #motebar i.on { background: #FFF6C2; box-shadow: 0 0 8px #FFE58A; border-color: #FFE58A; }
-    #cds { position: absolute; bottom: 12px; right: 12px; display: flex; gap: 10px; }
-    .cd { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; text-align: center; background: conic-gradient(var(--gold) calc(var(--p) * 1turn), #1B2350 0); border: 2px solid var(--edge); }
-    .cd span { background: #0E1430; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; }
+    #cds { position: absolute; bottom: 0.7rem; right: 0.7rem; display: flex; gap: 0.55rem; }
+    .cd { width: 3.6rem; height: 3.6rem; border-radius: 50%; display: grid; place-items: center; text-align: center; background: conic-gradient(var(--gold) calc(var(--p) * 1turn), #1B2350 0); border: 2px solid var(--edge); }
+    .cd span { background: #0E1430; width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; font-size: 1rem; line-height: 1; }
     .cd.off { filter: grayscale(1) opacity(0.6); }
-    #prompt { position: absolute; bottom: 64px; left: 50%; transform: translateX(-50%); font-size: 16px; display: none; }
-    #arrow { position: absolute; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 26px solid #FFB347; display: none; filter: drop-shadow(0 0 6px #FFB347); }
-    #charmhud { position: absolute; top: 52px; left: 12px; color: #C8102E; font-size: 14px; display: none; }
-    #windhud { position: absolute; top: 52px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #8FA3B8; display: none; }
-    #fps { position: absolute; bottom: 12px; left: 12px; font-size: 12px; display: none; }
-    .screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(8, 10, 28, 0.72); }
+    #prompt { position: absolute; bottom: 4.2rem; left: 50%; transform: translateX(-50%); display: none; }
+    .edgearrow { position: absolute; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 26px solid #FFB347; display: none; filter: drop-shadow(0 0 6px #FFB347); }
+    #shadearrow { border-bottom-color: #7A3CFF; filter: drop-shadow(0 0 6px #7A3CFF); }
+    body.cb #shadearrow { border-bottom-color: #00B3FF; filter: drop-shadow(0 0 6px #00B3FF); }
+    #charmhud { position: absolute; top: 3.3rem; left: 0.7rem; color: #ff6b81; display: none; }
+    #captions { position: absolute; left: 0.7rem; bottom: 5rem; display: grid; gap: 0.3rem; max-width: 26rem; }
+    #captions .pill { border-color: var(--danger); }
+    #fps { position: absolute; bottom: 0.7rem; left: 0.7rem; display: none; }
+    #flash { position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.25s; }
+    .screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(8, 10, 28, 0.72); overflow: auto; }
     .screen.hidden { display: none; }
-    .panel { max-width: 480px; text-align: center; padding: 26px 32px; border-radius: 16px; background: var(--panel); border: 1px solid var(--edge); }
-    .panel h1 { margin: 0 0 6px; color: var(--gold); font-weight: 600; }
-    .panel h2 { margin: 0 0 6px; color: #FFB347; font-weight: 500; }
-    .panel p { line-height: 1.5; margin: 8px 0; }
+    .panel { max-width: 34rem; text-align: center; padding: 1.3rem 1.7rem; border-radius: 0.9rem; background: var(--panel); border: 1px solid var(--edge); font-size: 1rem; max-height: 92vh; overflow: auto; }
+    .panel h1 { margin: 0 0 0.35rem; color: var(--gold); font-weight: 600; font-size: 1.8rem; }
+    .panel h2 { margin: 0 0 0.35rem; color: #FFB347; font-weight: 500; font-size: 1.3rem; }
+    .panel p { line-height: 1.5; margin: 0.45rem 0; }
     .panel .quote { font-style: italic; color: #FFE9B0; }
-    .panel kbd { background: #1B2350; border-radius: 4px; padding: 1px 6px; font-size: 13px; }
-    .btns { display: grid; gap: 8px; margin-top: 14px; }
-    button { font-size: 16px; padding: 9px 22px; border-radius: 10px; border: 0; background: #FFB347; color: #0E1430; cursor: pointer; font-weight: 600; }
+    .panel kbd { background: #1B2350; border-radius: 4px; padding: 1px 6px; font-size: 1rem; }
+    .btns { display: grid; gap: 0.45rem; margin-top: 0.8rem; }
+    button, input { font-size: 1rem; font-family: inherit; }
+    button { padding: 0.45rem 1.2rem; border-radius: 0.55rem; border: 0; background: #FFB347; color: #0E1430; cursor: pointer; font-weight: 600; }
     button.ghost { background: transparent; color: var(--ui); border: 1px solid var(--edge); }
-    label { display: grid; gap: 4px; text-align: left; margin: 10px 0; }
+    label { display: grid; gap: 0.2rem; text-align: left; margin: 0.55rem 0; }
+    label.row { display: flex; gap: 0.5rem; align-items: center; }
     input[type=range] { width: 100%; }
+    input[type=text] { padding: 0.35rem 0.6rem; border-radius: 0.4rem; border: 1px solid var(--edge); background: #1B2350; color: var(--ui); }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+    td, th { padding: 0.25rem 0.4rem; border-bottom: 1px solid rgba(242, 193, 78, 0.2); text-align: left; }
+    #keys button { min-width: 7rem; }
+    #keys td.bad button { outline: 2px solid var(--danger); }
+    #keywarn { color: var(--danger); min-height: 1.4rem; }
+    #saveForm { display: grid; gap: 0.4rem; margin-top: 0.6rem; }
+    #saveMsg { min-height: 1.4rem; }
   </style>
   <script type="importmap">{ "imports": { "three": "/node_modules/three/build/three.module.js" } }</script>
 </head>
 <body>
+  <div id="flash"></div>
   <div id="hud" class="hidden">
     <div id="flames" class="pill"></div>
     <div id="charmhud" class="pill">Bùa Gió <b id="charmval">0</b>s</div>
-    <div id="timer" class="pill">5:00</div>
-    <div id="windhud" class="pill">Gió sắp nổi…</div>
+    <div id="timer" class="pill">04:00</div>
     <div id="topright">
       <div class="pill">Đèn <b id="lit">0/5</b><div id="need"></div></div>
       <div id="score" class="pill">0</div>
     </div>
+    <div id="captions" aria-live="polite"></div>
     <div id="prompt" class="pill"><span id="prompttext">E — Nạp ánh sáng</span> (<b id="promptval">0/10</b>)</div>
-    <div id="carrytext"></div>
+    <div id="carrytext" class="pill"></div>
     <div id="motebar"></div>
     <div id="cds">
-      <div id="cddash" class="cd" style="--p:1"><span>Lướt<br>Shift</span></div>
-      <div id="cdpulse" class="cd" style="--p:1"><span>Tỏa<br>F</span></div>
+      <div id="cddash" class="cd" style="--p:1"><span id="cddashlabel">Lướt</span></div>
+      <div id="cdpulse" class="cd" style="--p:1"><span id="cdpulselabel">Tỏa</span></div>
     </div>
-    <div id="arrow"></div>
+    <div id="arrow" class="edgearrow"></div>
+    <div id="shadearrow" class="edgearrow"></div>
     <div id="fps" class="pill"></div>
   </div>
 
   <div id="menu" class="screen">
     <div class="panel">
       <h1>Đảo Đèn Lồng</h1>
-      <p>Sương đen đã nuốt ánh sáng của ba hòn đảo. Giúp Mây gom đom đóm, thắp lại Đèn Lồng Lớn và né Bóng Mực trước bình minh.</p>
-      <p><kbd>WASD</kbd> đi · <kbd>Space</kbd> nhảy · <kbd>Shift</kbd> lướt · <kbd>E</kbd> nạp đèn · <kbd>F</kbd> tỏa sáng · <kbd>Esc</kbd>/<kbd>P</kbd> tạm dừng</p>
+      <p>Sương đen đã nuốt ánh sáng của ba hòn đảo. Giúp Mây gom đom đóm, giữ các Đèn Lồng Lớn cháy sáng và né Bóng Mực tới bình minh.</p>
+      <p id="menuKeys"></p>
       <div class="btns">
         <button id="btnStart">Bắt đầu Đêm 1</button>
+        <button id="btnBoard" class="ghost">Bảng xếp hạng</button>
         <button id="btnSettingsMenu" class="ghost">Cài đặt</button>
       </div>
     </div>
@@ -97,7 +116,23 @@
     <div class="panel">
       <h1 id="resTitle"></h1>
       <p id="resMsg"></p>
+      <form id="saveForm" class="hidden-form">
+        <label>Tên của bạn (3–12 ký tự: chữ, số, _; có dấu tiếng Việt được)
+          <input id="saveName" type="text" maxlength="12" autocomplete="off">
+        </label>
+        <button id="btnSave" type="submit">Lưu vào Bảng xếp hạng</button>
+        <div id="saveMsg"></div>
+      </form>
       <div class="btns" id="resBtns"></div>
+    </div>
+  </div>
+
+  <div id="board" class="screen hidden">
+    <div class="panel">
+      <h1>Bảng xếp hạng</h1>
+      <table><thead><tr><th>#</th><th>Tên</th><th>Điểm</th><th>Đêm thắng</th><th>Thời điểm</th></tr></thead><tbody id="boardBody"></tbody></table>
+      <p id="boardEmpty"></p>
+      <div class="btns"><button id="btnBoardBack">Về menu</button></div>
     </div>
   </div>
 
@@ -118,8 +153,16 @@
       <h1>Cài đặt</h1>
       <label>Âm lượng <input id="setVolume" type="range" min="0" max="1" step="0.05"></label>
       <label>Độ nhạy chuột <input id="setSens" type="range" min="0.05" max="1" step="0.05"></label>
-      <label style="display:flex;gap:8px;align-items:center"><input id="setCb" type="checkbox"> Bảng màu dễ phân biệt</label>
-      <div class="btns"><button id="btnSettingsBack">Xong</button></div>
+      <label class="row"><input id="setCb" type="checkbox"> Bảng màu dễ phân biệt</label>
+      <label class="row"><input id="setCalm" type="checkbox"> Giảm chuyển động (tắt rung camera, chớp màn hình)</label>
+      <label class="row"><input id="setBig" type="checkbox"> Chữ lớn (×1.25)</label>
+      <h2>Phím</h2>
+      <table id="keys"></table>
+      <div id="keywarn" role="alert"></div>
+      <div class="btns">
+        <button id="btnKeysReset" class="ghost">Khôi phục mặc định</button>
+        <button id="btnSettingsBack">Xong</button>
+      </div>
     </div>
   </div>
 

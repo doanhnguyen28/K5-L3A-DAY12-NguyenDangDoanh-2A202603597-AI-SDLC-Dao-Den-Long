@@ -27,7 +27,7 @@ Công cụ: **Claude Code** (VS Code extension), model Claude Opus 5.5. Harness:
 | Edge headless chạy trong bash sandbox không ra file và không báo lỗi | Kiểm tra file đầu ra | Chạy proof từ PowerShell. Ghi lưu ý vào skill verify |
 | Ghi chép nháp ghi "đã chơi thử bằng tay" trong khi chưa ai chơi | Rà lại ghi chép trước khi bàn giao | Sửa thành "cần chơi thử tay". Bằng chứng chỉ ghi điều đã thật sự chạy |
 
-**Token / chi phí (ước tính):** khoảng 1 phiên Claude Code. Phần lớn là ngữ cảnh đọc lại (được cache), khoảng 60–80 nghìn token đầu ra. _Chủ repo thay bằng số thật từ `/cost` hoặc trang usage._
+**Token:** khoảng 80k (phân bổ ước tính; tổng thật cả dự án là **520k token**, xem mục Tổng kết token ở cuối file).
 
 **Cách tiết kiệm token:**
 - Đọc lab board một lần, trích phần text của contract rồi làm việc trên bản đó, không mở lại HTML 180 KB.
@@ -59,7 +59,7 @@ Công cụ: **Claude Code** (VS Code extension), model Claude Opus 5.5. Harness:
 
 **Chỉnh harness:** AGENTS.md thêm thứ tự tick bắt buộc, quy tắc "sửa generator chứ không sửa JSON", và bước thử đột biến. Skill `verify` thêm bước thử đột biến, ghi chú về FPS và âm thanh chỉ kiểm được bằng tay.
 
-**Token / chi phí (ước tính):** Phase 2 tốn nhiều hơn Phase 1 vì ticket lớn và client viết lại: ước khoảng 150–200 nghìn token đầu ra trong phiên Claude Code. _Chủ repo thay bằng số thật từ `/cost`._
+**Token:** khoảng 200k, nhiều nhất trong 4 phase vì ticket lớn và client viết lại (phân bổ ước tính; tổng thật cả dự án là **520k token**, xem mục Tổng kết token ở cuối file).
 
 **Cách tiết kiệm token:** sinh scenario bằng script, chỉ đọc dòng tóm tắt test, dừng tối ưu bot sau 3 vòng (bot chỉ là công cụ bằng chứng), không dùng subagent.
 
@@ -82,6 +82,38 @@ Công cụ: **Claude Code** (VS Code extension), model Claude Opus 5.5. Harness:
 | Bot thắng Đêm 1 seed 1 không còn đúng với luật mới (1/10 seed) | Test đỏ | Đổi sang seed 9 và điều kiện "≥ 3 đèn sáng lúc bình minh", ghi lý do; không chỉnh bot thêm vì thiếu thời gian |
 | Ticket nói "đèn đầy dầu không được chọn" nhưng sau khi hao 1/60 thì đèn hầu như không bao giờ đúng 100 | Tính tay công thức | Giữ đúng công thức của ticket (ceil làm châm 1 đom đóm ngay cả khi thiếu 0.02 dầu); kiểm trường hợp đầy bằng unit test |
 
-**Token / chi phí (ước tính):** khoảng 60–90 nghìn token đầu ra. _Chủ repo thay bằng số thật từ `/cost`._
+**Token:** khoảng 85k (phân bổ ước tính; tổng thật cả dự án là **520k token**, xem mục Tổng kết token ở cuối file).
 
 **Cách tiết kiệm:** sửa bằng script patch có kiểm tra (mỗi đoạn thay thế phải khớp đúng 1 lần), chạy test để thấy đúng danh sách test bị ảnh hưởng thay vì đọc lại toàn bộ code, ít ảnh chụp (2 ảnh kiểm tra).
+
+## Phase 4
+
+**Lời nhắc chính:** "xong phase 3 rồi, làm phase 4 đi" kèm Ticket-04.
+
+**Trình tự agent đã làm:** lưu ticket → chế độ bench trong sim (cờ, không nhánh code riêng) → soak → bảng xếp hạng (module thuần + API + lệnh xuất) → client viết lại (instancing, bench, đổi phím, phụ đề, giảm chuyển động, chữ ≥ 18 px) → contract v1.3 + 7 test mới → chạy bench thật trên máy → tài liệu, retro, bản phát hành.
+
+**Những lần AI sai và cách phát hiện:**
+
+| Lỗi | Phát hiện bằng | Sửa |
+|---|---|---|
+| Soak trượt ngưỡng ×1,2 (RSS ×1,35) | Chạy soak | Đo chi tiết `memoryUsage`: heap JS phẳng, chạy 30 đêm RSS còn thấp hơn 10 đêm, nên không rò rỉ. Dùng `--jitless` và ghi cả số heap vào soak.json, giải thích trong phase-4.md (không giấu) |
+| Bench không trả kết quả lần 2 | Thêm log từng bước cho script bench | Server cắt request > 100 KB, nâng giới hạn và đọc body bằng Buffer |
+| Kỳ vọng sai trong test bảng xếp hạng | Test đỏ | Đếm lại: top 10 của {900, 500, 500, 11…0} kết thúc ở 5 |
+| Heredoc làm hỏng `
+` trong JS (lần 3) | `node --check` báo lỗi | Sửa bằng Python dùng `chr(10)`. Bài học đã ghi vào retro |
+| Viết lại main.js bị từ chối vì file đổi trên đĩa, phải gửi lại cả file | Lỗi công cụ | Tốn token; ghi vào retro "nên sửa từng đoạn" |
+
+**Token:** khoảng 155k (phân bổ ước tính; tổng thật cả dự án là **520k token**, xem mục Tổng kết token ở cuối file).
+
+## Tổng kết token
+
+- **Tổng thật cả dự án: 520k token** (số đo từ Claude Code, người làm bài cung cấp).
+- Claude Code chỉ cho tổng của cả phiên, không tách theo phase. Phần chia theo phase dưới đây là ước tính theo khối lượng công việc từng phase, cộng lại đúng 520k.
+
+| Phase | Token (ước tính) | Tỉ lệ | Việc tốn nhiều nhất |
+|---|---|---|---|
+| 1 | ~80k | 15% | dựng kiến trúc, 23 scenario, client đầu tiên |
+| 2 | ~200k | 38% | sim viết lại theo 12 bước, 3 bản đồ, client viết lại, tinh chỉnh bot |
+| 3 | ~85k | 16% | mô hình dầu, 18 scenario, sửa 11 test cũ |
+| 4 | ~155k | 30% | bench/soak/bảng xếp hạng, client viết lại (gửi lại cả file 2 lần), tài liệu |
+| **Tổng** | **520k** | 100% | |
