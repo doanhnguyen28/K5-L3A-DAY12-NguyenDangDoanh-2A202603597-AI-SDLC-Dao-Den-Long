@@ -1,0 +1,84 @@
+{
+  "name": "05_fall_off_island",
+  "requirement": "T2 fall: leave r=40 at tick 1, Y<-10 at tick 61 -> -1 flame, lose all motes, wait 60, respawn (0,0,0) at tick 121 with invuln. [Phase 1 scenario 05 replaced: fall_enabled is now true]",
+  "night": 1,
+  "seed": 1,
+  "ticks": 130,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        39.95
+      ],
+      "carried": 4,
+      "flames": 3
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "player_hit",
+      "tick": 61,
+      "data": {
+        "by": "fall",
+        "flames": 2,
+        "dropped": 0,
+        "lost": 4
+      }
+    },
+    {
+      "at": 61,
+      "path": "player.carried",
+      "equals": 0
+    },
+    {
+      "at": 120,
+      "path": "player.pos.1",
+      "lt": -10
+    },
+    {
+      "at": 121,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "at": 121,
+      "path": "player.invuln",
+      "equals": true
+    },
+    {
+      "at": 122,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        0.1
+      ]
+    },
+    {
+      "event_count": "player_hit",
+      "equals": 1
+    }
+  ]
+}

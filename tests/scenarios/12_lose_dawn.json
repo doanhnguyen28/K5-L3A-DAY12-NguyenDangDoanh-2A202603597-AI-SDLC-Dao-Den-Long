@@ -1,12 +1,14 @@
 {
   "name": "12_lose_dawn",
-  "requirement": "R6 lose: time runs out -> lost/dawn at tick 60 when time_left_s=1",
+  "requirement": "R6 lose: time_left_s=1 -> lost/dawn at tick 60",
+  "night": 1,
   "seed": 1,
   "ticks": 100,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [],
     "time_left_s": 1

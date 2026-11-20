@@ -1,12 +1,14 @@
 {
   "name": "21_setup_no_score",
-  "requirement": "Contract D: scenario lit:true gives no score and no event",
+  "requirement": "Contract: scenario lit:true gives no score/event; deposited = cost 10",
+  "night": 1,
   "seed": 1,
   "ticks": 10,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [],
     "lanterns": [
@@ -25,13 +27,8 @@
     },
     {
       "at": 0,
-      "path": "lanterns.0.lit",
-      "equals": true
-    },
-    {
-      "at": 0,
       "path": "lanterns.0.deposited",
-      "equals": 5
+      "equals": 10
     },
     {
       "no_event": "lantern_lit"

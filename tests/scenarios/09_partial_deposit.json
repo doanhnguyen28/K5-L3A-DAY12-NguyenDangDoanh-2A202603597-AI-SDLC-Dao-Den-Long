@@ -1,19 +1,21 @@
 {
   "name": "09_partial_deposit",
-  "requirement": "R3 deposit: partial deposit keeps lantern unlit",
+  "requirement": "T2 deposit: partial 3 -> +30, lantern remembers progress",
+  "night": 1,
   "seed": 1,
   "ticks": 10,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [],
     "player": {
       "pos": [
         0,
         0,
-        22
+        23
       ],
       "carried": 3,
       "flames": 3
@@ -42,8 +44,13 @@
     },
     {
       "at": 10,
-      "path": "lanterns.0.lit",
-      "equals": false
+      "path": "score",
+      "equals": 30
+    },
+    {
+      "at": 10,
+      "path": "lanterns.0.deposited",
+      "equals": 3
     }
   ]
 }

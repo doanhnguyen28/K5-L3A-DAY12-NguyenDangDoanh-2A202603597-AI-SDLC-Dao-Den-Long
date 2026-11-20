@@ -1,0 +1,61 @@
+{
+  "name": "23_shade_spawn_night1",
+  "requirement": "T2 spawn night 1: 2 shades at tick 300 (spawning 60 ticks), then 1 every 480 (tick 780). [Phase 1 scenario 23 replaced: old schedule was 30 s]",
+  "night": 1,
+  "seed": 1,
+  "ticks": 800,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": true,
+    "random_drifters": false,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "shade_spawned",
+      "tick": 300,
+      "data": {
+        "id": "S1"
+      }
+    },
+    {
+      "event": "shade_spawned",
+      "tick": 300,
+      "data": {
+        "id": "S2"
+      }
+    },
+    {
+      "event": "shade_spawned",
+      "tick": 780,
+      "data": {
+        "id": "S3"
+      }
+    },
+    {
+      "event_count": "shade_spawned",
+      "equals": 3
+    },
+    {
+      "at": 300,
+      "path": "shades.0.state",
+      "equals": "spawning"
+    },
+    {
+      "at": 359,
+      "path": "shades.0.state",
+      "equals": "spawning"
+    },
+    {
+      "at": 361,
+      "path": "shades.0.state",
+      "in": [
+        "wander",
+        "chase"
+      ]
+    }
+  ]
+}

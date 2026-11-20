@@ -1,0 +1,35 @@
+{
+  "name": "41_mote_spawn_schedule",
+  "requirement": "T2 motes: 20 at start, +1 at ticks 240 and 480 (cap 30, empty points only)",
+  "night": 1,
+  "seed": 1,
+  "ticks": 480,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_shades": false,
+    "random_drifters": false
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 239,
+      "path": "motes_active",
+      "equals": 20
+    },
+    {
+      "at": 240,
+      "path": "motes_active",
+      "equals": 21
+    },
+    {
+      "at": 479,
+      "path": "motes_active",
+      "equals": 21
+    },
+    {
+      "at": 480,
+      "path": "motes_active",
+      "equals": 22
+    }
+  ]
+}

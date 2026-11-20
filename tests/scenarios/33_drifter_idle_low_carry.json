@@ -1,0 +1,44 @@
+{
+  "name": "33_drifter_idle_low_carry",
+  "requirement": "T3 drifter stays idle when carrying < 5",
+  "night": 2,
+  "seed": 1,
+  "ticks": 60,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 4,
+      "flames": 3
+    },
+    "drifters": [
+      {
+        "pos": [
+          3,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 30,
+      "path": "drifters.0.state",
+      "equals": "idle"
+    },
+    {
+      "no_event": "drifter_steal"
+    }
+  ]
+}

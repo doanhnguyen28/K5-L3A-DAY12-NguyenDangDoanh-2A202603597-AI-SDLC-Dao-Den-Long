@@ -1,0 +1,58 @@
+{
+  "name": "42_safe_zone_evict",
+  "requirement": "T2 safe zone: shade inside 6 m when the lantern lights is pushed to the edge (<= 30 ticks) and is harmless meanwhile",
+  "night": 1,
+  "seed": 1,
+  "ticks": 120,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [
+      {
+        "pos": [
+          0,
+          1,
+          24
+        ]
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        23
+      ],
+      "carried": 10,
+      "flames": 3
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "interact": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "lantern_lit",
+      "tick": 1
+    },
+    {
+      "no_event": "player_hit"
+    },
+    {
+      "at": 25,
+      "path": "shades.0.pos",
+      "equals": [
+        0,
+        1,
+        19
+      ]
+    }
+  ]
+}

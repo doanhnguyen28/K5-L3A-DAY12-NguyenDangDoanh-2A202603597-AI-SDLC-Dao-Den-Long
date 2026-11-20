@@ -1,0 +1,66 @@
+{
+  "name": "32_drifter_pulse_chase",
+  "requirement": "T3 drifter: pulse on a chasing drifter -> flee without stealing",
+  "night": 2,
+  "seed": 1,
+  "ticks": 300,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 8,
+      "flames": 3
+    },
+    "drifters": [
+      {
+        "pos": [
+          4,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 5,
+        "pulse": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 5,
+      "path": "drifters.0.state",
+      "equals": "chase"
+    },
+    {
+      "at": 6,
+      "path": "drifters.0.state",
+      "equals": "flee"
+    },
+    {
+      "at": 6,
+      "path": "drifters.0.stolen",
+      "equals": 0
+    },
+    {
+      "no_event": "drifter_steal"
+    },
+    {
+      "at": 300,
+      "path": "player.carried",
+      "equals": 5
+    }
+  ]
+}

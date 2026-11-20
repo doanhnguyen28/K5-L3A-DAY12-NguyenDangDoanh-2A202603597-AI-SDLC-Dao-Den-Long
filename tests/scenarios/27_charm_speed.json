@@ -1,0 +1,52 @@
+{
+  "name": "27_charm_speed",
+  "requirement": "T3 charm: run speed 7.2 m/s while active",
+  "night": 1,
+  "seed": 1,
+  "ticks": 60,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 0,
+      "flames": 3,
+      "charm_ticks": 600
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 60,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        7.2
+      ]
+    },
+    {
+      "at": 60,
+      "path": "player.charm_s",
+      "equals": 9
+    }
+  ]
+}

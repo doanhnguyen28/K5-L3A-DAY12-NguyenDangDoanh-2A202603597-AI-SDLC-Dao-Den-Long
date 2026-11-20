@@ -1,0 +1,57 @@
+{
+  "name": "44_no_flames_beats_win",
+  "requirement": "T2 win/lose order: no flames -> lost even if all lanterns are lit",
+  "night": 1,
+  "seed": 1,
+  "ticks": 10,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 0,
+      "flames": 0
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "lit": true
+      },
+      {
+        "id": "L2",
+        "lit": true
+      },
+      {
+        "id": "L3",
+        "lit": true
+      },
+      {
+        "id": "L4",
+        "lit": true
+      },
+      {
+        "id": "L5",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "game_over",
+      "tick": 1,
+      "data": {
+        "result": "lost",
+        "reason": "no_flames"
+      }
+    }
+  ]
+}

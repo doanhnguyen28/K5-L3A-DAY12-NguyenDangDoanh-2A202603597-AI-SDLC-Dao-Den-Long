@@ -1,12 +1,14 @@
 {
   "name": "01_move_forward",
-  "requirement": "R1 move: player_speed 6 m/s, move [0,1] cam 0 -> +Z",
+  "requirement": "R1 move: 6 m/s, move [0,1] cam 0 -> +Z, 60 ticks = 6 m",
+  "night": 1,
   "seed": 1,
   "ticks": 60,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": []
   },
@@ -25,6 +27,15 @@
     {
       "at": 60,
       "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        6
+      ]
+    },
+    {
+      "at": 60,
+      "path": "player.vel",
       "equals": [
         0,
         0,

@@ -1,12 +1,14 @@
 {
   "name": "18_pulse_cooldown",
-  "requirement": "R5 pulse: cooldown 1 s; press at tick 30 ignored, press at tick 60 fires at tick 61",
+  "requirement": "T2 pulse cooldown 3 s: press at tick 100 ignored, press at 180 fires at 181",
+  "night": 1,
   "seed": 1,
-  "ticks": 100,
+  "ticks": 200,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [],
     "player": {
@@ -15,7 +17,7 @@
         0,
         0
       ],
-      "carried": 3,
+      "carried": 9,
       "flames": 3
     }
   },
@@ -30,15 +32,15 @@
         "pulse": false
       },
       {
-        "tick": 30,
+        "tick": 100,
         "pulse": true
       },
       {
-        "tick": 31,
+        "tick": 101,
         "pulse": false
       },
       {
-        "tick": 60,
+        "tick": 180,
         "pulse": true
       }
     ]
@@ -54,12 +56,12 @@
     },
     {
       "event": "pulse",
-      "tick": 61
+      "tick": 181
     },
     {
-      "at": 100,
+      "at": 200,
       "path": "player.carried",
-      "equals": 1
+      "equals": 3
     }
   ]
 }

@@ -1,0 +1,43 @@
+{
+  "name": "40a_map_night1",
+  "requirement": "T2 map night 1: standard lanterns, 20 random motes, night_start event",
+  "night": 1,
+  "seed": 1,
+  "ticks": 1,
+  "snapshot_every": 1,
+  "scenario": {},
+  "inputs": null,
+  "expect": [
+    {
+      "event": "night_start",
+      "tick": 0,
+      "data": {
+        "night": 1
+      }
+    },
+    {
+      "at": 0,
+      "path": "lanterns.1.pos",
+      "equals": [
+        23.8,
+        0,
+        7.7
+      ]
+    },
+    {
+      "at": 0,
+      "path": "motes_active",
+      "equals": 20
+    },
+    {
+      "at": 0,
+      "path": "night",
+      "equals": 1
+    },
+    {
+      "at": 0,
+      "path": "time_left_s",
+      "equals": 300
+    }
+  ]
+}

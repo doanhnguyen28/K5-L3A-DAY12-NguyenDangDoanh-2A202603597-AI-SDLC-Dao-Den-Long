@@ -23,7 +23,7 @@ export function runCli(args) {
 
 export function runScenarioCli(s, outPath) {
   const dir = mkdtempSync(join(tmpdir(), 'ddl-'));
-  const args = ['--seed', String(s.seed), '--night', '1', '--ticks', String(s.ticks), '--out', outPath || join(dir, 'out.jsonl')];
+  const args = ['--seed', String(s.seed), '--night', String(s.night || 1), '--ticks', String(s.ticks), '--out', outPath || join(dir, 'out.jsonl')];
   if (s.scenario) {
     writeFileSync(join(dir, 'scenario.json'), JSON.stringify(s.scenario));
     args.push('--scenario', join(dir, 'scenario.json'));
@@ -68,6 +68,9 @@ export function checkExpectations(lines, expect) {
         if ('equals' in e) ok = isDeepStrictEqual(got, e.equals);
         else if ('gt' in e) ok = got > e.gt;
         else if ('lt' in e) ok = got < e.lt;
+        else if ('between' in e) ok = got >= e.between[0] && got <= e.between[1];
+        else if ('in' in e) ok = e.in.some((v) => isDeepStrictEqual(got, v));
+        else if ('ne' in e) ok = !isDeepStrictEqual(got, e.ne);
       }
     }
     return { expect: e, ok, got };

@@ -1,0 +1,45 @@
+{
+  "name": "25_dash_facing",
+  "requirement": "T2 dash when idle uses facing: walk +X 10 ticks (1 m), stop, dash -> x = 3.8",
+  "night": 1,
+  "seed": 1,
+  "ticks": 40,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          1,
+          0
+        ]
+      },
+      {
+        "tick": 10,
+        "move": [
+          0,
+          0
+        ],
+        "dash": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 40,
+      "path": "player.pos",
+      "equals": [
+        3.8,
+        0,
+        0
+      ]
+    }
+  ]
+}

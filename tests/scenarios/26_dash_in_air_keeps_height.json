@@ -1,0 +1,62 @@
+{
+  "name": "26_dash_in_air_keeps_height",
+  "requirement": "T2 dash in air keeps height: y(10)=0.861 held during dash ticks 11-22",
+  "night": 1,
+  "seed": 1,
+  "ticks": 30,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "jump": true
+      },
+      {
+        "tick": 1,
+        "jump": false
+      },
+      {
+        "tick": 10,
+        "dash": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 10,
+      "path": "player.pos.1",
+      "equals": 0.861
+    },
+    {
+      "at": 11,
+      "path": "player.pos.1",
+      "equals": 0.861
+    },
+    {
+      "at": 22,
+      "path": "player.pos.1",
+      "equals": 0.861
+    },
+    {
+      "at": 23,
+      "path": "player.pos.1",
+      "gt": 0.861
+    },
+    {
+      "at": 15,
+      "path": "player.vel",
+      "equals": [
+        0,
+        0,
+        14
+      ]
+    }
+  ]
+}

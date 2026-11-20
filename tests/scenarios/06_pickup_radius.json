@@ -1,22 +1,24 @@
 {
   "name": "06_pickup_radius",
-  "requirement": "R2 pickup: mote at 1.5 m picked (<= r), mote at 1.6 m not",
+  "requirement": "T2 pickup radius 1.0: mote at 1.0 m picked, 1.1 m not; pickup gives no score",
+  "night": 1,
   "seed": 1,
   "ticks": 10,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [
       [
         0,
         0,
-        1.5
+        1.0
       ],
       [
         0,
         0,
-        1.6
+        1.1
       ]
     ],
     "shades": []
@@ -42,7 +44,7 @@
     {
       "at": 10,
       "path": "score",
-      "equals": 10
+      "equals": 0
     }
   ]
 }

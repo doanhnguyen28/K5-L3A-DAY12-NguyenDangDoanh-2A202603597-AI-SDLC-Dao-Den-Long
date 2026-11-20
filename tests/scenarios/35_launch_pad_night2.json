@@ -1,0 +1,66 @@
+{
+  "name": "35_launch_pad_night2",
+  "requirement": "T2 map night 2: pad (20,0,18) launches vy 14, 24 m/s toward island B; move keys ignored in flight; lands on B near (51.4,0,6.3)",
+  "night": 2,
+  "seed": 1,
+  "ticks": 105,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        20,
+        0,
+        15
+      ],
+      "carried": 0,
+      "flames": 3
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 30,
+      "path": "player.grounded",
+      "equals": false
+    },
+    {
+      "at": 105,
+      "path": "player.grounded",
+      "equals": true
+    },
+    {
+      "at": 105,
+      "path": "player.pos.0",
+      "between": [
+        51.3,
+        51.6
+      ]
+    },
+    {
+      "at": 105,
+      "path": "player.pos.2",
+      "between": [
+        6.2,
+        6.7
+      ]
+    },
+    {
+      "no_event": "player_hit"
+    }
+  ]
+}

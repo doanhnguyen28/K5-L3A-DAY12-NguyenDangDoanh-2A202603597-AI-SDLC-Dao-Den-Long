@@ -1,12 +1,14 @@
 {
   "name": "02_move_diagonal_normalized",
-  "requirement": "R1 move: vector longer than 1 is normalized",
+  "requirement": "R1 move: vector longer than 1 normalized",
+  "night": 1,
   "seed": 1,
   "ticks": 60,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": []
   },

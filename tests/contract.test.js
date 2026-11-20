@@ -14,14 +14,20 @@ const run = (args) => {
 };
 const readLines = (p) => readFileSync(p, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
 
-test('game.contract.json has every v1.0 field', () => {
+test('game.contract.json has every v1.1 field with the standard numbers', () => {
   for (const k of ['contract_version', 'team', 'build_cmd', 'run_cmd', 'headless_cmd', 'tuning']) assert.ok(k in contract, k);
-  assert.equal(contract.contract_version, '1.0');
-  const keys = ['player_speed', 'carry_capacity', 'lantern_cost', 'lantern_count_night1', 'pickup_radius', 'interact_radius', 'pulse_cost', 'pulse_radius', 'night1_duration_s', 'flames', 'invuln_s', 'hit_drop_ratio', 'pulse_stun_s', 'pulse_push_m', 'pulse_cooldown_s', 'safe_radius', 'shade_speed', 'shade_hit_radius', 'fall_enabled', 'score'];
+  assert.equal(contract.contract_version, '1.1');
+  const keys = ['player_speed', 'carry_capacity', 'lantern_cost', 'lantern_count_night1', 'pickup_radius', 'interact_radius', 'pulse_cost', 'pulse_radius', 'night1_duration_s', 'flames', 'invuln_s', 'hit_drop_ratio', 'pulse_stun_s', 'pulse_push_m', 'pulse_cooldown_s', 'safe_radius', 'shade_speed', 'shade_hit_radius', 'fall_enabled', 'score', 'dash_speed', 'dash_duration_s', 'dash_cooldown_s', 'night2_duration_s', 'night3_duration_s'];
   for (const k of keys) assert.ok(k in contract.tuning, k);
   for (const k of ['per_mote', 'per_lantern', 'per_stun', 'per_second_left', 'per_flame_left']) assert.ok(k in contract.tuning.score, k);
-  assert.equal(contract.tuning.lantern_count_night1, 5);
-  assert.equal(contract.tuning.fall_enabled, false);
+  const standard = {
+    player_speed: 6, carry_capacity: 10, lantern_cost: 10, lantern_count_night1: 5, pickup_radius: 1, interact_radius: 2,
+    pulse_cost: 3, pulse_radius: 5, night1_duration_s: 300, night2_duration_s: 330, night3_duration_s: 360, flames: 3, invuln_s: 1.5,
+    hit_drop_ratio: 0.5, pulse_stun_s: 2, pulse_push_m: 4, pulse_cooldown_s: 3, safe_radius: 6, shade_speed: 4, shade_hit_radius: 1,
+    dash_speed: 14, dash_duration_s: 0.2, dash_cooldown_s: 1.5, fall_enabled: true,
+  };
+  for (const [k, v] of Object.entries(standard)) assert.equal(contract.tuning[k], v, k);
+  assert.deepEqual(contract.tuning.score, { per_mote: 10, per_lantern: 100, per_stun: 5, per_second_left: 2, per_flame_left: 50 });
 });
 
 test('default run: snapshot at tick 0 then every N, end line last', () => {
@@ -31,8 +37,10 @@ test('default run: snapshot at tick 0 then every N, end line last', () => {
   const snaps = lines.filter((l) => l.type === 'snapshot');
   assert.deepEqual(snaps.map((s) => s.tick), [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
   const s0 = snaps[0];
-  for (const k of ['type', 'tick', 'sim_tick', 'state', 'time_left_s', 'score', 'player', 'lanterns', 'shades', 'motes_active']) assert.ok(k in s0, k);
-  assert.deepEqual(s0.player, { pos: [0, 0, 0], flames: 3, carried: 0 });
+  for (const k of ['type', 'tick', 'sim_tick', 'night', 'wind', 'state', 'time_left_s', 'score', 'player', 'lanterns', 'shades', 'motes_active', 'motes', 'drifters', 'charms']) assert.ok(k in s0, k);
+  assert.deepEqual(s0.player, { pos: [0, 0, 0], vel: [0, 0, 0], grounded: true, flames: 3, carried: 0, invuln: false, dash_cd_s: 0, pulse_cd_s: 0, charm_s: 0 });
+  assert.deepEqual(s0.wind, { active: false, dir_deg: 0 });
+  for (const m of s0.motes) assert.deepEqual(Object.keys(m), ['id', 'pos', 'kind', 'ttl_s']);
   assert.equal(s0.lanterns.length, 5);
   assert.equal(s0.time_left_s, 300);
   assert.equal(snaps[6].time_left_s, 299);
@@ -68,6 +76,7 @@ test('bad inputs or scenario file exits with code 2', () => {
     'dup.json': JSON.stringify({ frames: [{ tick: 5 }, { tick: 5 }] }),
     'dec.json': JSON.stringify({ frames: [{ tick: 5 }, { tick: 3 }] }),
     'move.json': JSON.stringify({ frames: [{ tick: 0, move: [2, 0] }] }),
+    'pause.json': JSON.stringify({ frames: [{ tick: 0, pause: 'yes' }] }),
     'noframes.json': JSON.stringify({}),
   };
   for (const [name, body] of Object.entries(cases)) {
@@ -92,14 +101,26 @@ test('bad command line exits non-zero with stderr message', () => {
   }
 });
 
-test('full default night with no input ends lost (shades catch idle player) and stops early', () => {
-  const out = join(tmp(), 'o.jsonl');
-  runCli(['--seed', '5', '--night', '1', '--ticks', '20000', '--out', out]);
-  const lines = readLines(out);
-  const end = lines.at(-1);
-  assert.equal(end.state, 'lost');
-  assert.ok(end.ticks < 18000);
-  const over = lines.filter((l) => l.name === 'game_over');
-  assert.equal(over.length, 1);
-  assert.equal(over[0].tick, end.ticks);
+for (const night of [1, 2, 3]) {
+  test(`night ${night}: full night (21600 ticks) finishes in < 30 s, idle player loses, shade states use v1.1 names`, () => {
+    const out = join(tmp(), 'o.jsonl');
+    const t0 = Date.now();
+    runCli(['--seed', '5', '--night', String(night), '--ticks', '21600', '--out', out]);
+    const ms = Date.now() - t0;
+    assert.ok(ms < 30000, `${ms} ms`);
+    const lines = readLines(out);
+    const end = lines.at(-1);
+    assert.equal(end.state, 'lost');
+    const over = lines.filter((l) => l.name === 'game_over');
+    assert.equal(over.length, 1);
+    assert.equal(over[0].tick, end.ticks);
+    assert.equal(lines[0].name, 'night_start');
+    const states = new Set(lines.filter((l) => l.type === 'snapshot').flatMap((l) => l.shades.map((s) => s.state)));
+    for (const st of states) assert.ok(['spawning', 'wander', 'chase', 'recoil', 'stunned'].includes(st), st);
+  });
+}
+
+test('--night 4 is rejected', () => {
+  const r = run(['--seed', '1', '--night', '4', '--ticks', '5', '--out', join(tmp(), 'o.jsonl')]);
+  assert.notEqual(r.status, 0);
 });

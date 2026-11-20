@@ -1,12 +1,14 @@
 {
   "name": "03_move_cam_yaw_90",
-  "requirement": "R1 move: cam_yaw_deg 90 rotates move [0,1] to +X",
+  "requirement": "R1 move: cam_yaw_deg 90 rotates [0,1] to +X",
+  "night": 1,
   "seed": 1,
   "ticks": 60,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": []
   },

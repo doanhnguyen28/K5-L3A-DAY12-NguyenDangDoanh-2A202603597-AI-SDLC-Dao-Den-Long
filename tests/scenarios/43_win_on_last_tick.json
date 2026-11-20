@@ -1,0 +1,64 @@
+{
+  "name": "43_win_on_last_tick",
+  "requirement": "T2 win/lose order: lighting the last lantern on the tick time reaches 0 -> won (score 10+100+0+150=260)",
+  "night": 1,
+  "seed": 1,
+  "ticks": 10,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "time_left_s": 0.016666666666666666,
+    "player": {
+      "pos": [
+        0,
+        0,
+        23
+      ],
+      "carried": 1,
+      "flames": 3
+    },
+    "lanterns": [
+      {
+        "id": "L1",
+        "deposited": 9
+      },
+      {
+        "id": "L2",
+        "lit": true
+      },
+      {
+        "id": "L3",
+        "lit": true
+      },
+      {
+        "id": "L4",
+        "lit": true
+      },
+      {
+        "id": "L5",
+        "lit": true
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "interact": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "end": {
+        "ticks": 1,
+        "state": "won",
+        "score": 260
+      }
+    }
+  ]
+}

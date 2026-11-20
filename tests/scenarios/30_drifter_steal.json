@@ -1,0 +1,79 @@
+{
+  "name": "30_drifter_steal",
+  "requirement": "T3 drifter: carried 6 >= 5 within 15 m -> chase 7 m/s, touch <= 1.2 at tick 16, steals 3, flees 240 ticks, removed at tick 256",
+  "night": 2,
+  "seed": 1,
+  "ticks": 300,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 6,
+      "flames": 3
+    },
+    "drifters": [
+      {
+        "pos": [
+          3,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "drifter_steal",
+      "tick": 16,
+      "data": {
+        "drifter_id": "D1",
+        "amount": 3,
+        "carried": 3
+      }
+    },
+    {
+      "at": 1,
+      "path": "drifters.0.state",
+      "equals": "chase"
+    },
+    {
+      "at": 16,
+      "path": "drifters.0.state",
+      "equals": "flee"
+    },
+    {
+      "at": 255,
+      "path": "drifters.0.state",
+      "equals": "flee"
+    },
+    {
+      "at": 256,
+      "path": "drifters.0.state",
+      "equals": "removed"
+    },
+    {
+      "at": 256,
+      "path": "drifters.0.stolen",
+      "equals": 3
+    },
+    {
+      "event_count": "drifter_steal",
+      "equals": 1
+    },
+    {
+      "at": 300,
+      "path": "player.flames",
+      "equals": 3
+    }
+  ]
+}

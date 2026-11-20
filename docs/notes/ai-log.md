@@ -34,3 +34,31 @@ Công cụ: **Claude Code** (VS Code extension), model Claude Opus 5.5. Harness:
 - Sinh 23 file scenario bằng một script thay vì viết tay từng file.
 - Dùng `grep`/`tail` để chỉ xem dòng tóm tắt của test, không đọc toàn bộ log.
 - Không dùng subagent. Dùng ảnh chụp có mục đích (3 lần chụp để sửa hiển thị), không chụp lặp.
+
+## Phase 2
+
+**Lời nhắc chính:** "xong phase 1 rồi, làm phase 2 đi" kèm nội dung Ticket-02 dán từ lab board.
+
+**Trình tự agent đã làm:**
+1. Đọc lab board: nội dung ticket được trang tải động từ cơ sở dữ liệu nên agent không đọc được. Agent dừng lại và nhờ người dán nguyên văn, **không đoán yêu cầu**. Ticket được lưu vào `docs/lab/ticket-02.md` để truy vết.
+2. Liệt kê chỗ mơ hồ, viết 27 giả định trước khi code (`docs/notes/phase-2.md`).
+3. Viết lại sim theo thứ tự 12 bước bắt buộc, tách bản đồ ra `maps.js`, cập nhật contract v1.1.
+4. Viết lại 23 scenario cũ theo số mới (ghi lý do từng cái) và thêm 33 scenario mới. Giá trị kỳ vọng tính tay (ví dụ rơi ở tick 61, lướt 7.6 m, bục Đêm 3 đáp ở Y=6). 56/56 đạt ngay lần đầu.
+5. Thử đột biến 5 con số (stun, vùng an toàn, bán kính chạm Gió Lạc, thời lượng gió…). Bốn số bị bắt ngay. **Thời lượng gió không bị bắt** vì scenario chỉ lấy mẫu mỗi 300 tick, nên đã sửa scenario lấy mẫu ở tick 2097 rồi thử lại: đã bắt được.
+6. Bản chơi viết lại; chụp ảnh headless để kiểm tra từng đêm và góc nhìn từ trên xuống.
+
+**Những lần AI sai và cách phát hiện:**
+
+| Lỗi | Phát hiện bằng | Sửa |
+|---|---|---|
+| Bot cũ thua 30/30 với số chuẩn (bị Bóng Mực chạm, không phải lỗi luật) | Thống kê nguyên nhân `player_hit` theo `by` | Thêm né tránh + lướt + tỏa sáng sớm: Đêm 1 thắng 7/10. Đêm 2/3 vẫn chưa thắng, ghi trung thực |
+| Scenario gió không bắt được đột biến thời lượng gió | Thử đột biến | Lấy mẫu sát mốc kết thúc cơn gió |
+| Heredoc bash có template literal JS bị lỗi phân tích | Lệnh lỗi | Ghi script sửa ra file `.py` rồi chạy |
+| Ảnh Đêm 3 có "vòng cát" lạ | Xem ảnh | Truy ra đó là hiệu ứng vòng Tỏa Sáng còn sót từ bước tua nhanh (warp), không phải lỗi bản đồ. Kiểm bản đồ lại bằng góc nhìn từ trên |
+| Suýt ghi "đạt" cho FPS ≥ 30 dựa trên ảnh headless | Rà lại ghi chép | Ghi "cần đo tay trên máy thật" vì SwiftShader không đại diện |
+
+**Chỉnh harness:** AGENTS.md thêm thứ tự tick bắt buộc, quy tắc "sửa generator chứ không sửa JSON", và bước thử đột biến. Skill `verify` thêm bước thử đột biến, ghi chú về FPS và âm thanh chỉ kiểm được bằng tay.
+
+**Token / chi phí (ước tính):** Phase 2 tốn nhiều hơn Phase 1 vì ticket lớn và client viết lại: ước khoảng 150–200 nghìn token đầu ra trong phiên Claude Code. _Chủ repo thay bằng số thật từ `/cost`._
+
+**Cách tiết kiệm token:** sinh scenario bằng script, chỉ đọc dòng tóm tắt test, dừng tối ưu bot sau 3 vòng (bot chỉ là công cụ bằng chứng), không dùng subagent.

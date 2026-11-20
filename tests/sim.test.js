@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { createGame, defaultLanterns, moveToWorld, round3 } from '../src/sim/game.js';
+import { createGame, moveToWorld, round3 } from '../src/sim/game.js';
+import { MAPS } from '../src/sim/maps.js';
 import { createInputTimeline } from '../src/sim/inputs.js';
 import { ROOT } from './lib/scenario.js';
 
@@ -20,11 +21,69 @@ test('moveToWorld follows the contract rotation formula', () => {
   assert.ok(close(x4, 0.5) && close(z4, 0));
 });
 
-test('default lanterns: 5 on a ring of radius 25, L1 at (0,0,25)', () => {
-  const ls = defaultLanterns(5);
-  assert.deepEqual(ls.map((l) => l.id), ['L1', 'L2', 'L3', 'L4', 'L5']);
-  assert.deepEqual(ls[0].pos, [0, 0, 25]);
-  for (const l of ls) assert.ok(close(Math.hypot(l.pos[0], l.pos[2]), 25, 1e-3));
+test('standard maps: lantern counts, spawn point counts, terrain heights', () => {
+  assert.equal(MAPS[1].lanterns.length, 5);
+  assert.equal(MAPS[2].lanterns.length, 6);
+  assert.equal(MAPS[3].lanterns.length, 7);
+  assert.equal(MAPS[1].motePoints.length, 24);
+  assert.equal(MAPS[2].motePoints.length, 24);
+  assert.equal(MAPS[3].motePoints.length, 30);
+  assert.equal(MAPS[1].shadePoints.length, 12);
+  assert.equal(MAPS[2].shadePoints.length, 16);
+  assert.equal(MAPS[3].shadePoints.length, 16);
+  assert.deepEqual(MAPS[1].shadePoints[0], [round3(37 * Math.cos(Math.PI / 12)), 1, round3(37 * Math.sin(Math.PI / 12))]);
+  const g1 = MAPS[1].ground;
+  assert.equal(g1(0, 40), 0);
+  assert.equal(g1(0, 40.01), null);
+  const g2 = MAPS[2].ground;
+  assert.equal(g2(35, 0), 0);
+  assert.equal(g2(35, 2.5), null);
+  assert.equal(g2(70, 27), 0);
+  const g3 = MAPS[3].ground;
+  assert.equal(g3(0, 5), 6);
+  assert.equal(g3(0, 18), 3);
+  assert.equal(g3(0, -18), 0);
+  assert.equal(g3(0, 10), 0);
+  assert.equal(g3(0, 46), null);
+  const a = Math.PI / 6;
+  assert.ok(close(g3(27 * Math.cos(a), 27 * Math.sin(a)), 1.5));
+  for (const m of MAPS[3].motePoints) assert.equal(g3(m[0], m[2]), m[1]);
+  for (const l of MAPS[3].lanterns) assert.equal(g3(l.pos[0], l.pos[2]), l.pos[1]);
+});
+
+test('night start: 20 random motes on 20 distinct standard points, kind random', () => {
+  for (const night of [1, 2, 3]) {
+    const s = createGame({ tuning, seed: 7, night }).snapshot();
+    assert.equal(s.motes.length, 20);
+    assert.equal(new Set(s.motes.map((m) => m.pos.join(','))).size, 20);
+    for (const m of s.motes) assert.equal(m.kind, 'random');
+  }
+});
+
+test('spawned shades are at least 15 m from the player', () => {
+  const g = createGame({ tuning, seed: 3, scenario: { random_motes: false, random_drifters: false, player: { pos: [33, 0, 9] } } });
+  let seen = 0;
+  for (let i = 0; i < 2000 && g.state === 'playing'; i++) {
+    for (const e of g.step({}).filter((x) => x.name === 'shade_spawned')) {
+      const s = g.shades.find((x) => x.id === e.data.id);
+      assert.ok(Math.hypot(s.pos[0] - g.player.pos[0], s.pos[2] - g.player.pos[2]) >= 15 - 1e-9);
+      seen++;
+    }
+  }
+  assert.ok(seen > 0);
+});
+
+test('shade count respects the per-night maximum', () => {
+  for (const night of [1, 2, 3]) {
+    const g = createGame({ tuning, seed: 4, night, scenario: { random_drifters: false, wind_enabled: false, player: { pos: night === 3 ? [0, 0, -30] : [0, 0, 0] } } });
+    let max = 0;
+    for (let i = 0; i < 6000 && g.state === 'playing'; i++) {
+      g.player.invuln = 1000;
+      g.step({});
+      max = Math.max(max, g.shades.length);
+    }
+    assert.equal(max, MAPS[night].shadeMax, `night ${night}`);
+  }
 });
 
 test('round3 rounds and never emits -0', () => {
@@ -49,17 +108,16 @@ test('action triggers only on false->true edge (holding interact deposits once)'
   assert.equal(deposits, 1);
 });
 
-test('random default night: 30 motes, 2 shades, ids deterministic per seed', () => {
+test('random default night: deterministic per seed, no shades before tick 300', () => {
   const a = createGame({ tuning, seed: 11 }).snapshot();
   const b = createGame({ tuning, seed: 11 }).snapshot();
-  assert.equal(a.motes_active, 30);
-  assert.equal(a.shades.length, 2);
+  assert.equal(a.shades.length, 0);
   assert.deepEqual(a, b);
 });
 
-test('motes respawn over time when random_motes is on', () => {
+test('motes respawn every 240 ticks when random_motes is on', () => {
   const g = createGame({ tuning, seed: 2, scenario: { random_shades: false, motes: [] } });
-  for (let i = 0; i < 600; i++) g.step({});
+  for (let i = 0; i < 1200; i++) g.step({});
   assert.equal(g.snapshot().motes_active, 5);
 });
 

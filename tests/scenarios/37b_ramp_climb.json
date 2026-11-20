@@ -1,0 +1,48 @@
+{
+  "name": "37b_ramp_climb",
+  "requirement": "T2 map night 3: ramp at 30 deg climbs from r=30 (Y0) to r=24 (Y3) onto tier 1",
+  "night": 3,
+  "seed": 1,
+  "ticks": 120,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        26.414,
+        0,
+        15.25
+      ],
+      "carried": 0,
+      "flames": 3
+    },
+    "wind_enabled": false
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          -0.866,
+          -0.5
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 120,
+      "path": "player.pos.1",
+      "equals": 3
+    },
+    {
+      "at": 120,
+      "path": "player.grounded",
+      "equals": true
+    }
+  ]
+}

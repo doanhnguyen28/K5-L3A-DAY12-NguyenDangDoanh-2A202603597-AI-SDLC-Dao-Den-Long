@@ -1,12 +1,14 @@
 {
   "name": "04_jump",
-  "requirement": "R1 jump: jump lifts player off ground and lands again",
+  "requirement": "R1 jump 7 m/s, g 20: airborne at tick 10, lands by tick 41",
+  "night": 1,
   "seed": 1,
   "ticks": 60,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": []
   },
@@ -29,9 +31,19 @@
       "gt": 0
     },
     {
+      "at": 10,
+      "path": "player.grounded",
+      "equals": false
+    },
+    {
       "at": 60,
       "path": "player.pos.1",
       "equals": 0
+    },
+    {
+      "at": 60,
+      "path": "player.grounded",
+      "equals": true
     }
   ]
 }

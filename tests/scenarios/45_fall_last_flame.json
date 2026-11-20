@@ -1,0 +1,51 @@
+{
+  "name": "45_fall_last_flame",
+  "requirement": "T2 fall with the last flame -> lost immediately, no respawn",
+  "night": 1,
+  "seed": 1,
+  "ticks": 200,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        39.95
+      ],
+      "carried": 0,
+      "flames": 1
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "player_hit",
+      "tick": 61,
+      "data": {
+        "by": "fall",
+        "flames": 0
+      }
+    },
+    {
+      "end": {
+        "ticks": 61,
+        "state": "lost"
+      }
+    }
+  ]
+}

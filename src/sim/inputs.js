@@ -1,7 +1,7 @@
 export class InputError extends Error {}
 
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
-const BUTTONS = ['jump', 'interact', 'pulse', 'dash'];
+const BUTTONS = ['jump', 'interact', 'pulse', 'dash', 'pause'];
 
 export function validateInputs(doc) {
   if (!doc || typeof doc !== 'object' || !Array.isArray(doc.frames)) throw new InputError('inputs: missing "frames" array');
@@ -33,8 +33,11 @@ export function validateScenario(doc) {
     if (p.pos !== undefined && !vec3(p.pos)) throw new InputError('scenario: invalid player.pos');
     if (p.carried !== undefined && !(Number.isInteger(p.carried) && p.carried >= 0)) throw new InputError('scenario: invalid player.carried');
     if (p.flames !== undefined && !(Number.isInteger(p.flames) && p.flames >= 0)) throw new InputError('scenario: invalid player.flames');
+    for (const k of ['invuln_ticks', 'dash_cd_ticks', 'pulse_cd_ticks', 'charm_ticks']) {
+      if (p[k] !== undefined && !(Number.isInteger(p[k]) && p[k] >= 0)) throw new InputError(`scenario: invalid player.${k}`);
+    }
   }
-  for (const k of ['random_motes', 'random_shades']) {
+  for (const k of ['random_motes', 'random_shades', 'random_drifters', 'wind_enabled']) {
     if (doc[k] !== undefined && typeof doc[k] !== 'boolean') throw new InputError(`scenario: ${k} must be boolean`);
   }
   if (doc.motes !== undefined && !(Array.isArray(doc.motes) && doc.motes.every(vec3))) throw new InputError('scenario: invalid motes');
@@ -42,6 +45,23 @@ export function validateScenario(doc) {
     if (!Array.isArray(doc.shades)) throw new InputError('scenario: invalid shades');
     for (const s of doc.shades) {
       if (!s || typeof s !== 'object' || !vec3(s.pos)) throw new InputError('scenario: invalid shade');
+      if (s.state !== undefined && !['spawning', 'wander', 'chase', 'recoil', 'stunned'].includes(s.state)) throw new InputError('scenario: invalid shade state');
+      if (s.state_ticks_left !== undefined && !(Number.isInteger(s.state_ticks_left) && s.state_ticks_left >= 0)) throw new InputError('scenario: invalid shade state_ticks_left');
+    }
+  }
+  if (doc.drifters !== undefined) {
+    if (!Array.isArray(doc.drifters)) throw new InputError('scenario: invalid drifters');
+    for (const d of doc.drifters) {
+      if (!d || typeof d !== 'object' || !vec3(d.pos)) throw new InputError('scenario: invalid drifter');
+      if (d.state !== undefined && !['idle', 'chase', 'flee', 'removed'].includes(d.state)) throw new InputError('scenario: invalid drifter state');
+      if (d.stolen !== undefined && !(Number.isInteger(d.stolen) && d.stolen >= 0)) throw new InputError('scenario: invalid drifter stolen');
+    }
+  }
+  if (doc.charms !== undefined) {
+    if (!Array.isArray(doc.charms)) throw new InputError('scenario: invalid charms');
+    for (const c of doc.charms) {
+      if (!c || typeof c !== 'object' || c.id === undefined) throw new InputError('scenario: charm needs id');
+      if (c.pos !== undefined && !vec3(c.pos)) throw new InputError('scenario: invalid charm pos');
     }
   }
   if (doc.lanterns !== undefined) {
@@ -59,7 +79,7 @@ export function validateScenario(doc) {
 
 export function createInputTimeline(doc) {
   const frames = doc ? doc.frames : [];
-  const cur = { move: [0, 0], cam_yaw_deg: 0, jump: false, interact: false, pulse: false, dash: false };
+  const cur = { move: [0, 0], cam_yaw_deg: 0, jump: false, interact: false, pulse: false, dash: false, pause: false };
   let idx = 0;
   return function at(tick) {
     while (idx < frames.length && frames[idx].tick <= tick) {

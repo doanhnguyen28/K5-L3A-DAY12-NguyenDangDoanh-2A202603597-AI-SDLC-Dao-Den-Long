@@ -1,0 +1,38 @@
+{
+  "name": "34_drifter_spawn",
+  "requirement": "T3 drifter spawns at tick 1200 on night 2",
+  "night": 2,
+  "seed": 1,
+  "ticks": 1200,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": true,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 1199,
+      "path": "drifters.length",
+      "equals": 0
+    },
+    {
+      "at": 1200,
+      "path": "drifters.length",
+      "equals": 1
+    },
+    {
+      "at": 1200,
+      "path": "drifters.0.id",
+      "equals": "D1"
+    },
+    {
+      "at": 1200,
+      "path": "drifters.0.state",
+      "equals": "idle"
+    }
+  ]
+}

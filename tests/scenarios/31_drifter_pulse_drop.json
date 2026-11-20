@@ -1,0 +1,92 @@
+{
+  "name": "31_drifter_pulse_drop",
+  "requirement": "T3 drifter: pulse on a fleeing drifter with loot drops 3 dropped motes (ttl 480) and it vanishes after 120 ticks",
+  "night": 2,
+  "seed": 1,
+  "ticks": 481,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 3,
+      "flames": 3
+    },
+    "drifters": [
+      {
+        "pos": [
+          4,
+          1,
+          0
+        ],
+        "state": "flee",
+        "stolen": 3
+      }
+    ]
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "pulse": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "drifter_drop",
+      "tick": 1,
+      "data": {
+        "drifter_id": "D1",
+        "amount": 3
+      }
+    },
+    {
+      "at": 1,
+      "path": "motes_active",
+      "equals": 3
+    },
+    {
+      "at": 1,
+      "path": "motes.0.kind",
+      "equals": "dropped"
+    },
+    {
+      "at": 1,
+      "path": "motes.0.pos",
+      "equals": [
+        4,
+        0,
+        0
+      ]
+    },
+    {
+      "at": 120,
+      "path": "drifters.0.state",
+      "equals": "flee"
+    },
+    {
+      "at": 121,
+      "path": "drifters.0.state",
+      "equals": "removed"
+    },
+    {
+      "at": 480,
+      "path": "motes_active",
+      "equals": 3
+    },
+    {
+      "at": 481,
+      "path": "motes_active",
+      "equals": 0
+    }
+  ]
+}

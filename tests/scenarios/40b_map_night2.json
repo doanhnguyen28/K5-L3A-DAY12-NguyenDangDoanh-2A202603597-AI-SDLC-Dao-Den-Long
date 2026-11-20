@@ -1,0 +1,43 @@
+{
+  "name": "40b_map_night2",
+  "requirement": "T2 map night 2: 6 lanterns, 330 s, charm C1",
+  "night": 2,
+  "seed": 1,
+  "ticks": 1,
+  "snapshot_every": 1,
+  "scenario": {},
+  "inputs": null,
+  "expect": [
+    {
+      "event": "night_start",
+      "tick": 0,
+      "data": {
+        "night": 2
+      }
+    },
+    {
+      "at": 0,
+      "path": "lanterns.length",
+      "equals": 6
+    },
+    {
+      "at": 0,
+      "path": "lanterns.3.pos",
+      "equals": [
+        70,
+        0,
+        20
+      ]
+    },
+    {
+      "at": 0,
+      "path": "time_left_s",
+      "equals": 330
+    },
+    {
+      "at": 0,
+      "path": "charms.0.id",
+      "equals": "C1"
+    }
+  ]
+}

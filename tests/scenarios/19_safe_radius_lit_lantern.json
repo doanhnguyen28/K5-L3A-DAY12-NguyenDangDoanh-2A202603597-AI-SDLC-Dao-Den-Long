@@ -1,12 +1,14 @@
 {
   "name": "19_safe_radius_lit_lantern",
-  "requirement": "R4 safe_radius: shade cannot enter 5 m around a lit lantern; player beside it is safe",
+  "requirement": "T2 safe zone 6 m: chasing shade stops 6 m from lit L1 (z=19); player beside lantern is safe",
+  "night": 1,
   "seed": 1,
   "ticks": 600,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [
       {
@@ -44,7 +46,7 @@
       "equals": [
         0,
         1,
-        20
+        19
       ]
     }
   ]

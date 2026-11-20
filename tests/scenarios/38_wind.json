@@ -1,0 +1,56 @@
+{
+  "name": "38_wind",
+  "requirement": "T2 map night 3: gust active ticks 1800-2099, pushes player 2 m/s",
+  "night": 3,
+  "seed": 1,
+  "ticks": 2100,
+  "snapshot_every": 3,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        -30
+      ],
+      "carried": 0,
+      "flames": 3
+    }
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 1797,
+      "path": "wind.active",
+      "equals": false
+    },
+    {
+      "at": 1800,
+      "path": "wind.active",
+      "equals": true
+    },
+    {
+      "at": 2097,
+      "path": "wind.active",
+      "equals": true
+    },
+    {
+      "at": 2100,
+      "path": "wind.active",
+      "equals": false
+    },
+    {
+      "at": 2100,
+      "path": "player.pos",
+      "ne": [
+        0,
+        0,
+        -30
+      ]
+    }
+  ]
+}

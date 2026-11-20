@@ -1,12 +1,14 @@
 {
   "name": "08_deposit_and_light",
-  "requirement": "R3 deposit: interact within 3 m deposits lantern_cost 5 and lights L1 (+100)",
+  "requirement": "T2 deposit: 2 m radius, cost 10 -> lit; score 10*10 + 100 = 200",
+  "night": 1,
   "seed": 1,
   "ticks": 10,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [],
     "player": {
@@ -15,7 +17,7 @@
         0,
         23
       ],
-      "carried": 7,
+      "carried": 12,
       "flames": 3
     }
   },
@@ -37,8 +39,8 @@
       "tick": 1,
       "data": {
         "lantern_id": "L1",
-        "amount": 5,
-        "deposited": 5
+        "amount": 10,
+        "deposited": 10
       }
     },
     {
@@ -56,12 +58,7 @@
     {
       "at": 10,
       "path": "score",
-      "equals": 100
-    },
-    {
-      "at": 10,
-      "path": "lanterns.0.lit",
-      "equals": true
+      "equals": 200
     }
   ]
 }

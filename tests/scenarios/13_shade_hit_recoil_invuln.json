@@ -1,12 +1,14 @@
 {
-  "name": "13_shade_hits_invuln_no_flames",
-  "requirement": "R4 shade: hit drops 50% motes, invuln 1.5 s (90 ticks), 3 hits -> lost/no_flames",
+  "name": "13_shade_hit_recoil_invuln",
+  "requirement": "T2 shade hit: -1 flame, drop floor(4/2)=2 dropped motes (ttl 8 s), recoil, invuln 90 -> hits at 1, 91, 181 -> lost/no_flames",
+  "night": 1,
   "seed": 1,
   "ticks": 400,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [
       {
@@ -39,6 +41,31 @@
       }
     },
     {
+      "at": 1,
+      "path": "motes_active",
+      "equals": 2
+    },
+    {
+      "at": 1,
+      "path": "motes.0.kind",
+      "equals": "dropped"
+    },
+    {
+      "at": 1,
+      "path": "motes.0.ttl_s",
+      "equals": 8
+    },
+    {
+      "at": 1,
+      "path": "player.invuln",
+      "equals": true
+    },
+    {
+      "at": 30,
+      "path": "shades.0.state",
+      "equals": "recoil"
+    },
+    {
       "event": "player_hit",
       "tick": 91,
       "data": {
@@ -51,7 +78,6 @@
       "event": "player_hit",
       "tick": 181,
       "data": {
-        "by": "shade",
         "flames": 0,
         "dropped": 0
       }

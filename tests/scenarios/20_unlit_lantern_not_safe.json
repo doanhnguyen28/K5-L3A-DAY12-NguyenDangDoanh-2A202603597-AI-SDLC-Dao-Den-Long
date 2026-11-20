@@ -1,12 +1,14 @@
 {
   "name": "20_unlit_lantern_not_safe",
-  "requirement": "R4 safe_radius: unlit lantern gives no protection (control for 19)",
+  "requirement": "T2 safe zone only for lit lanterns (control for 19)",
+  "night": 1,
   "seed": 1,
   "ticks": 600,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [
       {

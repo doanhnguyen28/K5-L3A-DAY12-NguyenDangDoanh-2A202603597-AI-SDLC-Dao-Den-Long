@@ -1,0 +1,71 @@
+{
+  "name": "42b_safe_zone_evict_speed",
+  "requirement": "T2 safe zone: eviction 0.2 m/tick, shade at 2 m reaches 6 m at tick 20",
+  "night": 1,
+  "seed": 1,
+  "ticks": 30,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [
+      {
+        "pos": [
+          2,
+          1,
+          25
+        ],
+        "state": "stunned",
+        "state_ticks_left": 200
+      }
+    ],
+    "player": {
+      "pos": [
+        0,
+        0,
+        23
+      ],
+      "carried": 10,
+      "flames": 3
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "interact": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 10,
+      "path": "shades.0.pos",
+      "equals": [
+        4,
+        1,
+        25
+      ]
+    },
+    {
+      "at": 20,
+      "path": "shades.0.pos",
+      "equals": [
+        6,
+        1,
+        25
+      ]
+    },
+    {
+      "at": 30,
+      "path": "shades.0.pos",
+      "equals": [
+        6,
+        1,
+        25
+      ]
+    }
+  ]
+}

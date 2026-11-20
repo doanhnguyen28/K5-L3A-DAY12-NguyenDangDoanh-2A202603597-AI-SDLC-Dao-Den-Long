@@ -1,0 +1,46 @@
+{
+  "name": "46_fall_ignores_invuln",
+  "requirement": "T2 fall ignores invulnerability",
+  "night": 1,
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        39.95
+      ],
+      "carried": 0,
+      "flames": 3,
+      "invuln_ticks": 1000
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "player_hit",
+      "tick": 61,
+      "data": {
+        "by": "fall",
+        "flames": 2
+      }
+    }
+  ]
+}

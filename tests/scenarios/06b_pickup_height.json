@@ -1,0 +1,42 @@
+{
+  "name": "06b_pickup_height",
+  "requirement": "T2 pickup height: |foot - mote ground| <= 1.5 picked, 1.6 not",
+  "night": 1,
+  "seed": 1,
+  "ticks": 10,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [
+      [
+        0,
+        1.5,
+        0.5
+      ],
+      [
+        0.5,
+        1.6,
+        0
+      ]
+    ],
+    "shades": []
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event_count": "mote_picked",
+      "equals": 1
+    },
+    {
+      "at": 10,
+      "path": "motes.0.pos",
+      "equals": [
+        0.5,
+        1.6,
+        0
+      ]
+    }
+  ]
+}

@@ -1,18 +1,20 @@
 {
-  "name": "14_shade_chases",
-  "requirement": "R4 shade: shade moves toward player at 3.5 m/s",
+  "name": "14_shade_chase_speed",
+  "requirement": "T2 shade chase 4.0 m/s: 10 m -> 6 m after 60 ticks",
+  "night": 1,
   "seed": 1,
   "ticks": 60,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [
       {
         "id": "S1",
         "pos": [
-          20,
+          10,
           1,
           0
         ]
@@ -25,7 +27,7 @@
       "at": 60,
       "path": "shades.0.pos",
       "equals": [
-        16.5,
+        6,
         1,
         0
       ]

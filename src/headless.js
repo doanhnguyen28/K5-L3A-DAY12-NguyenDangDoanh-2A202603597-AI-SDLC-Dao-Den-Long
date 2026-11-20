@@ -30,7 +30,7 @@ function parseArgs(argv) {
     }
   }
   for (const k of ['seed', 'night', 'ticks', 'out']) if (out[k] === undefined) throw new UsageError(`missing --${k}`);
-  if (out.night !== 1) throw new UsageError(`unsupported --night ${out.night} (only 1)`);
+  if (![1, 2, 3].includes(out.night)) throw new UsageError(`unsupported --night ${out.night} (1, 2 or 3)`);
   if (out.ticks < 0) throw new UsageError('--ticks must be >= 0');
   if (out.snapshotEvery < 1) throw new UsageError('--snapshot-every must be >= 1');
   return out;
@@ -62,6 +62,7 @@ function main() {
       scenario,
       inputs,
       ticks: args.ticks,
+      night: args.night,
       snapshotEvery: args.snapshotEvery,
     });
     writeFileSync(args.out, lines.map((l) => JSON.stringify(l)).join('\n') + '\n');

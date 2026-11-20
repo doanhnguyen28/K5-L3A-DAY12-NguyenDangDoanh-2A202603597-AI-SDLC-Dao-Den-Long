@@ -1,12 +1,14 @@
 {
-  "name": "23_shade_spawn",
-  "requirement": "R4 spawn: with random_shades a new shade spawns every 30 s (event shade_spawned)",
+  "name": "23b_shade_spawn_night2",
+  "requirement": "T2 spawn night 2 every 7 s: ticks 300 (x2), 720",
+  "night": 2,
   "seed": 1,
-  "ticks": 1800,
+  "ticks": 730,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": true,
+    "random_drifters": false,
     "motes": [],
     "shades": []
   },
@@ -14,16 +16,14 @@
   "expect": [
     {
       "event": "shade_spawned",
-      "tick": 1800,
+      "tick": 720,
       "data": {
-        "id": "S1"
+        "id": "S3"
       }
     },
     {
-      "end": {
-        "ticks": 1800,
-        "state": "playing"
-      }
+      "event_count": "shade_spawned",
+      "equals": 3
     }
   ]
 }

@@ -1,12 +1,14 @@
 {
   "name": "22_shade_ids",
-  "requirement": "Contract D: unnamed shades get ids that avoid given ids",
+  "requirement": "Contract: unnamed scenario shades get ids avoiding given ids",
+  "night": 1,
   "seed": 1,
   "ticks": 1,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [
       {

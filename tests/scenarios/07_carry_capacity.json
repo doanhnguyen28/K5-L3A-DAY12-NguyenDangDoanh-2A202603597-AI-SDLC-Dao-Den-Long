@@ -1,12 +1,14 @@
 {
   "name": "07_carry_capacity",
-  "requirement": "R2 carry_capacity 10: only one mote picked when carrying 9",
+  "requirement": "R2 capacity 10: carrying 9 picks only one",
+  "night": 1,
   "seed": 1,
   "ticks": 10,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [
       [
         0,

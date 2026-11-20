@@ -1,0 +1,68 @@
+{
+  "name": "24_dash",
+  "requirement": "T2 dash 14 m/s x 12 ticks (2.8 m) + 48 ticks walk (4.8 m) = 7.6 m; cooldown 1.5 s blocks re-dash at tick 51",
+  "night": 1,
+  "seed": 1,
+  "ticks": 60,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ],
+        "dash": true
+      },
+      {
+        "tick": 1,
+        "dash": false
+      },
+      {
+        "tick": 50,
+        "dash": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "dash",
+      "tick": 1
+    },
+    {
+      "event_count": "dash",
+      "equals": 1
+    },
+    {
+      "at": 1,
+      "path": "player.dash_cd_s",
+      "equals": 1.5
+    },
+    {
+      "at": 5,
+      "path": "player.vel",
+      "equals": [
+        0,
+        0,
+        14
+      ]
+    },
+    {
+      "at": 60,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        7.6
+      ]
+    }
+  ]
+}

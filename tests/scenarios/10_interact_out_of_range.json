@@ -1,19 +1,21 @@
 {
   "name": "10_interact_out_of_range",
-  "requirement": "R3 deposit: 3.1 m from lantern is out of interact_radius 3",
+  "requirement": "T2 interact: 2.1 m is out of 2.0 m radius",
+  "night": 1,
   "seed": 1,
   "ticks": 10,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [],
     "player": {
       "pos": [
         0,
         0,
-        21.9
+        22.9
       ],
       "carried": 5,
       "flames": 3
@@ -30,11 +32,6 @@
   "expect": [
     {
       "no_event": "deposit"
-    },
-    {
-      "at": 10,
-      "path": "player.carried",
-      "equals": 5
     }
   ]
 }

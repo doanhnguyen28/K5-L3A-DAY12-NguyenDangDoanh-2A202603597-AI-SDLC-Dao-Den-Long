@@ -1,0 +1,3383 @@
+[
+  {
+    "name": "01_move_forward",
+    "ok": true,
+    "sha": "fc1a2500ffccaa48",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            6
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          6
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.vel",
+          "equals": [
+            0,
+            0,
+            6
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          6
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "02_move_diagonal_normalized",
+    "ok": true,
+    "sha": "f24f4b765411118f",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            4.243,
+            0,
+            4.243
+          ]
+        },
+        "actual": [
+          4.243,
+          0,
+          4.243
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "03_move_cam_yaw_90",
+    "ok": true,
+    "sha": "7f5ed218fb3a4b03",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            6,
+            0,
+            0
+          ]
+        },
+        "actual": [
+          6,
+          0,
+          0
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "04_jump",
+    "ok": true,
+    "sha": "24b909b722050458",
+    "checks": [
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.pos.1",
+          "gt": 0
+        },
+        "actual": 0.861,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.grounded",
+          "equals": false
+        },
+        "actual": false,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos.1",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.grounded",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "05_fall_off_island",
+    "ok": true,
+    "sha": "b34afc3a4e2911c3",
+    "checks": [
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 61,
+          "data": {
+            "by": "fall",
+            "flames": 2,
+            "dropped": 0,
+            "lost": 4
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 61,
+            "name": "player_hit",
+            "data": {
+              "by": "fall",
+              "flames": 2,
+              "dropped": 0,
+              "lost": 4
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 61,
+          "path": "player.carried",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 120,
+          "path": "player.pos.1",
+          "lt": -10
+        },
+        "actual": -10.167,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 121,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            0
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 121,
+          "path": "player.invuln",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 122,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            0.1
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          0.1
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "player_hit",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 130,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "06_pickup_radius",
+    "ok": true,
+    "sha": "cce2ec907f8beb65",
+    "checks": [
+      {
+        "expect": {
+          "event": "mote_picked",
+          "tick": 1,
+          "data": {
+            "carried": 1
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "mote_picked",
+            "data": {
+              "carried": 1
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "mote_picked",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "motes_active",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "score",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "06b_pickup_height",
+    "ok": true,
+    "sha": "17459031abeaec38",
+    "checks": [
+      {
+        "expect": {
+          "event_count": "mote_picked",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "motes.0.pos",
+          "equals": [
+            0.5,
+            1.6,
+            0
+          ]
+        },
+        "actual": [
+          0.5,
+          1.6,
+          0
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "07_carry_capacity",
+    "ok": true,
+    "sha": "adbabc9eeb69435d",
+    "checks": [
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.carried",
+          "equals": 10
+        },
+        "actual": 10,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "motes_active",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "mote_picked",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "08_deposit_and_light",
+    "ok": true,
+    "sha": "27b8056252d40837",
+    "checks": [
+      {
+        "expect": {
+          "event": "deposit",
+          "tick": 1,
+          "data": {
+            "lantern_id": "L1",
+            "amount": 10,
+            "deposited": 10
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "deposit",
+            "data": {
+              "lantern_id": "L1",
+              "amount": 10,
+              "deposited": 10
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "lantern_lit",
+          "tick": 1,
+          "data": {
+            "lantern_id": "L1"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "lantern_lit",
+            "data": {
+              "lantern_id": "L1"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.carried",
+          "equals": 2
+        },
+        "actual": 2,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "score",
+          "equals": 200
+        },
+        "actual": 200,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 200
+    }
+  },
+  {
+    "name": "09_partial_deposit",
+    "ok": true,
+    "sha": "5cce2cb6ee682f9b",
+    "checks": [
+      {
+        "expect": {
+          "event": "deposit",
+          "tick": 1,
+          "data": {
+            "lantern_id": "L1",
+            "amount": 3,
+            "deposited": 3
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "deposit",
+            "data": {
+              "lantern_id": "L1",
+              "amount": 3,
+              "deposited": 3
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "lantern_lit"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "score",
+          "equals": 30
+        },
+        "actual": 30,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 10,
+          "path": "lanterns.0.deposited",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 30
+    }
+  },
+  {
+    "name": "10_interact_out_of_range",
+    "ok": true,
+    "sha": "dd0588f3e44f5f29",
+    "checks": [
+      {
+        "expect": {
+          "no_event": "deposit"
+        },
+        "actual": [],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "11_win_all_lit",
+    "ok": true,
+    "sha": "09f99e3f9c28be07",
+    "checks": [
+      {
+        "expect": {
+          "event": "game_over",
+          "tick": 1,
+          "data": {
+            "result": "won",
+            "reason": "all_lit"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "game_over",
+            "data": {
+              "result": "won",
+              "reason": "all_lit"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 1,
+            "state": "won",
+            "score": 858
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 1,
+          "state": "won",
+          "score": 858
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "won",
+      "score": 858
+    }
+  },
+  {
+    "name": "12_lose_dawn",
+    "ok": true,
+    "sha": "b679dbae59d8c83b",
+    "checks": [
+      {
+        "expect": {
+          "event": "game_over",
+          "tick": 60,
+          "data": {
+            "result": "lost",
+            "reason": "dawn"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 60,
+            "name": "game_over",
+            "data": {
+              "result": "lost",
+              "reason": "dawn"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 60,
+            "state": "lost",
+            "score": 0
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 60,
+          "state": "lost",
+          "score": 0
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "lost",
+      "score": 0
+    }
+  },
+  {
+    "name": "13_shade_hit_recoil_invuln",
+    "ok": true,
+    "sha": "20be7fb7e5128919",
+    "checks": [
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 1,
+          "data": {
+            "by": "shade",
+            "flames": 2,
+            "dropped": 2
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 2,
+              "dropped": 2
+            }
+          },
+          {
+            "type": "event",
+            "tick": 91,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 1,
+              "dropped": 1
+            }
+          },
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 0,
+              "dropped": 0
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "motes_active",
+          "equals": 2
+        },
+        "actual": 2,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "motes.0.kind",
+          "equals": "dropped"
+        },
+        "actual": "dropped",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "motes.0.ttl_s",
+          "equals": 8
+        },
+        "actual": 8,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "player.invuln",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 30,
+          "path": "shades.0.state",
+          "equals": "recoil"
+        },
+        "actual": "recoil",
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 91,
+          "data": {
+            "by": "shade",
+            "flames": 1,
+            "dropped": 1
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 2,
+              "dropped": 2
+            }
+          },
+          {
+            "type": "event",
+            "tick": 91,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 1,
+              "dropped": 1
+            }
+          },
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 0,
+              "dropped": 0
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 181,
+          "data": {
+            "flames": 0,
+            "dropped": 0
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 2,
+              "dropped": 2
+            }
+          },
+          {
+            "type": "event",
+            "tick": 91,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 1,
+              "dropped": 1
+            }
+          },
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 0,
+              "dropped": 0
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "game_over",
+          "tick": 181,
+          "data": {
+            "result": "lost",
+            "reason": "no_flames"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "game_over",
+            "data": {
+              "result": "lost",
+              "reason": "no_flames"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 181,
+            "state": "lost"
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 181,
+          "state": "lost",
+          "score": 0
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 181,
+      "state": "lost",
+      "score": 0
+    }
+  },
+  {
+    "name": "14_shade_chase_speed",
+    "ok": true,
+    "sha": "b1fe95ade471caa2",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "shades.0.pos",
+          "equals": [
+            6,
+            1,
+            0
+          ]
+        },
+        "actual": [
+          6,
+          1,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "shades.0.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "14b_shade_detect_giveup",
+    "ok": true,
+    "sha": "4d413201edcac295",
+    "checks": [
+      {
+        "expect": {
+          "at": 1,
+          "path": "shades.0.state",
+          "equals": "wander"
+        },
+        "actual": "wander",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "shades.1.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "shades.2.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "shades.3.state",
+          "equals": "wander"
+        },
+        "actual": "wander",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "14c_shade_speed_night3",
+    "ok": true,
+    "sha": "54daba8a24f2afdd",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "shades.0.pos",
+          "equals": [
+            5.5,
+            1,
+            -30
+          ]
+        },
+        "actual": [
+          5.5,
+          1,
+          -30
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "15_pulse_stun_push",
+    "ok": true,
+    "sha": "49fc9fff4f22ef41",
+    "checks": [
+      {
+        "expect": {
+          "event": "pulse",
+          "tick": 1,
+          "data": {
+            "stunned_ids": [
+              "S1"
+            ]
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": [
+                "S1"
+              ]
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "player.carried",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "score",
+          "equals": 5
+        },
+        "actual": 5,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "player.pulse_cd_s",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "shades.0.pos.0",
+          "between": [
+            3.26,
+            3.27
+          ]
+        },
+        "actual": 3.267,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 15,
+          "path": "shades.0.pos",
+          "equals": [
+            7,
+            1,
+            0
+          ]
+        },
+        "actual": [
+          7,
+          1,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 120,
+          "path": "shades.0.state",
+          "equals": "stunned"
+        },
+        "actual": "stunned",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 120,
+          "path": "shades.0.pos",
+          "equals": [
+            7,
+            1,
+            0
+          ]
+        },
+        "actual": [
+          7,
+          1,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 121,
+          "path": "shades.0.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 121,
+          "path": "shades.0.pos.0",
+          "lt": 7
+        },
+        "actual": 6.933,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 200,
+      "state": "playing",
+      "score": 5
+    }
+  },
+  {
+    "name": "16_pulse_needs_3",
+    "ok": true,
+    "sha": "0199dc634ed10a12",
+    "checks": [
+      {
+        "expect": {
+          "no_event": "pulse"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "player.carried",
+          "equals": 2
+        },
+        "actual": 2,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "17_pulse_radius_3d",
+    "ok": true,
+    "sha": "0f2ab20f5a04c57f",
+    "checks": [
+      {
+        "expect": {
+          "event": "pulse",
+          "tick": 1,
+          "data": {
+            "stunned_ids": [
+              "S2"
+            ]
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": [
+                "S2"
+              ]
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "score",
+          "equals": 5
+        },
+        "actual": 5,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "player.carried",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 5
+    }
+  },
+  {
+    "name": "18_pulse_cooldown",
+    "ok": true,
+    "sha": "8dfd9e3d1a9e5873",
+    "checks": [
+      {
+        "expect": {
+          "event_count": "pulse",
+          "equals": 2
+        },
+        "actual": 2,
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "pulse",
+          "tick": 1
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          },
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "pulse",
+          "tick": 181
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          },
+          {
+            "type": "event",
+            "tick": 181,
+            "name": "pulse",
+            "data": {
+              "stunned_ids": []
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 200,
+          "path": "player.carried",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 200,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "19_safe_radius_lit_lantern",
+    "ok": true,
+    "sha": "af56a1ed0b955271",
+    "checks": [
+      {
+        "expect": {
+          "no_event": "player_hit"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 600,
+          "path": "shades.0.pos",
+          "equals": [
+            0,
+            1,
+            19
+          ]
+        },
+        "actual": [
+          0,
+          1,
+          19
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 600,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "20_unlit_lantern_not_safe",
+    "ok": true,
+    "sha": "ef4cd5e1e11f0750",
+    "checks": [
+      {
+        "expect": {
+          "event": "player_hit"
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 120,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 2,
+              "dropped": 0
+            }
+          },
+          {
+            "type": "event",
+            "tick": 210,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 1,
+              "dropped": 0
+            }
+          },
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "player_hit",
+            "data": {
+              "by": "shade",
+              "flames": 0,
+              "dropped": 0
+            }
+          }
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 300,
+      "state": "lost",
+      "score": 0
+    }
+  },
+  {
+    "name": "21_setup_no_score",
+    "ok": true,
+    "sha": "68cf58d5a2e0a4c0",
+    "checks": [
+      {
+        "expect": {
+          "at": 0,
+          "path": "score",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "lanterns.0.deposited",
+          "equals": 10
+        },
+        "actual": 10,
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "lantern_lit"
+        },
+        "actual": [],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 10,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "22_shade_ids",
+    "ok": true,
+    "sha": "49f7542ec03e7a70",
+    "checks": [
+      {
+        "expect": {
+          "at": 0,
+          "path": "shades.0.id",
+          "equals": "S2"
+        },
+        "actual": "S2",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "shades.1.id",
+          "equals": "S1"
+        },
+        "actual": "S1",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "shades.2.id",
+          "equals": "S3"
+        },
+        "actual": "S3",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "23_shade_spawn_night1",
+    "ok": true,
+    "sha": "cfc82fbfaf017f02",
+    "checks": [
+      {
+        "expect": {
+          "event": "shade_spawned",
+          "tick": 300,
+          "data": {
+            "id": "S1"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S1"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S2"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 780,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S3"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "shade_spawned",
+          "tick": 300,
+          "data": {
+            "id": "S2"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S1"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S2"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 780,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S3"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "shade_spawned",
+          "tick": 780,
+          "data": {
+            "id": "S3"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S1"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S2"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 780,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S3"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "shade_spawned",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 300,
+          "path": "shades.0.state",
+          "equals": "spawning"
+        },
+        "actual": "spawning",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 359,
+          "path": "shades.0.state",
+          "equals": "spawning"
+        },
+        "actual": "spawning",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 361,
+          "path": "shades.0.state",
+          "in": [
+            "wander",
+            "chase"
+          ]
+        },
+        "actual": "wander",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 800,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "23b_shade_spawn_night2",
+    "ok": true,
+    "sha": "65fbcb8dd4ea3951",
+    "checks": [
+      {
+        "expect": {
+          "event": "shade_spawned",
+          "tick": 720,
+          "data": {
+            "id": "S3"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S1"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S2"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 720,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S3"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "shade_spawned",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 730,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "23c_shade_spawn_night3",
+    "ok": true,
+    "sha": "ba940375f1cba8fe",
+    "checks": [
+      {
+        "expect": {
+          "event": "shade_spawned",
+          "tick": 660,
+          "data": {
+            "id": "S3"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S1"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 300,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S2"
+            }
+          },
+          {
+            "type": "event",
+            "tick": 660,
+            "name": "shade_spawned",
+            "data": {
+              "id": "S3"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "shade_spawned",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 670,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "24_dash",
+    "ok": true,
+    "sha": "e1bb2369a9cf00c4",
+    "checks": [
+      {
+        "expect": {
+          "event": "dash",
+          "tick": 1
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "dash",
+            "data": {}
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "dash",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "player.dash_cd_s",
+          "equals": 1.5
+        },
+        "actual": 1.5,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 5,
+          "path": "player.vel",
+          "equals": [
+            0,
+            0,
+            14
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          14
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            7.6
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          7.6
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "25_dash_facing",
+    "ok": true,
+    "sha": "99d9d09d35ac0b82",
+    "checks": [
+      {
+        "expect": {
+          "at": 40,
+          "path": "player.pos",
+          "equals": [
+            3.8,
+            0,
+            0
+          ]
+        },
+        "actual": [
+          3.8,
+          0,
+          0
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 40,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "26_dash_in_air_keeps_height",
+    "ok": true,
+    "sha": "6aee9621f4b6a830",
+    "checks": [
+      {
+        "expect": {
+          "at": 10,
+          "path": "player.pos.1",
+          "equals": 0.861
+        },
+        "actual": 0.861,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 11,
+          "path": "player.pos.1",
+          "equals": 0.861
+        },
+        "actual": 0.861,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 22,
+          "path": "player.pos.1",
+          "equals": 0.861
+        },
+        "actual": 0.861,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 23,
+          "path": "player.pos.1",
+          "gt": 0.861
+        },
+        "actual": 0.917,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 15,
+          "path": "player.vel",
+          "equals": [
+            0,
+            0,
+            14
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          14
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 30,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "27_charm_speed",
+    "ok": true,
+    "sha": "41dc12abd45a8840",
+    "checks": [
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            7.2
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          7.2
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.charm_s",
+          "equals": 9
+        },
+        "actual": 9,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "28_charm_dash_no_cooldown",
+    "ok": true,
+    "sha": "44c529de1bc5c2e1",
+    "checks": [
+      {
+        "expect": {
+          "event_count": "dash",
+          "equals": 2
+        },
+        "actual": 2,
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "dash",
+          "tick": 1
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "dash",
+            "data": {}
+          },
+          {
+            "type": "event",
+            "tick": 21,
+            "name": "dash",
+            "data": {}
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "dash",
+          "tick": 21
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "dash",
+            "data": {}
+          },
+          {
+            "type": "event",
+            "tick": 21,
+            "name": "dash",
+            "data": {}
+          }
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 40,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "29_charm_pickup_respawn",
+    "ok": true,
+    "sha": "da8a33076c97b0e3",
+    "checks": [
+      {
+        "expect": {
+          "event": "charm_picked",
+          "tick": 1,
+          "data": {
+            "charm_id": "C1",
+            "charm_ticks": 600
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "charm_picked",
+            "data": {
+              "charm_id": "C1",
+              "charm_ticks": 600
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 37,
+          "path": "charms.0.available",
+          "equals": false
+        },
+        "actual": false,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 37,
+          "path": "player.charm_s",
+          "gt": 9
+        },
+        "actual": 9.4,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 2664,
+          "path": "charms.0.available",
+          "equals": false
+        },
+        "actual": false,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 2701,
+          "path": "charms.0.available",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 2701,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "30_drifter_steal",
+    "ok": true,
+    "sha": "0a1f92f66524002d",
+    "checks": [
+      {
+        "expect": {
+          "event": "drifter_steal",
+          "tick": 16,
+          "data": {
+            "drifter_id": "D1",
+            "amount": 3,
+            "carried": 3
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 16,
+            "name": "drifter_steal",
+            "data": {
+              "drifter_id": "D1",
+              "amount": 3,
+              "carried": 3
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "drifters.0.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 16,
+          "path": "drifters.0.state",
+          "equals": "flee"
+        },
+        "actual": "flee",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 255,
+          "path": "drifters.0.state",
+          "equals": "flee"
+        },
+        "actual": "flee",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 256,
+          "path": "drifters.0.state",
+          "equals": "removed"
+        },
+        "actual": "removed",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 256,
+          "path": "drifters.0.stolen",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      },
+      {
+        "expect": {
+          "event_count": "drifter_steal",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 300,
+          "path": "player.flames",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 300,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "31_drifter_pulse_drop",
+    "ok": true,
+    "sha": "4e709ac240de5fa0",
+    "checks": [
+      {
+        "expect": {
+          "event": "drifter_drop",
+          "tick": 1,
+          "data": {
+            "drifter_id": "D1",
+            "amount": 3
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "drifter_drop",
+            "data": {
+              "drifter_id": "D1",
+              "amount": 3
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "motes_active",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "motes.0.kind",
+          "equals": "dropped"
+        },
+        "actual": "dropped",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1,
+          "path": "motes.0.pos",
+          "equals": [
+            4,
+            0,
+            0
+          ]
+        },
+        "actual": [
+          4,
+          0,
+          0
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 120,
+          "path": "drifters.0.state",
+          "equals": "flee"
+        },
+        "actual": "flee",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 121,
+          "path": "drifters.0.state",
+          "equals": "removed"
+        },
+        "actual": "removed",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 480,
+          "path": "motes_active",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 481,
+          "path": "motes_active",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 481,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "32_drifter_pulse_chase",
+    "ok": true,
+    "sha": "faf929cca6748345",
+    "checks": [
+      {
+        "expect": {
+          "at": 5,
+          "path": "drifters.0.state",
+          "equals": "chase"
+        },
+        "actual": "chase",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 6,
+          "path": "drifters.0.state",
+          "equals": "flee"
+        },
+        "actual": "flee",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 6,
+          "path": "drifters.0.stolen",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "drifter_steal"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 300,
+          "path": "player.carried",
+          "equals": 5
+        },
+        "actual": 5,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 300,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "33_drifter_idle_low_carry",
+    "ok": true,
+    "sha": "84df9f9527de81bd",
+    "checks": [
+      {
+        "expect": {
+          "at": 30,
+          "path": "drifters.0.state",
+          "equals": "idle"
+        },
+        "actual": "idle",
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "drifter_steal"
+        },
+        "actual": [],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 60,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "34_drifter_spawn",
+    "ok": true,
+    "sha": "27b2faa3a174d0c1",
+    "checks": [
+      {
+        "expect": {
+          "at": 1199,
+          "path": "drifters.length",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1200,
+          "path": "drifters.length",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1200,
+          "path": "drifters.0.id",
+          "equals": "D1"
+        },
+        "actual": "D1",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1200,
+          "path": "drifters.0.state",
+          "equals": "idle"
+        },
+        "actual": "idle",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1200,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "35_launch_pad_night2",
+    "ok": true,
+    "sha": "f4d72c5544e169ba",
+    "checks": [
+      {
+        "expect": {
+          "at": 30,
+          "path": "player.grounded",
+          "equals": false
+        },
+        "actual": false,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 105,
+          "path": "player.grounded",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 105,
+          "path": "player.pos.0",
+          "between": [
+            51.3,
+            51.6
+          ]
+        },
+        "actual": 51.433,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 105,
+          "path": "player.pos.2",
+          "between": [
+            6.2,
+            6.7
+          ]
+        },
+        "actual": 6.513,
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "player_hit"
+        },
+        "actual": [],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 105,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "36_launch_pad_night3",
+    "ok": true,
+    "sha": "da28fa39c38b538b",
+    "checks": [
+      {
+        "expect": {
+          "at": 100,
+          "path": "player.pos.1",
+          "equals": 6
+        },
+        "actual": 6,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 100,
+          "path": "player.grounded",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 100,
+          "path": "player.pos.2",
+          "between": [
+            7.3,
+            7.6
+          ]
+        },
+        "actual": 7.467,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 100,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "37_tier_wall",
+    "ok": true,
+    "sha": "540ae5b3e878a0f1",
+    "checks": [
+      {
+        "expect": {
+          "at": 120,
+          "path": "player.pos.2",
+          "between": [
+            23.99,
+            24.11
+          ]
+        },
+        "actual": 24.1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 120,
+          "path": "player.pos.1",
+          "equals": 0
+        },
+        "actual": 0,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 120,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "37b_ramp_climb",
+    "ok": true,
+    "sha": "cc90be5ab9ae9ced",
+    "checks": [
+      {
+        "expect": {
+          "at": 120,
+          "path": "player.pos.1",
+          "equals": 3
+        },
+        "actual": 3,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 120,
+          "path": "player.grounded",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 120,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "38_wind",
+    "ok": true,
+    "sha": "ef4cdb90d4f2cbc4",
+    "checks": [
+      {
+        "expect": {
+          "at": 1797,
+          "path": "wind.active",
+          "equals": false
+        },
+        "actual": false,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1800,
+          "path": "wind.active",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 2097,
+          "path": "wind.active",
+          "equals": true
+        },
+        "actual": true,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 2100,
+          "path": "wind.active",
+          "equals": false
+        },
+        "actual": false,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 2100,
+          "path": "player.pos",
+          "ne": [
+            0,
+            0,
+            -30
+          ]
+        },
+        "actual": [
+          3.746,
+          0,
+          -20.728
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 2100,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "38b_wind_disabled",
+    "ok": true,
+    "sha": "25c29209076b6db5",
+    "checks": [
+      {
+        "expect": {
+          "at": 1800,
+          "path": "wind.active",
+          "equals": false
+        },
+        "actual": false,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 1800,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            -30
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          -30
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1800,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "39_pause",
+    "ok": true,
+    "sha": "6b00ce497531a7a2",
+    "checks": [
+      {
+        "expect": {
+          "event": "paused",
+          "tick": 11
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 11,
+            "name": "paused",
+            "data": {}
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "event": "resumed",
+          "tick": 71
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 71,
+            "name": "resumed",
+            "data": {}
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "state",
+          "equals": "paused"
+        },
+        "actual": "paused",
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "sim_tick",
+          "equals": 10
+        },
+        "actual": 10,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "time_left_s",
+          "equals": 299.833
+        },
+        "actual": 299.833,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 60,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            1
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          1
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 100,
+          "path": "sim_tick",
+          "equals": 40
+        },
+        "actual": 40,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 100,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            4
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          4
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 100,
+            "state": "playing"
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 100,
+          "state": "playing",
+          "score": 0
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 100,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "40a_map_night1",
+    "ok": true,
+    "sha": "06ab8273e47991e5",
+    "checks": [
+      {
+        "expect": {
+          "event": "night_start",
+          "tick": 0,
+          "data": {
+            "night": 1
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 0,
+            "name": "night_start",
+            "data": {
+              "night": 1
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "lanterns.1.pos",
+          "equals": [
+            23.8,
+            0,
+            7.7
+          ]
+        },
+        "actual": [
+          23.8,
+          0,
+          7.7
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "motes_active",
+          "equals": 20
+        },
+        "actual": 20,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "night",
+          "equals": 1
+        },
+        "actual": 1,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "time_left_s",
+          "equals": 300
+        },
+        "actual": 300,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "40b_map_night2",
+    "ok": true,
+    "sha": "63edf06c833d7885",
+    "checks": [
+      {
+        "expect": {
+          "event": "night_start",
+          "tick": 0,
+          "data": {
+            "night": 2
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 0,
+            "name": "night_start",
+            "data": {
+              "night": 2
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "lanterns.length",
+          "equals": 6
+        },
+        "actual": 6,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "lanterns.3.pos",
+          "equals": [
+            70,
+            0,
+            20
+          ]
+        },
+        "actual": [
+          70,
+          0,
+          20
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "time_left_s",
+          "equals": 330
+        },
+        "actual": 330,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "charms.0.id",
+          "equals": "C1"
+        },
+        "actual": "C1",
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "40c_map_night3",
+    "ok": true,
+    "sha": "94b15af9d88c64ef",
+    "checks": [
+      {
+        "expect": {
+          "at": 0,
+          "path": "lanterns.length",
+          "equals": 7
+        },
+        "actual": 7,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "lanterns.0.pos",
+          "equals": [
+            0,
+            6,
+            6
+          ]
+        },
+        "actual": [
+          0,
+          6,
+          6
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "time_left_s",
+          "equals": 360
+        },
+        "actual": 360,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "player.pos",
+          "equals": [
+            0,
+            0,
+            -30
+          ]
+        },
+        "actual": [
+          0,
+          0,
+          -30
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 0,
+          "path": "charms.length",
+          "equals": 2
+        },
+        "actual": 2,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "41_mote_spawn_schedule",
+    "ok": true,
+    "sha": "1dcca4c89ee122e3",
+    "checks": [
+      {
+        "expect": {
+          "at": 239,
+          "path": "motes_active",
+          "equals": 20
+        },
+        "actual": 20,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 240,
+          "path": "motes_active",
+          "equals": 21
+        },
+        "actual": 21,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 479,
+          "path": "motes_active",
+          "equals": 21
+        },
+        "actual": 21,
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 480,
+          "path": "motes_active",
+          "equals": 22
+        },
+        "actual": 22,
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 480,
+      "state": "playing",
+      "score": 0
+    }
+  },
+  {
+    "name": "42_safe_zone_evict",
+    "ok": true,
+    "sha": "01e58e225fa78af6",
+    "checks": [
+      {
+        "expect": {
+          "event": "lantern_lit",
+          "tick": 1
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "lantern_lit",
+            "data": {
+              "lantern_id": "L1"
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "no_event": "player_hit"
+        },
+        "actual": [],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 25,
+          "path": "shades.0.pos",
+          "equals": [
+            0,
+            1,
+            19
+          ]
+        },
+        "actual": [
+          0,
+          1,
+          19
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 120,
+      "state": "playing",
+      "score": 200
+    }
+  },
+  {
+    "name": "42b_safe_zone_evict_speed",
+    "ok": true,
+    "sha": "8d643aca93730df0",
+    "checks": [
+      {
+        "expect": {
+          "at": 10,
+          "path": "shades.0.pos",
+          "equals": [
+            4,
+            1,
+            25
+          ]
+        },
+        "actual": [
+          4,
+          1,
+          25
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 20,
+          "path": "shades.0.pos",
+          "equals": [
+            6,
+            1,
+            25
+          ]
+        },
+        "actual": [
+          6,
+          1,
+          25
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "at": 30,
+          "path": "shades.0.pos",
+          "equals": [
+            6,
+            1,
+            25
+          ]
+        },
+        "actual": [
+          6,
+          1,
+          25
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 30,
+      "state": "playing",
+      "score": 200
+    }
+  },
+  {
+    "name": "43_win_on_last_tick",
+    "ok": true,
+    "sha": "53d96dadc08417d9",
+    "checks": [
+      {
+        "expect": {
+          "end": {
+            "ticks": 1,
+            "state": "won",
+            "score": 260
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 1,
+          "state": "won",
+          "score": 260
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "won",
+      "score": 260
+    }
+  },
+  {
+    "name": "44_no_flames_beats_win",
+    "ok": true,
+    "sha": "7c07a31fc0a136a0",
+    "checks": [
+      {
+        "expect": {
+          "event": "game_over",
+          "tick": 1,
+          "data": {
+            "result": "lost",
+            "reason": "no_flames"
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 1,
+            "name": "game_over",
+            "data": {
+              "result": "lost",
+              "reason": "no_flames"
+            }
+          }
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 1,
+      "state": "lost",
+      "score": 0
+    }
+  },
+  {
+    "name": "45_fall_last_flame",
+    "ok": true,
+    "sha": "15412503e922bac5",
+    "checks": [
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 61,
+          "data": {
+            "by": "fall",
+            "flames": 0
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 61,
+            "name": "player_hit",
+            "data": {
+              "by": "fall",
+              "flames": 0,
+              "dropped": 0,
+              "lost": 0
+            }
+          }
+        ],
+        "ok": true
+      },
+      {
+        "expect": {
+          "end": {
+            "ticks": 61,
+            "state": "lost"
+          }
+        },
+        "actual": {
+          "type": "end",
+          "ticks": 61,
+          "state": "lost",
+          "score": 0
+        },
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 61,
+      "state": "lost",
+      "score": 0
+    }
+  },
+  {
+    "name": "46_fall_ignores_invuln",
+    "ok": true,
+    "sha": "dbdd88c71c4ce9e6",
+    "checks": [
+      {
+        "expect": {
+          "event": "player_hit",
+          "tick": 61,
+          "data": {
+            "by": "fall",
+            "flames": 2
+          }
+        },
+        "actual": [
+          {
+            "type": "event",
+            "tick": 61,
+            "name": "player_hit",
+            "data": {
+              "by": "fall",
+              "flames": 2,
+              "dropped": 0,
+              "lost": 0
+            }
+          }
+        ],
+        "ok": true
+      }
+    ],
+    "end": {
+      "type": "end",
+      "ticks": 100,
+      "state": "playing",
+      "score": 0
+    }
+  }
+]

@@ -1,0 +1,63 @@
+{
+  "name": "36_launch_pad_night3",
+  "requirement": "T2 map night 3: pad (0,3,13) launches vy 12, 8 m/s toward -Z, lands on tier 2 (Y=6)",
+  "night": 3,
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        3,
+        15
+      ],
+      "carried": 0,
+      "flames": 3
+    },
+    "wind_enabled": false
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          -1
+        ]
+      },
+      {
+        "tick": 10,
+        "move": [
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "at": 100,
+      "path": "player.pos.1",
+      "equals": 6
+    },
+    {
+      "at": 100,
+      "path": "player.grounded",
+      "equals": true
+    },
+    {
+      "at": 100,
+      "path": "player.pos.2",
+      "between": [
+        7.3,
+        7.6
+      ]
+    }
+  ]
+}

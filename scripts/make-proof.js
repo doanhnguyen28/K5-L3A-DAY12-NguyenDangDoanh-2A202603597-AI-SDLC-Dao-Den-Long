@@ -72,40 +72,69 @@ line();
 line('## 3. Determinism');
 line();
 const d = mkdtempSync(join(tmpdir(), 'ddl-proof-'));
+const writeImmortal = (night) => {
+  const f = join(d, `immortal${night}.json`);
+  writeFileSync(f, JSON.stringify({ player: { flames: 999, pos: night === 3 ? [0, 0, -30] : [0, 0, 0] } }));
+  return f;
+};
 const det = [];
-for (const seed of [1, 42, 2026]) {
-  const a = join(d, `a${seed}.jsonl`);
-  const b = join(d, `b${seed}.jsonl`);
-  runCli(['--seed', String(seed), '--night', '1', '--ticks', '6000', '--out', a]);
-  runCli(['--seed', String(seed), '--night', '1', '--ticks', '6000', '--out', b]);
+for (const [night, seed] of [[1, 1], [1, 42], [2, 2026], [3, 7]]) {
+  const a = join(d, `a${night}-${seed}.jsonl`);
+  const b = join(d, `b${night}-${seed}.jsonl`);
+  runCli(['--seed', String(seed), '--night', String(night), '--ticks', '6000', '--out', a]);
+  runCli(['--seed', String(seed), '--night', String(night), '--ticks', '6000', '--out', b]);
   const ha = sha(readFileSync(a, 'utf8'));
   const hb = sha(readFileSync(b, 'utf8'));
-  det.push({ seed, ha, hb, same: ha === hb });
+  det.push({ seed: `night ${night} / seed ${seed}`, ha, hb, same: ha === hb });
   allOk &&= ha === hb;
 }
-line('| Seed | Run A sha | Run B sha | Identical |');
+line('| Night / seed | Run A sha | Run B sha | Identical |');
 line('|---|---|---|---|');
 for (const r of det) line(`| ${r.seed} | \`${r.ha}\` | \`${r.hb}\` | ${r.same ? 'yes' : '**no**'} |`);
 line();
 
-line('## 4. Night 1 is completable (autopilot bot through the real simulation)');
+line('## 4. Playthrough by autopilot bot (real simulation, standard numbers)');
 line();
-line('`src/sim/bot.js` plays using only the same inputs a player has (move, interact, pulse). Default random night, no scenario.');
+line('`src/sim/bot.js` uses only player inputs (move, interact, pulse, dash). Default random night, no scenario. It is an evidence tool, not an optimal player.');
 line();
-line('| Seed | Result | Reason | Ticks | Score | Flames left |');
-line('|---|---|---|---|---|---|');
+line('| Night | Seed | Result | Reason | Ticks | Score | Lanterns lit | Hits taken |');
+line('|---|---|---|---|---|---|---|---|');
 const tuning = JSON.parse(readFileSync(join(ROOT, 'game.contract.json'), 'utf8')).tuning;
-let wins = 0;
-for (let seed = 1; seed <= 10; seed++) {
-  const g = createGame({ tuning, seed });
-  const bot = createBot();
-  let over = {};
-  while (g.state === 'playing') for (const e of g.step(bot(g))) if (e.name === 'game_over') over = e.data;
-  if (g.state === 'won') wins++;
-  line(`| ${seed} | ${g.state} | ${over.reason} | ${g.tick} | ${g.score} | ${g.player.flames} |`);
+const winsBy = {};
+for (const night of [1, 2, 3]) {
+  winsBy[night] = 0;
+  for (let seed = 1; seed <= 10; seed++) {
+    const g = createGame({ tuning, seed, night });
+    const bot = createBot();
+    let over = {};
+    let hits = 0;
+    while (g.state === 'playing') for (const e of g.step(bot(g))) {
+      if (e.name === 'game_over') over = e.data;
+      if (e.name === 'player_hit') hits++;
+    }
+    if (g.state === 'won') winsBy[night]++;
+    line(`| ${night} | ${seed} | ${g.state} | ${over.reason} | ${g.tick} | ${g.score} | ${g.lanterns.filter((l) => l.lit).length}/${g.lanterns.length} | ${hits} |`);
+  }
 }
 line();
-line(`Bot won ${wins}/10. An idle player (no input) loses: see test "full default night with no input ends lost".`);
+line(`Bot wins: night 1 ${winsBy[1]}/10, night 2 ${winsBy[2]}/10, night 3 ${winsBy[3]}/10.`);
+line();
+
+line('## 4b. Performance: full night headless (21,600 ticks max)');
+line();
+line('| Night | Wall time (ms) | Limit |');
+line('|---|---|---|');
+for (const night of [1, 2, 3]) {
+  const out = join(d, `perf${night}.jsonl`);
+  const t0 = Date.now();
+  runCli(['--seed', '5', '--night', String(night), '--ticks', '21600', '--out', out, '--scenario', writeImmortal(night)]);
+  const ms = Date.now() - t0;
+  allOk &&= ms < 30000;
+  const end = JSON.parse(readFileSync(out, 'utf8').trim().split(String.fromCharCode(10)).at(-1));
+  line(`| ${night} | ${ms} (ran ${end.ticks} ticks) | 30000 |`);
+}
+line();
+line('Scenario used for timing keeps the player alive (flames 999) so the run lasts the whole night.');
 line();
 
 line('## 5. Screenshots (real browser, headless, WebGL via SwiftShader)');
@@ -113,12 +142,20 @@ line();
 if (skipShots || !findBrowser()) {
   line('_Skipped (no Chrome/Edge found or --no-screens)._');
 } else {
-  const shots = [
-    ['01-start.png', 'seed=1', 'Start screen with story and controls'],
-    ['02-playing.png', 'autostart=1&seed=1&warp=900&bot=1', 'Mây (nón lá + đèn nhỏ), đom đóm, Bóng Mực, HUD (lửa, đom đóm, đèn, thời gian, điểm, thanh tỏa sáng)'],
-    ['03-lit-lanterns.png', 'autostart=1&seed=1&warp=2700&bot=1&yaw=200', 'Lit lantern glows amber with safe-radius ring; island brightens as lanterns are lit'],
-    ['04-won.png', 'autostart=1&seed=1&warp=6000', 'Win screen after all 5 lanterns lit, dawn sky, replay button'],
+  const shots = phase === 'phase-1' ? [
+    ['01-start.png', 'seed=1', 'Start screen'],
+    ['02-playing.png', 'autostart=1&seed=1&warp=900&bot=1', 'Night 1 gameplay with HUD'],
+  ] : [
+    ['01-menu.png', 'seed=1', 'Main menu (T3 chuỗi 3 Đêm)'],
+    ['02-intro-night2.png', 'autostart=1&night=2&screen=intro', 'Night intro: island name + Ông Đăng line'],
+    ['03-night1-hud.png', 'autostart=1&night=1&seed=2&warp=1500&bot=1', 'Night 1: full HUD (flames top-left, mm:ss top-center, lanterns k/n + score top-right, 10-cell mote bar, dash/pulse cooldowns, off-screen arrow), standard palette (shade body + violet outline, Mây white shirt + red scarf)'],
+    ['04-night2-bridge.png', 'autostart=1&night=2&seed=1&pitch=1.1&dist=70&yaw=90', 'Night 2 map from above: two islands r=28, bamboo bridge, launch pads, charm on bridge'],
+    ['05-night3.png', 'autostart=1&night=3&seed=1&pitch=1.2&dist=75', 'Night 3 map from above: tier 2 + bell tower, tier-1 half ring (z>0), ramps'],
+    ['06-night3-wind.png', 'autostart=1&night=3&seed=1&warp=1700&bot=1', 'Night 3 wind warning (leaves + "Gió sắp nổi"), Bùa Gió (red, gold edge)'],
+    ['07-pause.png', 'autostart=1&night=1&seed=1&warp=300&screen=pause', 'Pause menu: Tiếp tục / Chơi lại Đêm / Cài đặt / Về menu'],
+    ['08-result-won.png', 'autostart=1&night=1&seed=1&warp=20000', 'Night result after a win (bot, seed 1) with next-night button'],
   ];
+
   mkdirSync(join(OUT, 'screens'), { recursive: true });
   for (const [file, query, what] of shots) {
     try {

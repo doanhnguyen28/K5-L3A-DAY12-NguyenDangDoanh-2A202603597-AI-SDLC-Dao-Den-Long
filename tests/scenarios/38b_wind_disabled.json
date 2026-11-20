@@ -1,0 +1,42 @@
+{
+  "name": "38b_wind_disabled",
+  "requirement": "Contract v1.1: wind_enabled=false disables gusts on night 3",
+  "night": 3,
+  "seed": 1,
+  "ticks": 1800,
+  "snapshot_every": 300,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        -30
+      ],
+      "carried": 0,
+      "flames": 3
+    },
+    "wind_enabled": false
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 1800,
+      "path": "wind.active",
+      "equals": false
+    },
+    {
+      "at": 1800,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        -30
+      ]
+    }
+  ]
+}

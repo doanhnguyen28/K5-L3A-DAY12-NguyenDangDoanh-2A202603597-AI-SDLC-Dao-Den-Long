@@ -1,0 +1,73 @@
+{
+  "name": "14b_shade_detect_giveup",
+  "requirement": "T2 shade detect 12 m / give up 18 m",
+  "night": 1,
+  "seed": 1,
+  "ticks": 1,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [
+      {
+        "id": "S1",
+        "pos": [
+          13,
+          1,
+          0
+        ]
+      },
+      {
+        "id": "S2",
+        "pos": [
+          0,
+          1,
+          11.5
+        ]
+      },
+      {
+        "id": "S3",
+        "pos": [
+          -17,
+          1,
+          0
+        ],
+        "state": "chase"
+      },
+      {
+        "id": "S4",
+        "pos": [
+          0,
+          1,
+          -18.5
+        ],
+        "state": "chase"
+      }
+    ]
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "at": 1,
+      "path": "shades.0.state",
+      "equals": "wander"
+    },
+    {
+      "at": 1,
+      "path": "shades.1.state",
+      "equals": "chase"
+    },
+    {
+      "at": 1,
+      "path": "shades.2.state",
+      "equals": "chase"
+    },
+    {
+      "at": 1,
+      "path": "shades.3.state",
+      "equals": "wander"
+    }
+  ]
+}

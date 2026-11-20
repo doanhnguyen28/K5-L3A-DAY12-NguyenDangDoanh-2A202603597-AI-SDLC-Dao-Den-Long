@@ -1,17 +1,19 @@
 {
-  "name": "17_pulse_out_of_radius",
-  "requirement": "R5 pulse: shade at 6.5 m is outside pulse_radius 6",
+  "name": "16_pulse_needs_3",
+  "requirement": "T2 pulse: carrying 2 (< 3) -> no pulse",
+  "night": 1,
   "seed": 1,
   "ticks": 10,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [
       {
         "pos": [
-          6.5,
+          3,
           1,
           0
         ]
@@ -23,7 +25,7 @@
         0,
         0
       ],
-      "carried": 1,
+      "carried": 2,
       "flames": 3
     }
   },
@@ -37,21 +39,12 @@
   },
   "expect": [
     {
-      "event": "pulse",
-      "tick": 1,
-      "data": {
-        "stunned_ids": []
-      }
+      "no_event": "pulse"
     },
     {
       "at": 1,
-      "path": "shades.0.state",
-      "equals": "chase"
-    },
-    {
-      "at": 1,
-      "path": "score",
-      "equals": 0
+      "path": "player.carried",
+      "equals": 2
     }
   ]
 }

@@ -1,17 +1,19 @@
 {
   "name": "15_pulse_stun_push",
-  "requirement": "R5 pulse: costs 1 mote, stuns shade within 6 m for 3 s (180 ticks), pushes 4 m, +20",
+  "requirement": "T2 pulse: cost 3, 3D dist from foot+0.8 <= 5, stun 120 ticks, push 4 m over 15 ticks, +5",
+  "night": 1,
   "seed": 1,
   "ticks": 200,
   "snapshot_every": 1,
   "scenario": {
     "random_motes": false,
     "random_shades": false,
+    "random_drifters": false,
     "motes": [],
     "shades": [
       {
         "pos": [
-          5,
+          3,
           1,
           0
         ]
@@ -23,7 +25,7 @@
         0,
         0
       ],
-      "carried": 2,
+      "carried": 4,
       "flames": 3
     }
   },
@@ -51,46 +53,59 @@
     },
     {
       "at": 1,
-      "path": "shades.0.pos",
-      "equals": [
-        9,
-        1,
-        0
-      ]
-    },
-    {
-      "at": 1,
       "path": "player.carried",
       "equals": 1
     },
     {
       "at": 1,
       "path": "score",
-      "equals": 20
+      "equals": 5
     },
     {
-      "at": 180,
-      "path": "shades.0.state",
-      "equals": "stunned"
+      "at": 1,
+      "path": "player.pulse_cd_s",
+      "equals": 3
     },
     {
-      "at": 180,
+      "at": 1,
+      "path": "shades.0.pos.0",
+      "between": [
+        3.26,
+        3.27
+      ]
+    },
+    {
+      "at": 15,
       "path": "shades.0.pos",
       "equals": [
-        9,
+        7,
         1,
         0
       ]
     },
     {
-      "at": 181,
+      "at": 120,
+      "path": "shades.0.state",
+      "equals": "stunned"
+    },
+    {
+      "at": 120,
+      "path": "shades.0.pos",
+      "equals": [
+        7,
+        1,
+        0
+      ]
+    },
+    {
+      "at": 121,
       "path": "shades.0.state",
       "equals": "chase"
     },
     {
-      "at": 181,
+      "at": 121,
       "path": "shades.0.pos.0",
-      "lt": 9
+      "lt": 7
     }
   ]
 }

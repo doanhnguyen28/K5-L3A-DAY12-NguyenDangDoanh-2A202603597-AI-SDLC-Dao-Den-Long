@@ -1,0 +1,39 @@
+{
+  "name": "23c_shade_spawn_night3",
+  "requirement": "T2 spawn night 3 every 6 s: ticks 300 (x2), 660",
+  "night": 3,
+  "seed": 1,
+  "ticks": 670,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": true,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        -30
+      ],
+      "carried": 0,
+      "flames": 3
+    },
+    "wind_enabled": false
+  },
+  "inputs": null,
+  "expect": [
+    {
+      "event": "shade_spawned",
+      "tick": 660,
+      "data": {
+        "id": "S3"
+      }
+    },
+    {
+      "event_count": "shade_spawned",
+      "equals": 3
+    }
+  ]
+}

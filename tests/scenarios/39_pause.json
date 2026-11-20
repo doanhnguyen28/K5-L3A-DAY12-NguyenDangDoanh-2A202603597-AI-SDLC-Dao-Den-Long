@@ -1,0 +1,92 @@
+{
+  "name": "39_pause",
+  "requirement": "T3 pause: paused at tick 11, resumed at 71; tick advances while sim_tick, time and movement freeze",
+  "night": 1,
+  "seed": 1,
+  "ticks": 100,
+  "snapshot_every": 10,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": []
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "move": [
+          0,
+          1
+        ]
+      },
+      {
+        "tick": 10,
+        "pause": true
+      },
+      {
+        "tick": 11,
+        "pause": false
+      },
+      {
+        "tick": 70,
+        "pause": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "paused",
+      "tick": 11
+    },
+    {
+      "event": "resumed",
+      "tick": 71
+    },
+    {
+      "at": 60,
+      "path": "state",
+      "equals": "paused"
+    },
+    {
+      "at": 60,
+      "path": "sim_tick",
+      "equals": 10
+    },
+    {
+      "at": 60,
+      "path": "time_left_s",
+      "equals": 299.833
+    },
+    {
+      "at": 60,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "at": 100,
+      "path": "sim_tick",
+      "equals": 40
+    },
+    {
+      "at": 100,
+      "path": "player.pos",
+      "equals": [
+        0,
+        0,
+        4
+      ]
+    },
+    {
+      "end": {
+        "ticks": 100,
+        "state": "playing"
+      }
+    }
+  ]
+}

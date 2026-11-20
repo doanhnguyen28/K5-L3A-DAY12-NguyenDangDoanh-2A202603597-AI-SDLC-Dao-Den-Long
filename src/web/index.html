@@ -5,43 +5,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Đảo Đèn Lồng</title>
   <style>
-    html, body { margin: 0; height: 100%; overflow: hidden; background: #120a1f; font-family: system-ui, sans-serif; color: #ffe8c2; }
+    :root { --ui: #F5F1E6; --gold: #F2C14E; --danger: #FF5A5F; --panel: rgba(14, 20, 48, 0.82); --edge: rgba(242, 193, 78, 0.45); }
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #0E1430; font-family: system-ui, sans-serif; color: var(--ui); }
     canvas { display: block; }
-    #hud { position: fixed; top: 12px; left: 12px; display: grid; gap: 6px; font-size: 15px; pointer-events: none; }
-    .pill { background: rgba(20, 10, 35, 0.72); border: 1px solid rgba(255, 190, 110, 0.35); border-radius: 10px; padding: 6px 12px; }
-    #hud b { color: #ffc46b; }
-    #score { position: fixed; top: 12px; right: 12px; font-size: 22px; pointer-events: none; }
-    #hint { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); font-size: 13px; opacity: 0.8; pointer-events: none; text-align: center; }
-    #overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(10, 5, 20, 0.6); }
-    #overlay.hidden { display: none; }
-    #panel { max-width: 460px; text-align: center; padding: 28px 32px; border-radius: 16px; background: rgba(28, 14, 45, 0.92); border: 1px solid rgba(255, 190, 110, 0.4); }
-    #panel h1 { margin: 0 0 8px; color: #ffc46b; font-weight: 600; }
-    #panel p { line-height: 1.5; margin: 8px 0; }
-    #panel kbd { background: #3a2556; border-radius: 4px; padding: 1px 6px; font-size: 13px; }
-    button { margin-top: 12px; font-size: 16px; padding: 8px 22px; border-radius: 10px; border: 0; background: #ffb347; color: #2a1340; cursor: pointer; font-weight: 600; }
-    .bar { width: 120px; height: 6px; background: #3a2556; border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 6px; }
-    .bar > i { display: block; height: 100%; background: #ffc46b; }
+    .pill { background: var(--panel); border: 1px solid var(--edge); border-radius: 10px; padding: 6px 12px; }
+    #hud { position: fixed; inset: 0; pointer-events: none; }
+    #hud.hidden { display: none; }
+    #flames { position: absolute; top: 12px; left: 12px; font-size: 22px; letter-spacing: 4px; }
+    #flames .on { color: #FFB347; } #flames .off { color: #5B5F6E; }
+    #timer { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 24px; font-variant-numeric: tabular-nums; }
+    #timer.danger { color: var(--danger); animation: blink 0.8s steps(2) infinite; }
+    @keyframes blink { 50% { opacity: 0.25; } }
+    #topright { position: absolute; top: 12px; right: 12px; text-align: right; display: grid; gap: 6px; }
+    #score { color: var(--gold); font-size: 22px; }
+    #motebar { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
+    #motebar i { width: 22px; height: 14px; border-radius: 4px; background: #1B2350; border: 1px solid #3a4580; }
+    #motebar i.on { background: #FFF6C2; box-shadow: 0 0 8px #FFE58A; border-color: #FFE58A; }
+    #cds { position: absolute; bottom: 12px; right: 12px; display: flex; gap: 10px; }
+    .cd { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; text-align: center; background: conic-gradient(var(--gold) calc(var(--p) * 1turn), #1B2350 0); border: 2px solid var(--edge); }
+    .cd span { background: #0E1430; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; }
+    .cd.off { filter: grayscale(1) opacity(0.6); }
+    #prompt { position: absolute; bottom: 64px; left: 50%; transform: translateX(-50%); font-size: 16px; display: none; }
+    #arrow { position: absolute; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 26px solid #FFB347; display: none; filter: drop-shadow(0 0 6px #FFB347); }
+    #charmhud { position: absolute; top: 52px; left: 12px; color: #C8102E; font-size: 14px; display: none; }
+    #windhud { position: absolute; top: 52px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #8FA3B8; display: none; }
+    #fps { position: absolute; bottom: 12px; left: 12px; font-size: 12px; display: none; }
+    .screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(8, 10, 28, 0.72); }
+    .screen.hidden { display: none; }
+    .panel { max-width: 480px; text-align: center; padding: 26px 32px; border-radius: 16px; background: var(--panel); border: 1px solid var(--edge); }
+    .panel h1 { margin: 0 0 6px; color: var(--gold); font-weight: 600; }
+    .panel h2 { margin: 0 0 6px; color: #FFB347; font-weight: 500; }
+    .panel p { line-height: 1.5; margin: 8px 0; }
+    .panel .quote { font-style: italic; color: #FFE9B0; }
+    .panel kbd { background: #1B2350; border-radius: 4px; padding: 1px 6px; font-size: 13px; }
+    .btns { display: grid; gap: 8px; margin-top: 14px; }
+    button { font-size: 16px; padding: 9px 22px; border-radius: 10px; border: 0; background: #FFB347; color: #0E1430; cursor: pointer; font-weight: 600; }
+    button.ghost { background: transparent; color: var(--ui); border: 1px solid var(--edge); }
+    label { display: grid; gap: 4px; text-align: left; margin: 10px 0; }
+    input[type=range] { width: 100%; }
   </style>
   <script type="importmap">{ "imports": { "three": "/node_modules/three/build/three.module.js" } }</script>
 </head>
 <body>
-  <div id="hud">
-    <div class="pill">Lửa: <b id="flames">3</b></div>
-    <div class="pill">Đom đóm mang theo: <b id="carried">0</b></div>
-    <div class="pill">Đèn đã thắp: <b id="lit">0</b> / 5</div>
-    <div class="pill">Bình minh sau: <b id="time">5:00</b></div>
-    <div class="pill">Tỏa sáng <span class="bar"><i id="pulsebar" style="width:100%"></i></span></div>
+  <div id="hud" class="hidden">
+    <div id="flames" class="pill"></div>
+    <div id="charmhud" class="pill">Bùa Gió <b id="charmval">0</b>s</div>
+    <div id="timer" class="pill">5:00</div>
+    <div id="windhud" class="pill">Gió sắp nổi…</div>
+    <div id="topright">
+      <div class="pill">Đèn <b id="lit">0/5</b></div>
+      <div id="score" class="pill">0</div>
+    </div>
+    <div id="prompt" class="pill">E — Nạp ánh sáng (<b id="promptval">0/10</b>)</div>
+    <div id="motebar"></div>
+    <div id="cds">
+      <div id="cddash" class="cd" style="--p:1"><span>Lướt<br>Shift</span></div>
+      <div id="cdpulse" class="cd" style="--p:1"><span>Tỏa<br>F</span></div>
+    </div>
+    <div id="arrow"></div>
+    <div id="fps" class="pill"></div>
   </div>
-  <div id="score" class="pill">Điểm: <b id="scoreval">0</b></div>
-  <div id="hint">WASD di chuyển · Space nhảy · E nạp đèn · F / chuột trái tỏa sáng · kéo chuột hoặc ← → xoay camera · M tắt/bật âm · R chơi lại</div>
-  <div id="overlay">
-    <div id="panel">
-      <h1 id="title">Đảo Đèn Lồng</h1>
-      <p id="msg">Sương đen đã nuốt ánh sáng của Đảo Bến. Hãy giúp Mây gom đom đóm và thắp lại 5 Đèn Lồng Lớn trước bình minh. Coi chừng Bóng Mực!</p>
-      <p><kbd>WASD</kbd> đi · <kbd>Space</kbd> nhảy · <kbd>E</kbd> nạp đèn · <kbd>F</kbd> tỏa sáng · <kbd>R</kbd> chơi lại</p>
-      <button id="start">Bắt đầu</button>
+
+  <div id="menu" class="screen">
+    <div class="panel">
+      <h1>Đảo Đèn Lồng</h1>
+      <p>Sương đen đã nuốt ánh sáng của ba hòn đảo. Giúp Mây gom đom đóm, thắp lại Đèn Lồng Lớn và né Bóng Mực trước bình minh.</p>
+      <p><kbd>WASD</kbd> đi · <kbd>Space</kbd> nhảy · <kbd>Shift</kbd> lướt · <kbd>E</kbd> nạp đèn · <kbd>F</kbd> tỏa sáng · <kbd>Esc</kbd>/<kbd>P</kbd> tạm dừng</p>
+      <div class="btns">
+        <button id="btnStart">Bắt đầu Đêm 1</button>
+        <button id="btnSettingsMenu" class="ghost">Cài đặt</button>
+      </div>
     </div>
   </div>
+
+  <div id="intro" class="screen hidden">
+    <div class="panel">
+      <h2 id="introNight">Đêm 1</h2>
+      <h1 id="introName">Đảo Bến</h1>
+      <p class="quote" id="introQuote"></p>
+      <p>— Ông Đăng, người giữ đèn già</p>
+      <div class="btns"><button id="btnPlay">Vào đêm</button></div>
+    </div>
+  </div>
+
+  <div id="result" class="screen hidden">
+    <div class="panel">
+      <h1 id="resTitle"></h1>
+      <p id="resMsg"></p>
+      <div class="btns" id="resBtns"></div>
+    </div>
+  </div>
+
+  <div id="pause" class="screen hidden">
+    <div class="panel">
+      <h1>Tạm dừng</h1>
+      <div class="btns">
+        <button id="btnResume">Tiếp tục</button>
+        <button id="btnRestart" class="ghost">Chơi lại Đêm</button>
+        <button id="btnSettingsPause" class="ghost">Cài đặt</button>
+        <button id="btnMenu" class="ghost">Về menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="settings" class="screen hidden">
+    <div class="panel">
+      <h1>Cài đặt</h1>
+      <label>Âm lượng <input id="setVolume" type="range" min="0" max="1" step="0.05"></label>
+      <label>Độ nhạy chuột <input id="setSens" type="range" min="0.05" max="1" step="0.05"></label>
+      <div class="btns"><button id="btnSettingsBack">Xong</button></div>
+    </div>
+  </div>
+
   <script type="module" src="/src/web/main.js"></script>
 </body>
 </html>

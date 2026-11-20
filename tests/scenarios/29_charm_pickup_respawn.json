@@ -1,0 +1,72 @@
+{
+  "name": "29_charm_pickup_respawn",
+  "requirement": "T3 charm C1 at (35,0,0) on night 2: picked at tick 1 (600 ticks), respawns after 2700 ticks (tick 2701)",
+  "night": 2,
+  "seed": 1,
+  "ticks": 2701,
+  "snapshot_every": 37,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        34,
+        0,
+        0
+      ],
+      "carried": 0,
+      "flames": 3
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 1,
+        "move": [
+          -1,
+          0
+        ]
+      },
+      {
+        "tick": 11,
+        "move": [
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event": "charm_picked",
+      "tick": 1,
+      "data": {
+        "charm_id": "C1",
+        "charm_ticks": 600
+      }
+    },
+    {
+      "at": 37,
+      "path": "charms.0.available",
+      "equals": false
+    },
+    {
+      "at": 37,
+      "path": "player.charm_s",
+      "gt": 9
+    },
+    {
+      "at": 2664,
+      "path": "charms.0.available",
+      "equals": false
+    },
+    {
+      "at": 2701,
+      "path": "charms.0.available",
+      "equals": true
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "28_charm_dash_no_cooldown",
+  "requirement": "T3 charm: dash has no cooldown but a press during a dash is ignored -> dashes at ticks 1 and 21 only",
+  "night": 1,
+  "seed": 1,
+  "ticks": 40,
+  "snapshot_every": 1,
+  "scenario": {
+    "random_motes": false,
+    "random_shades": false,
+    "random_drifters": false,
+    "motes": [],
+    "shades": [],
+    "player": {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "carried": 0,
+      "flames": 3,
+      "charm_ticks": 600
+    }
+  },
+  "inputs": {
+    "frames": [
+      {
+        "tick": 0,
+        "dash": true
+      },
+      {
+        "tick": 1,
+        "dash": false
+      },
+      {
+        "tick": 5,
+        "dash": true
+      },
+      {
+        "tick": 6,
+        "dash": false
+      },
+      {
+        "tick": 20,
+        "dash": true
+      }
+    ]
+  },
+  "expect": [
+    {
+      "event_count": "dash",
+      "equals": 2
+    },
+    {
+      "event": "dash",
+      "tick": 1
+    },
+    {
+      "event": "dash",
+      "tick": 21
+    }
+  ]
+}
