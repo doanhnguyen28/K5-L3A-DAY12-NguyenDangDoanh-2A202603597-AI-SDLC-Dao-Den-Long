@@ -45,7 +45,7 @@ Không phase nào làm hỏng phase trước mà không có lý do. Mọi test c
 1. **Hook Stop "chặn kết thúc khi `npm test` đỏ"** (`scripts/hooks/require-green.js`). Agent không thể báo "xong" khi test đỏ. Đã thử cả hai chiều: xanh cho qua, đỏ thì mã thoát 2 kèm tên test.
 2. **AGENTS.md** được cập nhật mỗi phase (lịch sử git thể hiện): thứ tự tick bắt buộc, quy tắc "sửa generator chứ không sửa JSON", dầu dạng số nguyên 1/60, yêu cầu ADR cho change request. Các quy tắc ngắn và cụ thể giúp hơn hướng dẫn chung chung.
 3. **Skill `verify` + `npm run proof`**: một lệnh chạy test, scenario, kiểm tra tất định, bot, đo thời gian, chụp ảnh và ghi README bằng chứng. Bằng chứng luôn sinh lại được, không ai sửa tay.
-4. **CI** (Ubuntu + macOS) chạy test ở mỗi lần push, kiểm cả việc chạy trên macOS/Linux theo yêu cầu.
+4. **CI** (Ubuntu) chạy test ở mỗi lần push, kiểm việc chạy trên Linux theo yêu cầu. Job macOS đã bỏ vì GitHub thường không cấp được máy macOS (job bị treo rồi hủy).
 
 ## 6. Token / chi phí
 
